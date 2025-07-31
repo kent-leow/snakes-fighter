@@ -1,5 +1,5 @@
 /// Rooms feature placeholder
-/// 
+///
 /// This module will handle:
 /// - Game room creation and management
 /// - Player joining and leaving rooms

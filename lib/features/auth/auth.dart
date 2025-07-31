@@ -1,5 +1,5 @@
 /// Authentication feature placeholder
-/// 
+///
 /// This module will handle:
 /// - User authentication and registration
 /// - Player profile management

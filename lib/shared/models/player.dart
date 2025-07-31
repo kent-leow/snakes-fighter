@@ -13,25 +13,20 @@ class Player {
   final bool isReady;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'isHost': isHost,
-        'isReady': isReady,
-      };
+    'id': id,
+    'name': name,
+    'isHost': isHost,
+    'isReady': isReady,
+  };
 
   factory Player.fromJson(Map<String, dynamic> json) => Player(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        isHost: json['isHost'] as bool? ?? false,
-        isReady: json['isReady'] as bool? ?? false,
-      );
+    id: json['id'] as String,
+    name: json['name'] as String,
+    isHost: json['isHost'] as bool? ?? false,
+    isReady: json['isReady'] as bool? ?? false,
+  );
 
-  Player copyWith({
-    String? id,
-    String? name,
-    bool? isHost,
-    bool? isReady,
-  }) =>
+  Player copyWith({String? id, String? name, bool? isHost, bool? isReady}) =>
       Player(
         id: id ?? this.id,
         name: name ?? this.name,

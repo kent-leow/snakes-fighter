@@ -42,10 +42,7 @@ class HomePage extends StatelessWidget {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
-            Text(
-              'A multiplayer Snake game',
-              style: TextStyle(fontSize: 16),
-            ),
+            Text('A multiplayer Snake game', style: TextStyle(fontSize: 16)),
           ],
         ),
       ),

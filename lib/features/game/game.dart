@@ -1,5 +1,5 @@
 /// Game feature placeholder
-/// 
+///
 /// This module will handle:
 /// - Game logic and state management
 /// - Snake movement and collision detection
