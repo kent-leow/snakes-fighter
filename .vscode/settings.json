@@ -7,11 +7,19 @@
     },
     "dart.debugExternalPackageLibraries": false,
     "dart.debugSdkLibraries": false,
-    "editor.rulers": [80, 120],
+    "editor.rulers": [
+        80,
+        120
+    ],
     "editor.wordWrap": "wordWrapColumn",
     "editor.wordWrapColumn": 80,
     "dart.lineLength": 80,
     "dart.closingLabels": true,
     "dart.hotReloadOnSave": "all",
-    "dart.previewHotReloadOnSaveWatcher": true
+    "dart.previewHotReloadOnSaveWatcher": true,
+    "chat.tools.autoApprove": true,
+    "chat.agent.maxRequests": 1000,
+    "chat.tools.terminal.autoApprove": {
+        "/.*/": true
+    }
 }
