@@ -1,0 +1,5 @@
+import_sorter:
+  comments: false # Optional, defaults to true
+  ignored_files: # Optional, defaults to []
+    - \/lib\/*\/.+\.g\.dart$
+  emojis: false # Optional, defaults to false

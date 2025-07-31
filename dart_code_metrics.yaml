@@ -1,0 +1,40 @@
+dart_code_metrics:
+  anti-patterns:
+    - long-method
+    - long-parameter-list
+  metrics:
+    cyclomatic-complexity: 20
+    maximum-nesting-level: 5
+    number-of-parameters: 4
+    source-lines-of-code: 50
+  metrics-exclude:
+    - test/**
+  rules:
+    - newline-before-return
+    - no-boolean-literal-compare
+    - no-empty-block
+    - prefer-trailing-comma
+    - prefer-conditional-expressions
+    - no-equal-then-else
+    - avoid-unnecessary-type-casts
+    - avoid-unnecessary-type-assertions
+    - avoid-unrelated-type-assertions
+    - binary-expression-operand-order
+    - double-literal-format
+    - member-ordering:
+        alphabetize: true
+        order:
+          - public-fields
+          - private-fields
+          - constructors
+          - public-getters
+          - private-getters
+          - public-setters
+          - private-setters
+          - public-methods
+          - private-methods
+    - no-magic-number:
+        allowed: [0, 1, -1, 100, 200, 400, 404, 500]
+    - prefer-first
+    - prefer-last
+    - prefer-match-file-name
