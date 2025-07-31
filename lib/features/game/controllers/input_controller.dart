@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../models/direction.dart';
 import 'game_controller.dart';
+import 'game_state_manager.dart';
 
 /// Handles input events and converts them to game actions.
 ///
@@ -127,8 +128,8 @@ class InputController extends ChangeNotifier {
 
   /// Handles space key press (pause/resume/start).
   bool _handleSpaceKey() {
-    switch (_gameController.gameState) {
-      case GameState.idle:
+    switch (_gameController.currentState) {
+      case GameState.menu:
         _gameController.startGame();
         return true;
       case GameState.playing:
@@ -147,7 +148,7 @@ class InputController extends ChangeNotifier {
 
   /// Handles escape key press (pause/back).
   bool _handleEscapeKey() {
-    switch (_gameController.gameState) {
+    switch (_gameController.currentState) {
       case GameState.playing:
         _gameController.pauseGame();
         return true;
@@ -161,8 +162,8 @@ class InputController extends ChangeNotifier {
 
   /// Handles R key press (reset).
   bool _handleResetKey() {
-    if (_gameController.gameState == GameState.gameOver ||
-        _gameController.gameState == GameState.paused) {
+    if (_gameController.currentState == GameState.gameOver ||
+        _gameController.currentState == GameState.paused) {
       _gameController.resetGame();
       return true;
     }
