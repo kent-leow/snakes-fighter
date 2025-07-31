@@ -1,0 +1,576 @@
+{
+  "project": {
+    "name": "Snakes Fight - Multiplayer Snake Game",
+    "version": "1.0.0",
+    "description": "A real-time multiplayer Snake game built with Flutter and Firebase for 2-4 players in competitive online matches",
+    "created": "2025-07-31T00:00:00Z",
+    "lastUpdated": "2025-07-31T00:00:00Z"
+  },
+  "architecture": {
+    "style": "serverless",
+    "components": [
+      {
+        "id": "flutter-frontend",
+        "name": "Flutter Frontend Application",
+        "type": "frontend",
+        "technology": "Flutter/Dart",
+        "dependencies": ["firebase-auth", "firebase-realtime-db"],
+        "description": "Cross-platform game client handling UI, game rendering, and user interactions"
+      },
+      {
+        "id": "firebase-auth",
+        "name": "Firebase Authentication",
+        "type": "service",
+        "technology": "Firebase Auth",
+        "dependencies": [],
+        "description": "User authentication service supporting anonymous and Google Sign-In"
+      },
+      {
+        "id": "firebase-realtime-db",
+        "name": "Firebase Realtime Database",
+        "type": "database",
+        "technology": "Firebase Realtime Database",
+        "dependencies": [],
+        "description": "Real-time game state synchronization and room management"
+      },
+      {
+        "id": "firebase-functions",
+        "name": "Firebase Cloud Functions",
+        "type": "backend",
+        "technology": "Node.js/TypeScript",
+        "dependencies": ["firebase-realtime-db"],
+        "description": "Server-side game logic validation and room management"
+      },
+      {
+        "id": "firebase-hosting",
+        "name": "Firebase Hosting",
+        "type": "service",
+        "technology": "Firebase Hosting",
+        "dependencies": ["flutter-frontend"],
+        "description": "Static web hosting for Flutter web build"
+      }
+    ],
+    "integrations": [
+      {
+        "source": "flutter-frontend",
+        "target": "firebase-auth",
+        "type": "REST",
+        "description": "User authentication and session management"
+      },
+      {
+        "source": "flutter-frontend",
+        "target": "firebase-realtime-db",
+        "type": "WebSocket",
+        "description": "Real-time game state synchronization"
+      },
+      {
+        "source": "firebase-functions",
+        "target": "firebase-realtime-db",
+        "type": "database",
+        "description": "Server-side game logic and room management"
+      },
+      {
+        "source": "firebase-hosting",
+        "target": "flutter-frontend",
+        "type": "static",
+        "description": "Web deployment of Flutter application"
+      }
+    ]
+  },
+  "phases": [
+    {
+      "id": "phase-1",
+      "name": "Foundation & Core Game Engine",
+      "description": "Basic game mechanics, single-player prototype, and core Flutter architecture",
+      "priority": 1,
+      "estimatedDuration": "2-3 weeks",
+      "dependencies": [],
+      "deliverables": [
+        "Flutter project structure",
+        "Basic snake movement system",
+        "Food spawning system",
+        "Collision detection",
+        "Single-player game loop"
+      ],
+      "modules": [
+        {
+          "id": "project-setup",
+          "name": "Project Foundation",
+          "description": "Flutter project initialization and basic architecture",
+          "requirements": [],
+          "components": ["flutter-frontend"],
+          "complexity": "low",
+          "estimatedEffort": "1-2 days"
+        },
+        {
+          "id": "game-engine",
+          "name": "Core Game Engine",
+          "description": "Snake movement, food system, and collision detection",
+          "requirements": ["REQ-GM-001", "REQ-GM-002", "REQ-GM-003"],
+          "components": ["flutter-frontend"],
+          "complexity": "medium",
+          "estimatedEffort": "1-2 weeks"
+        },
+        {
+          "id": "game-ui",
+          "name": "Basic Game UI",
+          "description": "Game canvas, controls, and basic HUD",
+          "requirements": ["REQ-UI-001"],
+          "components": ["flutter-frontend"],
+          "complexity": "medium",
+          "estimatedEffort": "3-5 days"
+        }
+      ]
+    },
+    {
+      "id": "phase-2",
+      "name": "Firebase Integration & Authentication",
+      "description": "Firebase setup, authentication system, and database structure design",
+      "priority": 2,
+      "estimatedDuration": "1-2 weeks",
+      "dependencies": ["phase-1"],
+      "deliverables": [
+        "Firebase project configuration",
+        "Authentication system",
+        "Database schema design",
+        "Security rules implementation"
+      ],
+      "modules": [
+        {
+          "id": "firebase-setup",
+          "name": "Firebase Configuration",
+          "description": "Project setup, service initialization, and environment configuration",
+          "requirements": [],
+          "components": ["firebase-auth", "firebase-realtime-db", "firebase-functions"],
+          "complexity": "low",
+          "estimatedEffort": "2-3 days"
+        },
+        {
+          "id": "auth-system",
+          "name": "Authentication System",
+          "description": "Anonymous and Google Sign-In implementation",
+          "requirements": ["REQ-AU-001"],
+          "components": ["flutter-frontend", "firebase-auth"],
+          "complexity": "medium",
+          "estimatedEffort": "3-4 days"
+        },
+        {
+          "id": "database-design",
+          "name": "Database Schema",
+          "description": "Data models for rooms, players, and game state",
+          "requirements": ["REQ-RM-001", "REQ-RM-002"],
+          "components": ["firebase-realtime-db"],
+          "complexity": "medium",
+          "estimatedEffort": "2-3 days"
+        }
+      ]
+    },
+    {
+      "id": "phase-3",
+      "name": "Multiplayer Foundation",
+      "description": "Room management, real-time synchronization, and basic multiplayer functionality",
+      "priority": 3,
+      "estimatedDuration": "2-3 weeks",
+      "dependencies": ["phase-2"],
+      "deliverables": [
+        "Room creation and joining system",
+        "Real-time game state sync",
+        "Basic multiplayer game loop",
+        "Player management system"
+      ],
+      "modules": [
+        {
+          "id": "room-management",
+          "name": "Room System",
+          "description": "Create/join rooms, player management, and room states",
+          "requirements": ["REQ-RM-001", "REQ-RM-002"],
+          "components": ["flutter-frontend", "firebase-realtime-db", "firebase-functions"],
+          "complexity": "high",
+          "estimatedEffort": "1-2 weeks"
+        },
+        {
+          "id": "realtime-sync",
+          "name": "Real-time Synchronization",
+          "description": "Game state sync, player movements, and event propagation",
+          "requirements": ["REQ-RT-001"],
+          "components": ["flutter-frontend", "firebase-realtime-db"],
+          "complexity": "high",
+          "estimatedEffort": "1 week"
+        },
+        {
+          "id": "multiplayer-game",
+          "name": "Multiplayer Game Loop",
+          "description": "Multi-player game mechanics and win condition handling",
+          "requirements": ["REQ-GM-004"],
+          "components": ["flutter-frontend", "firebase-functions"],
+          "complexity": "medium",
+          "estimatedEffort": "3-5 days"
+        }
+      ]
+    },
+    {
+      "id": "phase-4",
+      "name": "Game Polish & Testing",
+      "description": "UI/UX improvements, performance optimization, and comprehensive testing",
+      "priority": 4,
+      "estimatedDuration": "1-2 weeks",
+      "dependencies": ["phase-3"],
+      "deliverables": [
+        "Polished game interface",
+        "Performance optimizations",
+        "Cross-platform testing",
+        "Security validation"
+      ],
+      "modules": [
+        {
+          "id": "ui-polish",
+          "name": "UI/UX Enhancement",
+          "description": "Responsive design, animations, and user experience improvements",
+          "requirements": ["REQ-UI-001"],
+          "components": ["flutter-frontend"],
+          "complexity": "medium",
+          "estimatedEffort": "5-7 days"
+        },
+        {
+          "id": "performance-optimization",
+          "name": "Performance & Security",
+          "description": "Game performance optimization and security implementation",
+          "requirements": [],
+          "components": ["flutter-frontend", "firebase-functions"],
+          "complexity": "medium",
+          "estimatedEffort": "3-5 days"
+        },
+        {
+          "id": "testing-qa",
+          "name": "Testing & QA",
+          "description": "Comprehensive testing across platforms and scenarios",
+          "requirements": [],
+          "components": ["flutter-frontend"],
+          "complexity": "medium",
+          "estimatedEffort": "3-5 days"
+        }
+      ]
+    },
+    {
+      "id": "phase-5",
+      "name": "Deployment & Launch",
+      "description": "Production deployment, web hosting setup, and launch preparation",
+      "priority": 5,
+      "estimatedDuration": "1 week",
+      "dependencies": ["phase-4"],
+      "deliverables": [
+        "Production Firebase environment",
+        "Web deployment pipeline",
+        "Mobile app builds",
+        "Documentation and launch materials"
+      ],
+      "modules": [
+        {
+          "id": "production-setup",
+          "name": "Production Environment",
+          "description": "Production Firebase configuration and deployment setup",
+          "requirements": [],
+          "components": ["firebase-hosting", "firebase-functions"],
+          "complexity": "low",
+          "estimatedEffort": "2-3 days"
+        },
+        {
+          "id": "deployment-pipeline",
+          "name": "Deployment & Distribution",
+          "description": "Web hosting, mobile builds, and distribution setup",
+          "requirements": [],
+          "components": ["firebase-hosting", "flutter-frontend"],
+          "complexity": "medium",
+          "estimatedEffort": "3-4 days"
+        }
+      ]
+    }
+  ],
+  "requirements": {
+    "functional": [
+      {
+        "id": "REQ-GM-001",
+        "title": "Snake Movement System",
+        "description": "4-directional snake movement with immediate direction changes and no backward movement",
+        "priority": "Critical",
+        "phase": "phase-1",
+        "module": "game-engine",
+        "acceptanceCriteria": [
+          "Snake moves in 4 directions (up, down, left, right)",
+          "Direction changes processed immediately",
+          "No backwards movement allowed"
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "REQ-GM-002",
+        "title": "Food System",
+        "description": "Random food spawning and snake growth mechanics",
+        "priority": "Critical",
+        "phase": "phase-1",
+        "module": "game-engine",
+        "acceptanceCriteria": [
+          "Food spawns randomly on grid",
+          "Snake grows when consuming food",
+          "New food spawns after consumption"
+        ],
+        "dependencies": ["REQ-GM-001"]
+      },
+      {
+        "id": "REQ-GM-003",
+        "title": "Collision Detection",
+        "description": "Comprehensive collision detection for walls, self, and other snakes",
+        "priority": "Critical",
+        "phase": "phase-1",
+        "module": "game-engine",
+        "acceptanceCriteria": [
+          "Snake dies when hitting walls",
+          "Snake dies when hitting own body",
+          "Snake dies when hitting other snakes"
+        ],
+        "dependencies": ["REQ-GM-001"]
+      },
+      {
+        "id": "REQ-GM-004",
+        "title": "Win Conditions",
+        "description": "Game end conditions and victory determination",
+        "priority": "Critical",
+        "phase": "phase-3",
+        "module": "multiplayer-game",
+        "acceptanceCriteria": [
+          "Last surviving player wins",
+          "Game ends when win condition met"
+        ],
+        "dependencies": ["REQ-GM-003"]
+      },
+      {
+        "id": "REQ-AU-001",
+        "title": "Authentication System",
+        "description": "Simple authentication with anonymous and Google Sign-In options",
+        "priority": "High",
+        "phase": "phase-2",
+        "module": "auth-system",
+        "acceptanceCriteria": [
+          "Anonymous/Guest access",
+          "Optional Google Sign-In"
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "REQ-RM-001",
+        "title": "Room Creation & Joining",
+        "description": "Room management system for multiplayer games",
+        "priority": "High",
+        "phase": "phase-3",
+        "module": "room-management",
+        "acceptanceCriteria": [
+          "Create new game rooms",
+          "Join room by room code",
+          "Room capacity: 2-4 players",
+          "Players assigned unique colors"
+        ],
+        "dependencies": ["REQ-AU-001"]
+      },
+      {
+        "id": "REQ-RM-002",
+        "title": "Game State Management",
+        "description": "Room state management and lifecycle control",
+        "priority": "High",
+        "phase": "phase-3",
+        "module": "room-management",
+        "acceptanceCriteria": [
+          "Room states: waiting, active, ended",
+          "Host can start games",
+          "Auto-cleanup abandoned rooms"
+        ],
+        "dependencies": ["REQ-RM-001"]
+      },
+      {
+        "id": "REQ-RT-001",
+        "title": "Real-time Game State Sync",
+        "description": "Real-time synchronization of all game events",
+        "priority": "Critical",
+        "phase": "phase-3",
+        "module": "realtime-sync",
+        "acceptanceCriteria": [
+          "Player movements synchronized",
+          "Food positions synchronized",
+          "Death events propagated immediately"
+        ],
+        "dependencies": ["REQ-RM-002"]
+      },
+      {
+        "id": "REQ-UI-001",
+        "title": "User Interface Controls",
+        "description": "Platform-appropriate game controls and responsive design",
+        "priority": "High",
+        "phase": "phase-1",
+        "module": "game-ui",
+        "acceptanceCriteria": [
+          "Swipe gestures (mobile)",
+          "Arrow keys (web)",
+          "Responsive layout"
+        ],
+        "dependencies": []
+      }
+    ],
+    "nonFunctional": [
+      {
+        "id": "NFR-PERF-001",
+        "category": "performance",
+        "title": "Game Performance",
+        "description": "Maintain smooth gameplay experience",
+        "metric": "Frame rate",
+        "target": "60fps on mobile devices",
+        "phases": ["phase-1", "phase-4"]
+      },
+      {
+        "id": "NFR-PERF-002",
+        "category": "performance",
+        "title": "Network Latency",
+        "description": "Real-time multiplayer responsiveness",
+        "metric": "Network latency",
+        "target": "<200ms for multiplayer sync",
+        "phases": ["phase-3", "phase-4"]
+      },
+      {
+        "id": "NFR-PERF-003",
+        "category": "performance",
+        "title": "Memory Usage",
+        "description": "Efficient resource utilization on mobile",
+        "metric": "Memory consumption",
+        "target": "<100MB on mobile devices",
+        "phases": ["phase-1", "phase-4"]
+      },
+      {
+        "id": "NFR-SEC-001",
+        "category": "security",
+        "title": "Server-side Validation",
+        "description": "Prevent cheating through move validation",
+        "metric": "Security validation",
+        "target": "All game moves validated server-side",
+        "phases": ["phase-3", "phase-4"]
+      },
+      {
+        "id": "NFR-SEC-002",
+        "category": "security",
+        "title": "Room Access Control",
+        "description": "Secure room access and data protection",
+        "metric": "Access control",
+        "target": "Firebase security rules properly configured",
+        "phases": ["phase-2", "phase-3"]
+      },
+      {
+        "id": "NFR-SCAL-001",
+        "category": "scalability",
+        "title": "Firebase Free Tier Compliance",
+        "description": "Stay within Firebase free tier limits",
+        "metric": "Resource usage",
+        "target": "Within Firebase free tier limits",
+        "phases": ["phase-2", "phase-3", "phase-5"]
+      }
+    ]
+  },
+  "technology": {
+    "frontend": {
+      "framework": "Flutter",
+      "language": "Dart",
+      "buildTools": ["Flutter CLI", "Dart Pub"],
+      "testing": ["Flutter Test", "Integration Tests"]
+    },
+    "backend": {
+      "framework": "Firebase Cloud Functions",
+      "language": "TypeScript/JavaScript",
+      "runtime": "Node.js",
+      "testing": ["Jest", "Firebase Emulator Suite"]
+    },
+    "database": {
+      "primary": "Firebase Realtime Database",
+      "caching": "Client-side caching",
+      "migrations": "Firebase Console"
+    },
+    "infrastructure": {
+      "hosting": "Firebase Hosting",
+      "cicd": "GitHub Actions",
+      "monitoring": "Firebase Console",
+      "logging": "Firebase Console"
+    }
+  },
+  "timeline": {
+    "totalEstimate": "7-11 weeks",
+    "milestones": [
+      {
+        "name": "Single-player Prototype",
+        "phase": "phase-1",
+        "deliverables": ["Working snake game mechanics", "Basic UI"],
+        "estimatedDate": "2025-08-21T00:00:00Z"
+      },
+      {
+        "name": "Firebase Integration Complete",
+        "phase": "phase-2",
+        "deliverables": ["Authentication system", "Database structure"],
+        "estimatedDate": "2025-09-04T00:00:00Z"
+      },
+      {
+        "name": "Multiplayer MVP",
+        "phase": "phase-3",
+        "deliverables": ["Working multiplayer game", "Room system"],
+        "estimatedDate": "2025-09-25T00:00:00Z"
+      },
+      {
+        "name": "Production Ready",
+        "phase": "phase-4",
+        "deliverables": ["Polished UI", "Performance optimized"],
+        "estimatedDate": "2025-10-09T00:00:00Z"
+      },
+      {
+        "name": "Launch Ready",
+        "phase": "phase-5",
+        "deliverables": ["Deployed application", "Documentation"],
+        "estimatedDate": "2025-10-16T00:00:00Z"
+      }
+    ]
+  },
+  "risks": [
+    {
+      "id": "RISK-001",
+      "description": "Firebase free tier limits exceeded due to high usage",
+      "impact": "high",
+      "probability": "medium",
+      "mitigation": "Implement usage monitoring and optimization strategies",
+      "phases": ["phase-3", "phase-5"]
+    },
+    {
+      "id": "RISK-002",
+      "description": "Real-time synchronization performance issues",
+      "impact": "high",
+      "probability": "medium",
+      "mitigation": "Prototype sync mechanisms early, implement batching and throttling",
+      "phases": ["phase-3"]
+    },
+    {
+      "id": "RISK-003",
+      "description": "Cross-platform compatibility issues",
+      "impact": "medium",
+      "probability": "low",
+      "mitigation": "Test on all target platforms throughout development",
+      "phases": ["phase-1", "phase-4"]
+    },
+    {
+      "id": "RISK-004",
+      "description": "Scope creep leading to timeline delays",
+      "impact": "medium",
+      "probability": "medium",
+      "mitigation": "Stick to MVP features, document additional features for future versions",
+      "phases": ["phase-1", "phase-2", "phase-3", "phase-4"]
+    },
+    {
+      "id": "RISK-005",
+      "description": "Security vulnerabilities in multiplayer implementation",
+      "impact": "high",
+      "probability": "low",
+      "mitigation": "Implement server-side validation early, security review before launch",
+      "phases": ["phase-3", "phase-4"]
+    }
+  ]
+}
