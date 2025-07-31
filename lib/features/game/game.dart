@@ -9,9 +9,13 @@ library game;
 
 // Models
 export 'models/direction.dart';
+export 'models/food.dart';
 export 'models/snake.dart';
 
 // Logic
+export 'logic/consumption_system.dart';
+export 'logic/food_spawner.dart';
+export 'logic/growth_system.dart';
 export 'logic/movement_system.dart';
 
 // Controllers

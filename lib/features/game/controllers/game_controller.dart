@@ -3,8 +3,12 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 
 import '../../../core/utils/grid_system.dart';
+import '../logic/consumption_system.dart';
+import '../logic/food_spawner.dart';
+import '../logic/growth_system.dart';
 import '../logic/movement_system.dart';
 import '../models/direction.dart';
+import '../models/food.dart';
 import '../models/snake.dart';
 
 /// Game states that the controller can be in.
@@ -42,6 +46,9 @@ class GameController extends ChangeNotifier {
   /// The main game snake.
   late Snake _snake;
 
+  /// Current food item on the grid.
+  Food? _currentFood;
+
   /// Current game state.
   GameState _gameState = GameState.idle;
 
@@ -70,6 +77,9 @@ class GameController extends ChangeNotifier {
 
   /// Gets the current snake.
   Snake get snake => _snake;
+
+  /// Gets the current food (if any).
+  Food? get currentFood => _currentFood;
 
   /// Gets the current score.
   int get score => _score;
@@ -103,6 +113,9 @@ class GameController extends ChangeNotifier {
       initialPosition: centerPos,
       initialDirection: Direction.right,
     );
+
+    // Spawn initial food
+    _spawnFood();
 
     _score = 0;
     _gameState = GameState.idle;
@@ -213,11 +226,35 @@ class GameController extends ChangeNotifier {
       return;
     }
 
+    // Check for food consumption
+    if (_currentFood != null) {
+      final consumed = ConsumptionSystem.handleFoodConsumption(
+        _snake,
+        _currentFood!,
+      );
+
+      if (consumed) {
+        _score += 10; // Award points for eating food
+        _spawnFood(); // Spawn new food
+      }
+    }
+
     // Update performance metrics
     _updatePerformanceMetrics(frameStart);
 
     // Notify listeners of game state change
     notifyListeners();
+  }
+
+  /// Spawns a new food item at a random valid position.
+  void _spawnFood() {
+    final occupiedPositions = _snake.occupiedPositions.toList();
+    _currentFood = FoodSpawner.spawnFood(occupiedPositions, _gridSystem);
+
+    // If no food could be spawned, player has won (filled entire grid)
+    if (_currentFood == null) {
+      stopGame();
+    }
   }
 
   /// Updates performance tracking metrics.
@@ -257,6 +294,9 @@ class GameController extends ChangeNotifier {
       'averageFrameTime': _averageFrameTime,
       'snakePosition': _snake.head.toString(),
       'snakeDirection': _snake.currentDirection.toString(),
+      'hasFood': _currentFood != null,
+      'foodPosition': _currentFood?.position.toString(),
+      'foodActive': _currentFood?.isActive ?? false,
     };
   }
 
