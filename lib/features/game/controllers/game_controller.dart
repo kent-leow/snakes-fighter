@@ -89,6 +89,9 @@ class GameController extends ChangeNotifier {
   
   /// Gets the current score.
   int get score => _score;
+  
+  /// Gets the grid system.
+  GridSystem get gridSystem => _gridSystem;
 
   // Public API - Performance
   

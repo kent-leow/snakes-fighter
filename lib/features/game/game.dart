@@ -22,6 +22,15 @@ export 'logic/movement_system.dart';
 export 'controllers/game_controller.dart';
 export 'controllers/input_controller.dart';
 
+// Rendering
+export 'rendering/food_renderer.dart';
+export 'rendering/grid_renderer.dart';
+export 'rendering/snake_renderer.dart';
+
+// Widgets
+export 'widgets/game_canvas.dart';
+export 'widgets/responsive_game_container.dart';
+
 // Future exports (to be implemented)
 // export 'presentation/game_screen.dart';
 // export 'data/game_repository.dart';
