@@ -1,0 +1,145 @@
+# Task 1.2.2: Implement Food System
+
+## Task Overview
+- **User Story**: us-1.2-core-game-engine
+- **Task ID**: tas### Task Dependencies
+- **Before**: task-1.2.1-implement-snake-movement-system, task-1.2.0-implement-core-grid-system
+- **After**: task-1.2.3-implement-collision-detection-system, task-1.2.4-create-game-loop
+
+### External Dependencies
+- **Services**: None (core Dart functionality)
+- **Infrastructure**: Grid system and snake movement system-implement-food-system
+- **Priority**: Critical
+- **Estimated Effort**: 12 hours
+- **Dependencies**: task-1.2.1-implement-snake-movement-system
+
+## Description
+Implement the food spawning and consumption system that allows the snake to grow when eating food. Food should spawn randomly on the grid, avoiding occupied positions, and trigger snake growth when consumed.
+
+## Technical Requirements
+### Architecture Components
+- **Frontend**: Food model, spawning logic, consumption detection
+- **Backend**: None (local game logic)
+- **Database**: None (local state)  
+- **Integration**: Integration with snake movement and collision systems
+
+### Technology Stack
+- **Language/Framework**: Flutter/Dart
+- **Dependencies**: Dart math library for random generation
+- **Tools**: Flutter rendering system
+
+## Implementation Steps
+
+### Step 1: Create Food Data Model
+- **Action**: Define Food class with position and properties
+- **Deliverable**: Food model with position and state management
+- **Acceptance**: Food can be positioned and rendered on grid
+- **Files**: lib/features/game/models/food.dart
+
+### Step 2: Implement Food Spawning Logic
+- **Action**: Create system to spawn food at random valid positions
+- **Deliverable**: Random food generation avoiding occupied cells
+- **Acceptance**: Food spawns only in empty grid positions
+- **Files**: lib/features/game/logic/food_spawner.dart
+
+### Step 3: Implement Consumption Detection
+- **Action**: Create system to detect when snake eats food
+- **Deliverable**: Collision detection between snake head and food
+- **Acceptance**: Food consumption detected accurately
+- **Files**: lib/features/game/logic/consumption_system.dart
+
+### Step 4: Implement Snake Growth System
+- **Action**: Add logic to grow snake when food is consumed
+- **Deliverable**: Snake body extension system
+- **Acceptance**: Snake grows by exactly one segment per food consumed
+- **Files**: lib/features/game/logic/growth_system.dart
+
+### Step 5: Integrate Food System with Game Loop
+- **Action**: Connect food system to main game controller
+- **Deliverable**: Integrated food management in game loop
+- **Acceptance**: Food spawns, is consumed, and respawns correctly
+- **Files**: lib/features/game/controllers/game_controller.dart (updates)
+
+## Technical Specifications
+### Food Model
+```dart
+class Food {
+  Position position;
+  bool isActive;
+  
+  Food({required this.position}) : isActive = true;
+  
+  void consume() {
+    isActive = false;
+  }
+}
+```
+
+### Food Spawner
+```dart
+class FoodSpawner {
+  static Food spawnFood(List<Position> occupiedPositions, Size gameArea);
+  static List<Position> getAvailablePositions(List<Position> occupied, Size area);
+  static Position getRandomPosition(List<Position> available);
+}
+```
+
+### Consumption System
+```dart
+class ConsumptionSystem {
+  static bool checkFoodConsumption(Snake snake, Food food);
+  static void handleFoodConsumption(Snake snake, Food food);
+}
+```
+
+### Growth System
+```dart
+class GrowthSystem {
+  static void growSnake(Snake snake);
+  static Position calculateNewTailPosition(Snake snake);
+}
+```
+
+## Testing Requirements
+- [ ] Unit tests for food spawning logic
+- [ ] Unit tests for consumption detection
+- [ ] Unit tests for snake growth mechanics
+- [ ] Integration tests for food system with snake movement
+- [ ] Edge case tests for food spawning when grid is nearly full
+
+## Acceptance Criteria
+- [ ] Food spawns randomly on empty grid positions
+- [ ] Snake grows by one segment when consuming food
+- [ ] New food spawns immediately after consumption
+- [ ] Food never spawns on occupied positions
+- [ ] Consumption detection is accurate and immediate
+- [ ] All implementation steps completed
+- [ ] Tests written and passing
+- [ ] Integration with movement system working
+
+## Dependencies
+### Task Dependencies
+- **Before**: task-1.2.1-implement-snake-movement-system
+- **After**: task-1.2.3-implement-collision-detection, task-1.2.4-create-game-loop
+
+### External Dependencies
+- **Services**: None (core Dart functionality)
+- **Infrastructure**: Grid system from movement task
+
+## Risk Mitigation
+- **Risk**: Food spawning in invalid positions
+- **Mitigation**: Implement thorough position validation and testing
+
+- **Risk**: Performance issues with food spawning calculation
+- **Mitigation**: Optimize available position calculation for large grids
+
+## Definition of Done
+- [ ] All implementation steps completed
+- [ ] Food spawning system functional
+- [ ] Snake growth mechanics working correctly
+- [ ] Consumption detection accurate
+- [ ] Unit tests written and passing
+- [ ] Integration tests with snake movement passing
+- [ ] Performance requirements met
+- [ ] Code follows project standards
+- [ ] System handles edge cases properly
