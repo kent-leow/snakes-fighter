@@ -3,87 +3,28 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/auth_models.dart';
 import '../services/auth_service.dart';
-
-/// Authentication state data class
-class AuthState {
-  const AuthState({this.user, this.isLoading = false, this.error});
-
-  final User? user;
-  final bool isLoading;
-  final String? error;
-
-  /// Check if user is authenticated
-  bool get isAuthenticated => user != null;
-
-  /// Check if current user is anonymous
-  bool get isAnonymous => user?.isAnonymous ?? false;
-
-  /// Get user display name
-  String get displayName {
-    if (user == null) return 'Guest';
-
-    if (user!.isAnonymous) {
-      // Generate a friendly name for anonymous users
-      final uid = user!.uid;
-      final shortId = uid.length > 6 ? uid.substring(0, 6) : uid;
-      return 'Player $shortId';
-    }
-
-    return user!.displayName ?? user!.email ?? 'Unknown User';
-  }
-
-  /// Create a copy with updated fields
-  AuthState copyWith({
-    User? user,
-    bool? isLoading,
-    String? error,
-    bool clearError = false,
-  }) {
-    return AuthState(
-      user: user ?? this.user,
-      isLoading: isLoading ?? this.isLoading,
-      error: clearError ? null : (error ?? this.error),
-    );
-  }
-
-  /// Create loading state
-  AuthState loading() => copyWith(isLoading: true, clearError: true);
-
-  /// Create error state
-  AuthState withError(String error) => copyWith(isLoading: false, error: error);
-
-  /// Create success state
-  AuthState withUser(User? user) =>
-      copyWith(user: user, isLoading: false, clearError: true);
-
-  @override
-  String toString() {
-    return 'AuthState(user: ${user?.uid}, isLoading: $isLoading, error: $error)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is AuthState &&
-        other.user?.uid == user?.uid &&
-        other.isLoading == isLoading &&
-        other.error == error;
-  }
-
-  @override
-  int get hashCode => Object.hash(user?.uid, isLoading, error);
-}
+import '../services/storage_service.dart';
 
 /// Authentication state notifier
 class AuthNotifier extends StateNotifier<AuthState> {
-  AuthNotifier(this._authService) : super(const AuthState()) {
+  AuthNotifier(this._authService, this._storageService)
+    : super(const AuthState()) {
+    _initializeAuth();
+  }
+
+  final AuthService _authService;
+  final StorageService _storageService;
+  StreamSubscription<User?>? _authStateSubscription;
+
+  /// Initialize authentication state
+  void _initializeAuth() {
     // Listen to auth state changes
     _authStateSubscription = _authService.authStateChanges.listen(
       (user) {
         if (!mounted) return;
-        state = state.withUser(user);
+        _handleAuthStateChange(user);
       },
       onError: (error) {
         if (!mounted) return;
@@ -91,15 +32,61 @@ class AuthNotifier extends StateNotifier<AuthState> {
       },
     );
 
-    // Initialize with current user
-    final currentUser = _authService.currentUser;
-    if (currentUser != null) {
-      state = state.withUser(currentUser);
+    // Check for stored session
+    _checkStoredSession();
+  }
+
+  /// Handle Firebase auth state changes
+  void _handleAuthStateChange(User? user) async {
+    if (user == null) {
+      // User signed out or session expired
+      await _storageService.clearUserData();
+      state = state.unauthenticated();
+    } else {
+      // User signed in
+      final userData = UserData.fromFirebaseUser(user);
+      await _storageService.storeUserData(userData);
+
+      state = state.withUser(user);
     }
   }
 
-  final AuthService _authService;
-  late final StreamSubscription<User?> _authStateSubscription;
+  /// Check for stored authentication session
+  Future<void> _checkStoredSession() async {
+    try {
+      final isSessionValid = await _storageService.isSessionValid();
+      final userData = await _storageService.getUserData();
+
+      if (isSessionValid && userData != null) {
+        // We have a valid stored session, but Firebase auth state
+        // will be the source of truth
+        final currentUser = _authService.currentUser;
+        if (currentUser != null) {
+          state = state.withUser(currentUser);
+        } else {
+          // Stored session is invalid, clear it
+          await _storageService.clearUserData();
+          state = state.unauthenticated();
+        }
+      } else {
+        // No valid stored session
+        final currentUser = _authService.currentUser;
+        if (currentUser != null) {
+          state = state.withUser(currentUser);
+        } else {
+          state = state.unauthenticated();
+        }
+      }
+    } catch (e) {
+      // If there's an error checking stored session, default to checking current user
+      final currentUser = _authService.currentUser;
+      if (currentUser != null) {
+        state = state.withUser(currentUser);
+      } else {
+        state = state.unauthenticated();
+      }
+    }
+  }
 
   /// Sign in anonymously
   Future<void> signInAnonymously() async {
@@ -119,6 +106,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
     try {
       state = state.loading();
       await _authService.signOut();
+      // Clear stored session data
+      await _storageService.clearUserData();
       // User state will be updated via authStateChanges stream
     } on AuthException catch (e) {
       state = state.withError(e.message);
@@ -160,8 +149,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   /// Clear error state
   void clearError() {
-    if (state.error != null) {
-      state = state.copyWith(clearError: true);
+    if (state.hasError) {
+      state = state.copyWith(
+        status: state.isAuthenticated
+            ? AuthStatus.authenticated
+            : AuthStatus.unauthenticated,
+        clearError: true,
+      );
     }
   }
 
@@ -175,6 +169,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
     try {
       state = state.loading();
       await _authService.deleteAnonymousUser();
+      // Clear stored session data
+      await _storageService.clearUserData();
       // User state will be updated via authStateChanges stream
     } on AuthException catch (e) {
       state = state.withError(e.message);
@@ -185,10 +181,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   @override
   void dispose() {
-    _authStateSubscription.cancel();
+    _authStateSubscription?.cancel();
     super.dispose();
   }
 }
+
+/// Provider for StorageService
+final storageServiceProvider = Provider<StorageService>((ref) {
+  return StorageService();
+});
 
 /// Provider for AuthService
 final authServiceProvider = Provider<AuthService>((ref) {
@@ -197,7 +198,10 @@ final authServiceProvider = Provider<AuthService>((ref) {
 
 /// Provider for authentication state
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  return AuthNotifier(ref.read(authServiceProvider));
+  return AuthNotifier(
+    ref.read(authServiceProvider),
+    ref.read(storageServiceProvider),
+  );
 });
 
 /// Stream provider for auth state changes (alternative approach)
@@ -219,4 +223,14 @@ final isAuthenticatedProvider = Provider<bool>((ref) {
 /// Provider for anonymous status
 final isAnonymousProvider = Provider<bool>((ref) {
   return ref.watch(authProvider).isAnonymous;
+});
+
+/// Provider for loading status
+final isLoadingProvider = Provider<bool>((ref) {
+  return ref.watch(authProvider).isLoading;
+});
+
+/// Provider for error status
+final authErrorProvider = Provider<String?>((ref) {
+  return ref.watch(authProvider).error;
 });

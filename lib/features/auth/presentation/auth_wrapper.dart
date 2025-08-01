@@ -11,19 +11,23 @@ class AuthWrapper extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(authStateChangesProvider).when(
-      data: (user) {
-        // If user is authenticated, go to main menu
-        if (user != null) {
-          return const MainMenuWrapper();
-        }
-        
-        // If not authenticated, go to auth screen
+    final authState = ref.watch(authProvider);
+
+    // Handle different authentication states
+    switch (authState.status) {
+      case AuthStatus.initial:
+      case AuthStatus.loading:
+        return const AuthLoadingScreen();
+
+      case AuthStatus.authenticated:
+        return const MainMenuWrapper();
+
+      case AuthStatus.unauthenticated:
         return const AuthScreen();
-      },
-      loading: () => const LoadingScreen(),
-      error: (error, stack) => ErrorScreen(error: error.toString()),
-    );
+
+      case AuthStatus.error:
+        return ErrorScreen(error: authState.error ?? 'Unknown error');
+    }
   }
 }
 
@@ -38,7 +42,7 @@ class MainMenuWrapper extends ConsumerWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Navigator.pushReplacementNamed(context, AppRouter.mainMenu);
     });
-    
+
     return const LoadingScreen();
   }
 }
@@ -49,54 +53,13 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF1a1a2e),
-              Color(0xFF16213e),
-              Color(0xFF0f3460),
-            ],
-          ),
-        ),
-        child: const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.videogame_asset,
-                size: 80,
-                color: Colors.white,
-              ),
-              SizedBox(height: 24),
-              CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-              SizedBox(height: 16),
-              Text(
-                'Loading...',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+    return const AuthLoadingScreen();
   }
 }
 
 /// Error screen shown when authentication fails
 class ErrorScreen extends StatelessWidget {
-  const ErrorScreen({
-    required this.error,
-    super.key,
-  });
+  const ErrorScreen({required this.error, super.key});
 
   final String error;
 
@@ -108,11 +71,7 @@ class ErrorScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF1a1a2e),
-              Color(0xFF16213e),
-              Color(0xFF0f3460),
-            ],
+            colors: [Color(0xFF1a1a2e), Color(0xFF16213e), Color(0xFF0f3460)],
           ),
         ),
         child: Center(
@@ -121,11 +80,7 @@ class ErrorScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.error_outline,
-                  size: 80,
-                  color: Colors.red,
-                ),
+                const Icon(Icons.error_outline, size: 80, color: Colors.red),
                 const SizedBox(height: 24),
                 const Text(
                   'Authentication Error',
@@ -139,10 +94,7 @@ class ErrorScreen extends StatelessWidget {
                 Text(
                   error,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 16,
-                  ),
+                  style: const TextStyle(color: Colors.white70, fontSize: 16),
                 ),
                 const SizedBox(height: 32),
                 ElevatedButton(
