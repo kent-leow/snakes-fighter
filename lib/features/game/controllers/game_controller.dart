@@ -7,6 +7,7 @@ import '../../../core/utils/grid_system.dart';
 import '../../../core/utils/performance_monitor.dart';
 import '../models/direction.dart';
 import '../models/food.dart';
+import '../models/score_manager.dart';
 import '../models/snake.dart';
 import 'game_loop.dart';
 import 'game_state_manager.dart';
@@ -27,13 +28,13 @@ class GameController extends ChangeNotifier {
   late final LifecycleManager _lifecycleManager;
   late final GameLoop _gameLoop;
   late final PerformanceMonitor _performanceMonitor;
+  late final ScoreManager _scoreManager;
   
   // Game objects
   late Snake _snake;
   Food? _currentFood;
   
   // Game state
-  int _score = 0;
   bool _isDisposed = false;
 
   /// Creates a new game controller.
@@ -54,6 +55,7 @@ class GameController extends ChangeNotifier {
     _stateManager = GameStateManager();
     _lifecycleManager = LifecycleManager(stateManager: _stateManager);
     _performanceMonitor = PerformanceMonitor();
+    _scoreManager = ScoreManager();
     
     // Initialize game loop with tick callback
     _gameLoop = GameLoop(onTick: _gameTick);
@@ -69,6 +71,9 @@ class GameController extends ChangeNotifier {
   
   /// Gets the current game state.
   GameState get currentState => _stateManager.currentState;
+  
+  /// Gets the state manager.
+  GameStateManager get stateManager => _stateManager;
   
   /// Gets whether the game is currently playing.
   bool get isPlaying => currentState == GameState.playing;
@@ -88,7 +93,10 @@ class GameController extends ChangeNotifier {
   Food? get currentFood => _currentFood;
   
   /// Gets the current score.
-  int get score => _score;
+  int get score => _scoreManager.currentScore;
+  
+  /// Gets the score manager.
+  ScoreManager get scoreManager => _scoreManager;
   
   /// Gets the grid system.
   GridSystem get gridSystem => _gridSystem;
@@ -109,6 +117,7 @@ class GameController extends ChangeNotifier {
     
     try {
       await _lifecycleManager.initialize();
+      _scoreManager.startNewSession();
       await _lifecycleManager.startGame();
       _gameLoop.start();
       notifyListeners();
@@ -149,7 +158,7 @@ class GameController extends ChangeNotifier {
     
     try {
       _gameLoop.stop();
-      await _lifecycleManager.endGame(finalScore: _score);
+      await _lifecycleManager.endGame(finalScore: score);
       notifyListeners();
     } catch (error) {
       debugPrint('Failed to stop game: $error');
@@ -201,7 +210,7 @@ class GameController extends ChangeNotifier {
     return {
       'gameState': currentState.toString(),
       'snakeLength': _snake.length,
-      'score': _score,
+      'score': score,
       'currentFps': currentFps,
       'averageFrameTime': averageFrameTime,
       'isPerformant': _performanceMonitor.meetsPerformanceRequirements(),
@@ -294,7 +303,7 @@ class GameController extends ChangeNotifier {
   }
   
   void _resetGameState() {
-    _score = 0;
+    _scoreManager.resetScore();
     _snake = Snake(
       initialPosition: _gridSystem.centerPosition,
       initialDirection: Direction.right,
@@ -306,7 +315,7 @@ class GameController extends ChangeNotifier {
   // Private - Game Events
   
   void _onFoodEaten(Food food) {
-    _score += 10; // Fixed score per food
+    _scoreManager.addFoodPoints(snakeLength: _snake.length);
     _snake.grow();
     _currentFood = null;
     
@@ -322,6 +331,7 @@ class GameController extends ChangeNotifier {
     _gameLoop.dispose();
     
     // Dispose managers
+    _scoreManager.dispose();
     _lifecycleManager.dispose();
     _performanceMonitor.dispose();
     _stateManager.dispose();
