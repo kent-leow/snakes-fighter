@@ -4,13 +4,13 @@ import '../models/position.dart';
 import 'grid_validator.dart';
 
 /// Direction enumeration for grid movement.
-enum Direction {
+enum GridDirection {
   up(Position(0, -1), 'Up'),
   right(Position(1, 0), 'Right'),
   down(Position(0, 1), 'Down'),
   left(Position(-1, 0), 'Left');
 
-  const Direction(this.delta, this.name);
+  const GridDirection(this.delta, this.name);
 
   /// The position delta for this direction.
   final Position delta;
@@ -19,44 +19,44 @@ enum Direction {
   final String name;
 
   /// Gets the opposite direction.
-  Direction get opposite {
+  GridDirection get opposite {
     switch (this) {
-      case Direction.up:
-        return Direction.down;
-      case Direction.down:
-        return Direction.up;
-      case Direction.left:
-        return Direction.right;
-      case Direction.right:
-        return Direction.left;
+      case GridDirection.up:
+        return GridDirection.down;
+      case GridDirection.down:
+        return GridDirection.up;
+      case GridDirection.left:
+        return GridDirection.right;
+      case GridDirection.right:
+        return GridDirection.left;
     }
   }
 
   /// Gets the direction rotated 90 degrees clockwise.
-  Direction get clockwise {
+  GridDirection get clockwise {
     switch (this) {
-      case Direction.up:
-        return Direction.right;
-      case Direction.right:
-        return Direction.down;
-      case Direction.down:
-        return Direction.left;
-      case Direction.left:
-        return Direction.up;
+      case GridDirection.up:
+        return GridDirection.right;
+      case GridDirection.right:
+        return GridDirection.down;
+      case GridDirection.down:
+        return GridDirection.left;
+      case GridDirection.left:
+        return GridDirection.up;
     }
   }
 
   /// Gets the direction rotated 90 degrees counter-clockwise.
-  Direction get counterClockwise {
+  GridDirection get counterClockwise {
     switch (this) {
-      case Direction.up:
-        return Direction.left;
-      case Direction.left:
-        return Direction.down;
-      case Direction.down:
-        return Direction.right;
-      case Direction.right:
-        return Direction.up;
+      case GridDirection.up:
+        return GridDirection.left;
+      case GridDirection.left:
+        return GridDirection.down;
+      case GridDirection.down:
+        return GridDirection.right;
+      case GridDirection.right:
+        return GridDirection.up;
     }
   }
 }
@@ -184,21 +184,21 @@ class GridUtils {
   /// Determines the direction from one position to another.
   ///
   /// Returns the primary direction if positions are aligned, or null if diagonal.
-  static Direction? getDirectionBetween(Position from, Position to) {
+  static GridDirection? getDirectionBetween(Position from, Position to) {
     final dx = to.x - from.x;
     final dy = to.y - from.y;
 
     // Check for exact alignment
-    if (dx == 0 && dy < 0) return Direction.up;
-    if (dx == 0 && dy > 0) return Direction.down;
-    if (dy == 0 && dx > 0) return Direction.right;
-    if (dy == 0 && dx < 0) return Direction.left;
+    if (dx == 0 && dy < 0) return GridDirection.up;
+    if (dx == 0 && dy > 0) return GridDirection.down;
+    if (dy == 0 && dx > 0) return GridDirection.right;
+    if (dy == 0 && dx < 0) return GridDirection.left;
 
     // For diagonal or non-adjacent positions, return the dominant direction
     if (dx.abs() > dy.abs()) {
-      return dx > 0 ? Direction.right : Direction.left;
+      return dx > 0 ? GridDirection.right : GridDirection.left;
     } else {
-      return dy > 0 ? Direction.down : Direction.up;
+      return dy > 0 ? GridDirection.down : GridDirection.up;
     }
   }
 

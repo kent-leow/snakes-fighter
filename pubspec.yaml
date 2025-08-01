@@ -51,6 +51,10 @@ dependencies:
   
   # Google Sign-In
   google_sign_in: ^6.1.5
+  
+  # Code generation for data models
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.8.1
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +75,10 @@ dev_dependencies:
   # Testing dependencies
   mockito: ^5.4.4
   build_runner: ^2.4.7
+  
+  # Code generation
+  freezed: ^2.4.7
+  json_serializable: ^6.7.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

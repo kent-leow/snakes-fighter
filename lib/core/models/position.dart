@@ -1,9 +1,14 @@
 import 'dart:math' as math;
 
+import 'package:json_annotation/json_annotation.dart';
+
+part 'position.g.dart';
+
 /// Represents a position in the grid coordinate system.
 ///
 /// This immutable class handles all grid coordinate operations and provides
 /// utility methods for position calculations used throughout the game.
+@JsonSerializable()
 class Position {
   /// The x-coordinate in the grid (column).
   final int x;
@@ -92,4 +97,11 @@ class Position {
 
   @override
   String toString() => 'Position($x, $y)';
+
+  /// Creates a Position from a JSON map.
+  factory Position.fromJson(Map<String, dynamic> json) =>
+      _$PositionFromJson(json);
+
+  /// Converts this Position to a JSON map.
+  Map<String, dynamic> toJson() => _$PositionToJson(this);
 }
