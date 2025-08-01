@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "664645409053",
+    "firebase_url": "https://snakes-fight-dev-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "snakes-fight-dev",
+    "storage_bucket": "snakes-fight-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664645409053:android:9d77a5a92ef64bb2afe9f4",
+        "android_client_info": {
+          "package_name": "com.example.snakes_fight"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpFRzaZXb7mHt9ajOlEIuenLUhGBFeF2g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,55 @@
+{
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "functions": {
+    "predeploy": [
+      "npm --prefix \"$RESOURCE_DIR\" run lint",
+      "npm --prefix \"$RESOURCE_DIR\" run build"
+    ],
+    "source": "functions"
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "snakes-fight-dev",
+          "appId": "1:664645409053:android:9d77a5a92ef64bb2afe9f4",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "snakes-fight-dev",
+          "appId": "1:664645409053:ios:50143bf437aab8a5afe9f4",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "snakes-fight-dev",
+          "configurations": {
+            "android": "1:664645409053:android:9d77a5a92ef64bb2afe9f4",
+            "ios": "1:664645409053:ios:50143bf437aab8a5afe9f4",
+            "web": "1:664645409053:web:cbaca6ad62eceaecafe9f4"
+          }
+        }
+      }
+    }
+  }
+}
