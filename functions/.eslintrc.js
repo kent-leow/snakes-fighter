@@ -19,6 +19,7 @@ module.exports = {
   },
   ignorePatterns: [
     "/lib/**/*", // Ignore built files.
+    "jest.config.js", // Ignore Jest config
   ],
   plugins: [
     "@typescript-eslint",
@@ -27,5 +28,15 @@ module.exports = {
   rules: {
     "quotes": ["error", "double"],
     "import/no-unresolved": 0,
+    "object-curly-spacing": "off",
+    "max-len": ["error", { "code": 120 }],
+    "indent": ["error", 2],
+    "require-jsdoc": "off",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "no-trailing-spaces": "warn",
+    "padded-blocks": "off",
+    "arrow-parens": ["error", "as-needed"],
+    "operator-linebreak": "off",
+    "no-case-declarations": "warn",
   },
 };

@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "snakes-fight-dev"
-  }
+    "default": "snakes-fight-dev",
+    "staging": "snakes-fight-dev"
+  },
+  "targets": {},
+  "etags": {}
 }
