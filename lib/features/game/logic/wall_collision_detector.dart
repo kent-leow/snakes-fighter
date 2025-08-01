@@ -138,11 +138,13 @@ class WallCollisionDetector {
     double distance = 0.0;
 
     if (position.x < 0) distance = position.x.abs().toDouble();
-    if (position.x >= gameArea.width)
+    if (position.x >= gameArea.width) {
       distance = (position.x - gameArea.width + 1).toDouble();
+    }
     if (position.y < 0) distance = position.y.abs().toDouble();
-    if (position.y >= gameArea.height)
+    if (position.y >= gameArea.height) {
       distance = (position.y - gameArea.height + 1).toDouble();
+    }
 
     return -distance; // Negative to indicate out of bounds
   }

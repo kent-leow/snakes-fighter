@@ -26,9 +26,11 @@ void main() {
     });
 
     group('complete rendering system integration', () {
-      testWidgets('should render complete game with responsive container', (tester) async {
+      testWidgets('should render complete game with responsive container', (
+        tester,
+      ) async {
         const gameSize = Size(400, 400);
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -48,9 +50,11 @@ void main() {
         expect(find.byType(CustomPaint), findsAtLeastNWidgets(1));
       });
 
-      testWidgets('should handle game state changes in complete system', (tester) async {
+      testWidgets('should handle game state changes in complete system', (
+        tester,
+      ) async {
         const gameSize = Size(400, 400);
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -83,10 +87,10 @@ void main() {
 
       testWidgets('should work with different screen sizes', (tester) async {
         const gameSize = Size(300, 300);
-        
+
         // Test with mobile portrait
         await tester.binding.setSurfaceSize(const Size(400, 800));
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: MediaQuery(
@@ -105,10 +109,10 @@ void main() {
 
         expect(find.byType(PortraitGameContainer), findsOneWidget);
         expect(find.byType(GameCanvas), findsOneWidget);
-        
+
         // Test with mobile landscape
         await tester.binding.setSurfaceSize(const Size(800, 400));
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: MediaQuery(
@@ -131,7 +135,7 @@ void main() {
 
       testWidgets('should maintain 60fps performance', (tester) async {
         const gameSize = Size(400, 400);
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -145,7 +149,7 @@ void main() {
 
         // Start game for animation
         await gameController.startGame();
-        
+
         // Pump frames to simulate animation
         for (int i = 0; i < 10; i++) {
           await tester.pump(const Duration(milliseconds: 16)); // ~60fps
@@ -157,14 +161,13 @@ void main() {
 
       testWidgets('should render all game elements correctly', (tester) async {
         const gameSize = Size(400, 400);
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
               body: GameCanvas(
                 gameController: gameController,
                 gameSize: gameSize,
-                showGrid: true,
               ),
             ),
           ),
@@ -179,9 +182,9 @@ void main() {
           of: find.byType(GameCanvas),
           matching: find.byType(CustomPaint),
         );
-        
+
         expect(customPaintFinder, findsOneWidget);
-        
+
         final customPaint = tester.widget<CustomPaint>(customPaintFinder);
         final painter = customPaint.painter as GameCanvasPainter;
 
@@ -198,7 +201,7 @@ void main() {
     group('rendering performance', () {
       testWidgets('should handle rapid repaints efficiently', (tester) async {
         const gameSize = Size(400, 400);
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -222,9 +225,11 @@ void main() {
         await gameController.stopGame();
       });
 
-      testWidgets('should optimize repainting based on changes', (tester) async {
+      testWidgets('should optimize repainting based on changes', (
+        tester,
+      ) async {
         const gameSize = Size(400, 400);
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -241,7 +246,7 @@ void main() {
           of: find.byType(GameCanvas),
           matching: find.byType(CustomPaint),
         );
-        
+
         final initialPaint = tester.widget<CustomPaint>(customPaintFinder);
         final initialPainter = initialPaint.painter as GameCanvasPainter;
 
@@ -261,7 +266,7 @@ void main() {
     group('visual validation', () {
       testWidgets('should render snake and food distinctly', (tester) async {
         const gameSize = Size(400, 400);
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(

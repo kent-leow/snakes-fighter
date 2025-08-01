@@ -4,16 +4,14 @@ import 'package:snakes_fight/features/game/widgets/responsive_game_container.dar
 
 void main() {
   group('ResponsiveGameContainer', () {
-    testWidgets('should create container with default properties', (tester) async {
+    testWidgets('should create container with default properties', (
+      tester,
+    ) async {
       const testChild = SizedBox(width: 100, height: 100);
-      
+
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: ResponsiveGameContainer(
-              child: testChild,
-            ),
-          ),
+          home: Scaffold(body: ResponsiveGameContainer(child: testChild)),
         ),
       );
 
@@ -23,54 +21,43 @@ void main() {
 
     testWidgets('should apply target aspect ratio', (tester) async {
       await tester.binding.setSurfaceSize(const Size(800, 600));
-      
+
       const testChild = ColoredBox(color: Colors.red);
-      
+
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: ResponsiveGameContainer(
-              targetAspectRatio: 1.0, // Square
-              child: testChild,
-            ),
-          ),
+          home: Scaffold(body: ResponsiveGameContainer(child: testChild)),
         ),
       );
 
       final sizedBox = tester.widget<SizedBox>(find.byType(SizedBox));
       final aspectRatio = sizedBox.width! / sizedBox.height!;
-      
+
       expect(aspectRatio, closeTo(1.0, 0.1));
     });
 
     testWidgets('should respect minimum size constraints', (tester) async {
       await tester.binding.setSurfaceSize(const Size(150, 150));
-      
+
       const testChild = ColoredBox(color: Colors.blue);
-      
+
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: ResponsiveGameContainer(
-              minWidth: 200.0,
-              minHeight: 200.0,
-              child: testChild,
-            ),
-          ),
+          home: Scaffold(body: ResponsiveGameContainer(child: testChild)),
         ),
       );
 
       final sizedBox = tester.widget<SizedBox>(find.byType(SizedBox));
-      
+
       expect(sizedBox.width, greaterThanOrEqualTo(200.0));
       expect(sizedBox.height, greaterThanOrEqualTo(200.0));
     });
 
     testWidgets('should respect maximum size constraints', (tester) async {
       await tester.binding.setSurfaceSize(const Size(1000, 1000));
-      
+
       const testChild = ColoredBox(color: Colors.green);
-      
+
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -84,7 +71,7 @@ void main() {
       );
 
       final sizedBox = tester.widget<SizedBox>(find.byType(SizedBox));
-      
+
       expect(sizedBox.width, lessThanOrEqualTo(400.0));
       expect(sizedBox.height, lessThanOrEqualTo(400.0));
     });
@@ -92,7 +79,7 @@ void main() {
     testWidgets('should apply padding', (tester) async {
       const testPadding = EdgeInsets.all(20.0);
       const testChild = ColoredBox(color: Colors.yellow);
-      
+
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -110,29 +97,27 @@ void main() {
           matching: find.byType(Container).last,
         ),
       );
-      
+
       expect(container.padding, testPadding);
     });
 
     testWidgets('should center content by default', (tester) async {
       const testChild = SizedBox(width: 100, height: 100);
-      
+
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: ResponsiveGameContainer(
-              child: testChild,
-            ),
-          ),
+          home: Scaffold(body: ResponsiveGameContainer(child: testChild)),
         ),
       );
 
       expect(find.byType(Center), findsOneWidget);
     });
 
-    testWidgets('should not center when centerContent is false', (tester) async {
+    testWidgets('should not center when centerContent is false', (
+      tester,
+    ) async {
       const testChild = SizedBox(width: 100, height: 100);
-      
+
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -150,19 +135,17 @@ void main() {
 
   group('AdaptiveGameContainer', () {
     testWidgets('should use SquareGameContainer for tablets', (tester) async {
-      await tester.binding.setSurfaceSize(const Size(700, 1000)); // Tablet size (shortest side >= 600)
-      
+      await tester.binding.setSurfaceSize(
+        const Size(700, 1000),
+      ); // Tablet size (shortest side >= 600)
+
       const testChild = ColoredBox(color: Colors.purple);
-      
+
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: MediaQuery(
-            data: const MediaQueryData(size: Size(700, 1000)),
-            child: const Scaffold(
-              body: AdaptiveGameContainer(
-                child: testChild,
-              ),
-            ),
+            data: MediaQueryData(size: Size(700, 1000)),
+            child: Scaffold(body: AdaptiveGameContainer(child: testChild)),
           ),
         ),
       );
@@ -170,20 +153,20 @@ void main() {
       expect(find.byType(SquareGameContainer), findsOneWidget);
     });
 
-    testWidgets('should use LandscapeGameContainer for landscape phones', (tester) async {
-      await tester.binding.setSurfaceSize(const Size(600, 400)); // Landscape phone (shortest side < 600)
-      
+    testWidgets('should use LandscapeGameContainer for landscape phones', (
+      tester,
+    ) async {
+      await tester.binding.setSurfaceSize(
+        const Size(600, 400),
+      ); // Landscape phone (shortest side < 600)
+
       const testChild = ColoredBox(color: Colors.orange);
-      
+
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: MediaQuery(
-            data: const MediaQueryData(size: Size(600, 400)),
-            child: const Scaffold(
-              body: AdaptiveGameContainer(
-                child: testChild,
-              ),
-            ),
+            data: MediaQueryData(size: Size(600, 400)),
+            child: Scaffold(body: AdaptiveGameContainer(child: testChild)),
           ),
         ),
       );
@@ -191,20 +174,20 @@ void main() {
       expect(find.byType(LandscapeGameContainer), findsOneWidget);
     });
 
-    testWidgets('should use PortraitGameContainer for portrait phones', (tester) async {
-      await tester.binding.setSurfaceSize(const Size(400, 600)); // Portrait phone (shortest side < 600)
-      
+    testWidgets('should use PortraitGameContainer for portrait phones', (
+      tester,
+    ) async {
+      await tester.binding.setSurfaceSize(
+        const Size(400, 600),
+      ); // Portrait phone (shortest side < 600)
+
       const testChild = ColoredBox(color: Colors.pink);
-      
+
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: MediaQuery(
-            data: const MediaQueryData(size: Size(400, 600)),
-            child: const Scaffold(
-              body: AdaptiveGameContainer(
-                child: testChild,
-              ),
-            ),
+            data: MediaQueryData(size: Size(400, 600)),
+            child: Scaffold(body: AdaptiveGameContainer(child: testChild)),
           ),
         ),
       );
@@ -290,25 +273,19 @@ void main() {
     group('isScreenSuitable', () {
       test('should return true for suitable screens', () {
         const suitableSize = Size(400, 400);
-        
-        expect(
-          GameLayoutUtils.isScreenSuitable(suitableSize),
-          isTrue,
-        );
+
+        expect(GameLayoutUtils.isScreenSuitable(suitableSize), isTrue);
       });
 
       test('should return false for too small screens', () {
         const tooSmallSize = Size(100, 100);
-        
-        expect(
-          GameLayoutUtils.isScreenSuitable(tooSmallSize),
-          isFalse,
-        );
+
+        expect(GameLayoutUtils.isScreenSuitable(tooSmallSize), isFalse);
       });
 
       test('should respect custom minimum dimensions', () {
         const screenSize = Size(150, 150);
-        
+
         expect(
           GameLayoutUtils.isScreenSuitable(
             screenSize,
@@ -317,15 +294,8 @@ void main() {
           ),
           isTrue,
         );
-        
-        expect(
-          GameLayoutUtils.isScreenSuitable(
-            screenSize,
-            minWidth: 200.0,
-            minHeight: 200.0,
-          ),
-          isFalse,
-        );
+
+        expect(GameLayoutUtils.isScreenSuitable(screenSize), isFalse);
       });
     });
 
@@ -358,21 +328,21 @@ void main() {
 
       test('should handle different aspect ratios', () {
         const screenSize = Size(800, 400);
-        
+
         // Wide aspect ratio
         final wideGameSize = GameLayoutUtils.getRecommendedGameSize(
           screenSize,
           2.0, // 2:1 aspect ratio
         );
-        
+
         expect(wideGameSize.width / wideGameSize.height, closeTo(2.0, 0.01));
-        
+
         // Tall aspect ratio
         final tallGameSize = GameLayoutUtils.getRecommendedGameSize(
           screenSize,
           0.5, // 1:2 aspect ratio
         );
-        
+
         expect(tallGameSize.width / tallGameSize.height, closeTo(0.5, 0.01));
       });
     });

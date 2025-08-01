@@ -22,18 +22,18 @@ class GameController extends ChangeNotifier {
   // Core dependencies
   final GridSystem _gridSystem;
   final Random _random = Random();
-  
+
   // New architecture components
   late final GameStateManager _stateManager;
   late final LifecycleManager _lifecycleManager;
   late final GameLoop _gameLoop;
   late final PerformanceMonitor _performanceMonitor;
   late final ScoreManager _scoreManager;
-  
+
   // Game objects
   late Snake _snake;
   Food? _currentFood;
-  
+
   // Game state
   bool _isDisposed = false;
 
@@ -50,13 +50,13 @@ class GameController extends ChangeNotifier {
       initialPosition: _gridSystem.centerPosition,
       initialDirection: Direction.right,
     );
-    
+
     // Initialize architecture components
     _stateManager = GameStateManager();
     _lifecycleManager = LifecycleManager(stateManager: _stateManager);
     _performanceMonitor = PerformanceMonitor();
     _scoreManager = ScoreManager();
-    
+
     // Initialize game loop with tick callback
     _gameLoop = GameLoop(onTick: _gameTick);
   }
@@ -68,53 +68,53 @@ class GameController extends ChangeNotifier {
   }
 
   // Public API - Game State
-  
+
   /// Gets the current game state.
   GameState get currentState => _stateManager.currentState;
-  
+
   /// Gets the state manager.
   GameStateManager get stateManager => _stateManager;
-  
+
   /// Gets whether the game is currently playing.
   bool get isPlaying => currentState == GameState.playing;
-  
+
   /// Gets whether the game is paused.
   bool get isPaused => currentState == GameState.paused;
-  
+
   /// Gets whether the game is over.
   bool get isGameOver => currentState == GameState.gameOver;
 
   // Public API - Game Objects
-  
+
   /// Gets the snake.
   Snake get snake => _snake;
-  
+
   /// Gets the current food.
   Food? get currentFood => _currentFood;
-  
+
   /// Gets the current score.
   int get score => _scoreManager.currentScore;
-  
+
   /// Gets the score manager.
   ScoreManager get scoreManager => _scoreManager;
-  
+
   /// Gets the grid system.
   GridSystem get gridSystem => _gridSystem;
 
   // Public API - Performance
-  
+
   /// Gets the current FPS.
   double get currentFps => _performanceMonitor.getCurrentFps();
-  
+
   /// Gets the average frame time in milliseconds.
   double get averageFrameTime => _performanceMonitor.getAverageFrameTime();
 
   // Public API - Game Control
-  
+
   /// Starts a new game.
   Future<void> startGame() async {
     if (_isDisposed) return;
-    
+
     try {
       await _lifecycleManager.initialize();
       _scoreManager.startNewSession();
@@ -125,11 +125,11 @@ class GameController extends ChangeNotifier {
       debugPrint('Failed to start game: $error');
     }
   }
-  
+
   /// Pauses the current game.
   Future<void> pauseGame() async {
     if (_isDisposed || !isPlaying) return;
-    
+
     try {
       _gameLoop.pause();
       await _lifecycleManager.pauseGame();
@@ -138,11 +138,11 @@ class GameController extends ChangeNotifier {
       debugPrint('Failed to pause game: $error');
     }
   }
-  
+
   /// Resumes the paused game.
   Future<void> resumeGame() async {
     if (_isDisposed || !isPaused) return;
-    
+
     try {
       await _lifecycleManager.resumeGame();
       _gameLoop.resume();
@@ -151,11 +151,11 @@ class GameController extends ChangeNotifier {
       debugPrint('Failed to resume game: $error');
     }
   }
-  
+
   /// Stops the current game.
   Future<void> stopGame() async {
     if (_isDisposed) return;
-    
+
     try {
       _gameLoop.stop();
       await _lifecycleManager.endGame(finalScore: score);
@@ -164,11 +164,11 @@ class GameController extends ChangeNotifier {
       debugPrint('Failed to stop game: $error');
     }
   }
-  
+
   /// Resets the game to start a new session.
   Future<void> resetGame() async {
     if (_isDisposed) return;
-    
+
     try {
       _gameLoop.stop();
       await _lifecycleManager.restartGame();
@@ -181,7 +181,7 @@ class GameController extends ChangeNotifier {
   }
 
   // Public API - Snake Control
-  
+
   /// Changes the snake's direction.
   bool changeSnakeDirection(Direction direction) {
     if (!isPlaying) return false;
@@ -189,22 +189,23 @@ class GameController extends ChangeNotifier {
   }
 
   // Public API - Validation & Stats
-  
+
   /// Validates the current game state.
   bool validateGameState() {
     // Check if snake is within bounds
     if (!_gridSystem.isValidPosition(_snake.head)) {
       return false;
     }
-    
+
     // Check if food is within bounds (if present)
-    if (_currentFood != null && !_gridSystem.isValidPosition(_currentFood!.position)) {
+    if (_currentFood != null &&
+        !_gridSystem.isValidPosition(_currentFood!.position)) {
       return false;
     }
-    
+
     return true;
   }
-  
+
   /// Gets comprehensive game statistics.
   Map<String, dynamic> getGameStats() {
     return {
@@ -219,60 +220,59 @@ class GameController extends ChangeNotifier {
   }
 
   // Private - Game Loop
-  
+
   /// Main game tick callback.
   void _gameTick(Duration elapsed) {
     if (!isPlaying) return;
-    
+
     try {
       // Record performance
       _performanceMonitor.recordFrameTime(elapsed);
-      
+
       // Update snake
       _snake.move();
-      
+
       // Check collisions and spawn food as needed
       _checkCollisions();
       _updateFood();
-      
+
       // Validate game state
       if (!validateGameState()) {
         debugPrint('Invalid game state detected');
         stopGame();
       }
-      
     } catch (error) {
       debugPrint('Error in game tick: $error');
     }
   }
 
   // Private - Game Logic
-  
+
   void _checkCollisions() {
     // Check boundary collision
     if (!_gridSystem.isValidPosition(_snake.head)) {
       stopGame();
       return;
     }
-    
+
     // Check self collision
     if (_snake.collidesWithSelf()) {
       stopGame();
       return;
     }
-    
+
     // Check food collision
     if (_currentFood != null && _snake.head == _currentFood!.position) {
       _onFoodEaten(_currentFood!);
     }
   }
-  
+
   void _updateFood() {
     if (_currentFood == null) {
       _spawnFood();
     }
   }
-  
+
   void _spawnFood() {
     // Simple food spawning - find random empty position
     Position? foodPosition;
@@ -282,26 +282,26 @@ class GameController extends ChangeNotifier {
         _random.nextInt(_gridSystem.gridWidth),
         _random.nextInt(_gridSystem.gridHeight),
       );
-      
+
       if (!_snake.isBodyAt(position)) {
         foodPosition = position;
         break;
       }
       attempts++;
     }
-    
+
     if (foodPosition != null) {
       _currentFood = Food(position: foodPosition);
     }
   }
 
   // Private - State Management
-  
+
   void _onStateChanged() {
-    debugPrint('Game state changed to: ${currentState}');
+    debugPrint('Game state changed to: $currentState');
     notifyListeners();
   }
-  
+
   void _resetGameState() {
     _scoreManager.resetScore();
     _snake = Snake(
@@ -313,12 +313,12 @@ class GameController extends ChangeNotifier {
   }
 
   // Private - Game Events
-  
+
   void _onFoodEaten(Food food) {
     _scoreManager.addFoodPoints(snakeLength: _snake.length);
     _snake.grow();
     _currentFood = null;
-    
+
     notifyListeners();
   }
 
@@ -326,16 +326,16 @@ class GameController extends ChangeNotifier {
   void dispose() {
     if (_isDisposed) return;
     _isDisposed = true;
-    
+
     // Stop game loop
     _gameLoop.dispose();
-    
+
     // Dispose managers
     _scoreManager.dispose();
     _lifecycleManager.dispose();
     _performanceMonitor.dispose();
     _stateManager.dispose();
-    
+
     super.dispose();
   }
 }

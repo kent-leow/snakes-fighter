@@ -5,7 +5,7 @@ import 'package:snakes_fight/features/game/widgets/game_canvas.dart';
 import 'package:snakes_fight/features/game/widgets/responsive_game_container.dart';
 
 /// Demonstration app showing the game canvas rendering system in action.
-/// 
+///
 /// This example shows:
 /// - Game canvas with snake and food rendering
 /// - Responsive design that adapts to screen size
@@ -25,7 +25,7 @@ class _GameCanvasDemoState extends State<GameCanvasDemo> {
   @override
   void initState() {
     super.initState();
-    
+
     // Initialize grid system for demo
     gridSystem = GridSystem(
       gridWidth: 20,
@@ -34,7 +34,7 @@ class _GameCanvasDemoState extends State<GameCanvasDemo> {
       screenWidth: 400.0,
       screenHeight: 400.0,
     );
-    
+
     // Initialize game controller
     gameController = GameController(gridSystem: gridSystem);
   }
@@ -67,31 +67,31 @@ class _GameCanvasDemoState extends State<GameCanvasDemo> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: gameController.isPlaying 
-                        ? null 
+                    onPressed: gameController.isPlaying
+                        ? null
                         : () => gameController.startGame(),
                     child: const Text('Start Game'),
                   ),
                   ElevatedButton(
-                    onPressed: gameController.isPlaying 
+                    onPressed: gameController.isPlaying
                         ? () => gameController.pauseGame()
-                        : gameController.isPaused 
-                            ? () => gameController.resumeGame()
-                            : null,
+                        : gameController.isPaused
+                        ? () => gameController.resumeGame()
+                        : null,
                     child: Text(gameController.isPaused ? 'Resume' : 'Pause'),
                   ),
                   ElevatedButton(
-                    onPressed: gameController.isGameOver 
+                    onPressed: gameController.isGameOver
                         ? () => gameController.resetGame()
                         : gameController.isPlaying || gameController.isPaused
-                            ? () => gameController.stopGame()
-                            : null,
+                        ? () => gameController.stopGame()
+                        : null,
                     child: Text(gameController.isGameOver ? 'Reset' : 'Stop'),
                   ),
                 ],
               ),
             ),
-            
+
             // Game status
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -104,9 +104,9 @@ class _GameCanvasDemoState extends State<GameCanvasDemo> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Game canvas with responsive container
             Expanded(
               child: AdaptiveGameContainer(
@@ -114,12 +114,10 @@ class _GameCanvasDemoState extends State<GameCanvasDemo> {
                 child: GameCanvas(
                   gameController: gameController,
                   gameSize: const Size(400, 400),
-                  showGrid: true,
-                  backgroundColor: Colors.black,
                 ),
               ),
             ),
-            
+
             // Performance info
             Padding(
               padding: const EdgeInsets.all(16.0),

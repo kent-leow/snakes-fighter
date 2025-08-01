@@ -9,7 +9,7 @@ import 'score_display_widget.dart';
 /// Main HUD widget that overlays game information on the game canvas.
 ///
 /// Provides a non-intrusive interface showing score, game status,
-/// and basic game controls positioned strategically to avoid 
+/// and basic game controls positioned strategically to avoid
 /// interfering with gameplay.
 class GameHUD extends StatelessWidget {
   final ScoreManager scoreManager;
@@ -17,7 +17,7 @@ class GameHUD extends StatelessWidget {
   final VoidCallback onPause;
   final VoidCallback onResume;
   final VoidCallback onRestart;
-  
+
   const GameHUD({
     super.key,
     required this.scoreManager,
@@ -33,16 +33,16 @@ class GameHUD extends StatelessWidget {
       children: [
         // Top HUD - Score and basic info
         _buildTopHUD(context),
-        
+
         // Center HUD - Game status messages
         _buildCenterHUD(context),
-        
+
         // Bottom HUD - Game controls
         _buildBottomHUD(context),
       ],
     );
   }
-  
+
   /// Builds the top HUD containing score and game info.
   Widget _buildTopHUD(BuildContext context) {
     return Positioned(
@@ -74,33 +74,28 @@ class GameHUD extends StatelessWidget {
                 highScore: scoreManager.highScore,
               ),
             ),
-            
+
             // Game info (snake length, food count, etc.)
-            Expanded(
-              flex: 1,
-              child: _buildGameInfo(context),
-            ),
+            Expanded(child: _buildGameInfo(context)),
           ],
         ),
       ),
     );
   }
-  
+
   /// Builds the center HUD for game status messages.
   Widget _buildCenterHUD(BuildContext context) {
     return Positioned.fill(
       child: Center(
-        child: GameStatusWidget(
-          gameState: stateManager.currentState,
-        ),
+        child: GameStatusWidget(gameState: stateManager.currentState),
       ),
     );
   }
-  
+
   /// Builds the bottom HUD for game controls.
   Widget _buildBottomHUD(BuildContext context) {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
-    
+
     return Positioned(
       bottom: bottomPadding + 16,
       left: 16,
@@ -113,7 +108,7 @@ class GameHUD extends StatelessWidget {
       ),
     );
   }
-  
+
   /// Builds additional game information display.
   Widget _buildGameInfo(BuildContext context) {
     return StreamBuilder<int>(

@@ -96,7 +96,7 @@ void main() {
       });
 
       test('should use custom base points', () {
-        scoreManager.addFoodPoints(basePoints: 20, snakeLength: 1);
+        scoreManager.addFoodPoints(basePoints: 20);
         expect(scoreManager.currentScore, 20);
         expect(scoreManager.foodEaten, 1);
       });
@@ -158,7 +158,7 @@ void main() {
 
         // Expected calculation:
         // Food 1: length 4 (3+1), bonus 0, score 10
-        // Food 2: length 5 (3+2), bonus 0, score 10  
+        // Food 2: length 5 (3+2), bonus 0, score 10
         // Food 3: length 6 (3+3), bonus 0, score 10
         // Food 4: length 7 (3+4), bonus 0, score 10
         // Food 5: length 8 (3+5), bonus 0, score 10

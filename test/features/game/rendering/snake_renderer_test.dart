@@ -19,7 +19,6 @@ void main() {
       snake = Snake(
         initialPosition: const Position(5, 5),
         initialDirection: Direction.right,
-        initialLength: 3,
       );
       recorder = PictureRecorder();
       canvas = Canvas(recorder);
@@ -33,14 +32,14 @@ void main() {
           initialDirection: Direction.right,
           initialLength: 1,
         );
-        
+
         // Reset to minimal state to simulate an edge case
         emptySnake.reset(
           initialPosition: const Position(0, 0),
           initialDirection: Direction.right,
           initialLength: 1,
         );
-        
+
         // Should not throw when rendering minimal snake
         expect(
           () => SnakeRenderer.renderSnake(
@@ -81,7 +80,7 @@ void main() {
     group('renderSnakeHead', () {
       test('should render head at correct position', () {
         const headPosition = Position(3, 4);
-        
+
         expect(
           () => SnakeRenderer.renderSnakeHead(
             canvas,
@@ -95,7 +94,7 @@ void main() {
 
       test('should render dead head without eyes', () {
         const headPosition = Position(3, 4);
-        
+
         expect(
           () => SnakeRenderer.renderSnakeHead(
             canvas,
@@ -111,7 +110,7 @@ void main() {
     group('renderSnakeBody', () {
       test('should render body segment', () {
         const bodyPosition = Position(2, 3);
-        
+
         expect(
           () => SnakeRenderer.renderSnakeBody(
             canvas,
@@ -125,7 +124,7 @@ void main() {
 
       test('should render dead body segment', () {
         const bodyPosition = Position(2, 3);
-        
+
         expect(
           () => SnakeRenderer.renderSnakeBody(
             canvas,
@@ -145,7 +144,7 @@ void main() {
           const Position(4, 5), // Body segment 1
           const Position(3, 5), // Body segment 2
         ];
-        
+
         expect(
           () => SnakeRenderer.renderSnakeBodyOnly(
             canvas,
@@ -159,7 +158,7 @@ void main() {
 
       test('should handle single position list', () {
         final singlePosition = [const Position(5, 5)];
-        
+
         expect(
           () => SnakeRenderer.renderSnakeBodyOnly(
             canvas,
@@ -175,7 +174,7 @@ void main() {
     group('color schemes', () {
       test('should return correct colors for alive snake', () {
         final colors = SnakeRenderer.getSnakeColors(GameState.playing);
-        
+
         expect(colors['head'], isNotNull);
         expect(colors['body'], isNotNull);
         expect(colors['head'], isNot(equals(Colors.grey)));
@@ -184,7 +183,7 @@ void main() {
 
       test('should return gray colors for dead snake', () {
         final colors = SnakeRenderer.getSnakeColors(GameState.gameOver);
-        
+
         expect(colors['head'], isNotNull);
         expect(colors['body'], isNotNull);
         expect(colors['head'], equals(const Color(0xFF757575)));
@@ -197,16 +196,12 @@ void main() {
         const canvasSize = Size(400, 400);
         const validPosition = Position(5, 5);
         const invalidPosition = Position(25, 25);
-        
+
         expect(
-          SnakeRenderer.canRenderPosition(
-            validPosition,
-            canvasSize,
-            cellSize,
-          ),
+          SnakeRenderer.canRenderPosition(validPosition, canvasSize, cellSize),
           isTrue,
         );
-        
+
         expect(
           SnakeRenderer.canRenderPosition(
             invalidPosition,
@@ -221,16 +216,12 @@ void main() {
         const canvasSize = Size(400, 400);
         const edgePosition = Position(19, 19); // 19 * 20 = 380, within 400
         const outsidePosition = Position(20, 20); // 20 * 20 = 400, outside
-        
+
         expect(
-          SnakeRenderer.canRenderPosition(
-            edgePosition,
-            canvasSize,
-            cellSize,
-          ),
+          SnakeRenderer.canRenderPosition(edgePosition, canvasSize, cellSize),
           isTrue,
         );
-        
+
         expect(
           SnakeRenderer.canRenderPosition(
             outsidePosition,
@@ -244,7 +235,7 @@ void main() {
       test('should validate negative positions', () {
         const canvasSize = Size(400, 400);
         const negativePosition = Position(-1, 5);
-        
+
         expect(
           SnakeRenderer.canRenderPosition(
             negativePosition,
@@ -259,7 +250,7 @@ void main() {
     group('different cell sizes', () {
       test('should handle small cell sizes', () {
         const smallCellSize = Size(5.0, 5.0);
-        
+
         expect(
           () => SnakeRenderer.renderSnake(
             canvas,
@@ -273,7 +264,7 @@ void main() {
 
       test('should handle large cell sizes', () {
         const largeCellSize = Size(100.0, 100.0);
-        
+
         expect(
           () => SnakeRenderer.renderSnake(
             canvas,
@@ -287,7 +278,7 @@ void main() {
 
       test('should handle rectangular cell sizes', () {
         const rectCellSize = Size(30.0, 15.0);
-        
+
         expect(
           () => SnakeRenderer.renderSnake(
             canvas,
@@ -306,7 +297,7 @@ void main() {
           initialPosition: const Position(0, 0),
           initialDirection: Direction.right,
         );
-        
+
         expect(
           () => SnakeRenderer.renderSnake(
             canvas,
@@ -324,7 +315,7 @@ void main() {
           initialDirection: Direction.right,
           initialLength: 50,
         );
-        
+
         expect(
           () => SnakeRenderer.renderSnake(
             canvas,
