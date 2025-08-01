@@ -7,11 +7,7 @@ import '../services/auth_service.dart';
 
 /// Authentication state data class
 class AuthState {
-  const AuthState({
-    this.user,
-    this.isLoading = false,
-    this.error,
-  });
+  const AuthState({this.user, this.isLoading = false, this.error});
 
   final User? user;
   final bool isLoading;
@@ -26,14 +22,14 @@ class AuthState {
   /// Get user display name
   String get displayName {
     if (user == null) return 'Guest';
-    
+
     if (user!.isAnonymous) {
       // Generate a friendly name for anonymous users
       final uid = user!.uid;
       final shortId = uid.length > 6 ? uid.substring(0, 6) : uid;
       return 'Player $shortId';
     }
-    
+
     return user!.displayName ?? user!.email ?? 'Unknown User';
   }
 
@@ -58,7 +54,8 @@ class AuthState {
   AuthState withError(String error) => copyWith(isLoading: false, error: error);
 
   /// Create success state
-  AuthState withUser(User? user) => copyWith(user: user, isLoading: false, clearError: true);
+  AuthState withUser(User? user) =>
+      copyWith(user: user, isLoading: false, clearError: true);
 
   @override
   String toString() {
@@ -68,7 +65,7 @@ class AuthState {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    
+
     return other is AuthState &&
         other.user?.uid == user?.uid &&
         other.isLoading == isLoading &&
@@ -127,6 +124,37 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = state.withError(e.message);
     } catch (e) {
       state = state.withError('Unexpected error during sign out: $e');
+    }
+  }
+
+  /// Sign in with Google
+  Future<void> signInWithGoogle() async {
+    try {
+      state = state.loading();
+      await _authService.signInWithGoogle();
+      // User state will be updated via authStateChanges stream
+    } on AuthException catch (e) {
+      state = state.withError(e.message);
+    } catch (e) {
+      state = state.withError('Unexpected error during Google sign in: $e');
+    }
+  }
+
+  /// Link anonymous account with Google
+  Future<void> linkAnonymousWithGoogle() async {
+    if (!state.isAnonymous) {
+      state = state.withError('Cannot link non-anonymous user');
+      return;
+    }
+
+    try {
+      state = state.loading();
+      await _authService.linkAnonymousWithGoogle();
+      // User state will be updated via authStateChanges stream
+    } on AuthException catch (e) {
+      state = state.withError(e.message);
+    } catch (e) {
+      state = state.withError('Unexpected error during account linking: $e');
     }
   }
 

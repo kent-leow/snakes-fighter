@@ -32,7 +32,20 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   Future<void> _signInAnonymously() async {
     final authNotifier = ref.read(authProvider.notifier);
     await authNotifier.signInAnonymously();
-    
+
+    // Check if sign-in was successful
+    final authState = ref.read(authProvider);
+    if (authState.isAuthenticated && authState.error == null) {
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/');
+      }
+    }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    final authNotifier = ref.read(authProvider.notifier);
+    await authNotifier.signInWithGoogle();
+
     // Check if sign-in was successful
     final authState = ref.read(authProvider);
     if (authState.isAuthenticated && authState.error == null) {
@@ -64,7 +77,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
-    
+
     // Show error dialog if there's an error
     ref.listen<AuthState>(authProvider, (previous, next) {
       if (next.error != null && next.error != previous?.error) {
@@ -82,11 +95,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF1a1a2e),
-              Color(0xFF16213e),
-              Color(0xFF0f3460),
-            ],
+            colors: [Color(0xFF1a1a2e), Color(0xFF16213e), Color(0xFF0f3460)],
           ),
         ),
         child: SafeArea(
@@ -103,7 +112,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   color: Colors.white,
                 ),
                 const SizedBox(height: 24),
-                
+
                 Text(
                   AppConstants.appName,
                   textAlign: TextAlign.center,
@@ -112,19 +121,19 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                
+
                 const SizedBox(height: 8),
-                
+
                 Text(
                   'The Ultimate Snake Battle Arena',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Colors.white70,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleMedium?.copyWith(color: Colors.white70),
                 ),
-                
+
                 const SizedBox(height: 48),
-                
+
                 // Welcome message
                 Card(
                   color: Colors.white.withValues(alpha: 0.1),
@@ -138,31 +147,31 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                           color: Colors.white70,
                         ),
                         const SizedBox(height: 16),
-                        
+
                         Text(
                           'Welcome to Snakes Fight!',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
-                        
+
                         const SizedBox(height: 8),
-                        
+
                         Text(
                           'Get started quickly with anonymous play. No registration required!',
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.white70,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Colors.white70),
                         ),
                       ],
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 32),
-                
+
                 // Anonymous sign-in button
                 ElevatedButton.icon(
                   onPressed: authState.isLoading ? null : _signInAnonymously,
@@ -186,9 +195,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Information about anonymous play
                 Container(
                   padding: const EdgeInsets.all(16),
@@ -210,26 +219,39 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       Expanded(
                         child: Text(
                           'Anonymous sessions are temporary. Progress will be lost if you uninstall the app.',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.orange.shade200,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: Colors.orange.shade200),
                         ),
                       ),
                     ],
                   ),
                 ),
-                
+
                 const SizedBox(height: 32),
-                
-                // Future: Google Sign-In button (placeholder)
-                OutlinedButton.icon(
-                  onPressed: null, // Will be implemented in future task
-                  icon: const Icon(Icons.account_circle),
-                  label: const Text('Sign in with Google (Coming Soon)'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white54,
-                    side: const BorderSide(color: Colors.white54),
+
+                // Google Sign-In button
+                ElevatedButton.icon(
+                  onPressed: authState.isLoading ? null : _signInWithGoogle,
+                  icon: authState.isLoading
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.account_circle),
+                  label: Text(
+                    authState.isLoading
+                        ? 'Signing In...'
+                        : 'Sign in with Google',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black87,
                     padding: const EdgeInsets.symmetric(vertical: 16),
+                    textStyle: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
