@@ -59,6 +59,9 @@ class GameController extends ChangeNotifier {
 
     // Initialize game loop with tick callback
     _gameLoop = GameLoop(onTick: _gameTick);
+
+    // Spawn initial food
+    _spawnFood();
   }
 
   /// Sets up callbacks between components.

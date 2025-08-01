@@ -70,7 +70,7 @@ class ScoreDisplayWidget extends StatelessWidget {
     return AnimatedDefaultTextStyle(
       duration: const Duration(milliseconds: 200),
       style: style ?? DefaultTextStyle.of(context).style,
-      child: Text(text, style: style),
+      child: Text(text),
     );
   }
 }
