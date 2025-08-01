@@ -10,6 +10,7 @@ import '../../../features/game/controllers/game_controller.dart';
 import '../../../features/game/widgets/game_canvas.dart';
 import '../../../features/game/widgets/game_hud.dart';
 import '../../../features/game/widgets/responsive_game_container.dart';
+import '../audio/menu_audio_manager.dart';
 
 /// Main menu screen for the game.
 ///
@@ -24,6 +25,7 @@ class MainMenuScreen extends StatefulWidget {
 
 class _MainMenuScreenState extends State<MainMenuScreen> {
   SettingsService? _settingsService;
+  final MenuAudioManager _audioManager = MenuAudioManager();
 
   @override
   void initState() {
@@ -88,7 +90,10 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
         const SizedBox(height: 8),
         Text(
           'v${AppConstants.appVersion}',
-          style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: 0.8)),
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.white.withValues(alpha: 0.8),
+          ),
         ),
       ],
     );
@@ -119,7 +124,10 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       width: 200,
       height: 50,
       child: ElevatedButton.icon(
-        onPressed: onPressed,
+        onPressed: () {
+          _audioManager.onButtonPressed();
+          onPressed();
+        },
         icon: Icon(icon),
         label: Text(
           text,
@@ -139,12 +147,14 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   }
 
   void _startGame() {
+    _audioManager.onGameStart();
     // Navigate to game screen
     // For now, we'll create a simple game screen overlay
     _showGameScreen();
   }
 
   void _openSettings() {
+    _audioManager.onMenuTransition();
     if (_settingsService != null) {
       NavigationService.push(
         AppRouter.settingsRoute,
@@ -162,11 +172,15 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
         content: const Text('Are you sure you want to exit?'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () {
+              _audioManager.onButtonPressed();
+              Navigator.of(context).pop();
+            },
             child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
+              _audioManager.onButtonPressed();
               Navigator.of(context).pop();
               SystemNavigator.pop();
             },

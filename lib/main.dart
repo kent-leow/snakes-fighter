@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'core/core.dart';
 import 'core/navigation/app_router.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize app services
+  await AppInitializationService.instance.initialize();
+
   runApp(const SnakesFightApp());
 }
 
