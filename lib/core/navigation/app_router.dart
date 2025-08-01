@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../features/auth/presentation/auth_screen.dart';
 import '../../features/menu/screens/game_over_screen.dart';
 import '../../features/menu/screens/main_menu_screen.dart';
 import '../../features/menu/screens/pause_menu_screen.dart';
@@ -11,6 +12,7 @@ import '../services/settings_service.dart';
 /// Defines all route names and generates routes for navigation.
 class AppRouter {
   // Route names
+  static const String auth = '/auth';
   static const String mainMenu = '/';
   static const String game = '/game';
   static const String settingsRoute = '/settings';
@@ -20,6 +22,12 @@ class AppRouter {
   /// Generate routes based on route settings.
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case auth:
+        return MaterialPageRoute<void>(
+          builder: (_) => const AuthScreen(),
+          settings: settings,
+        );
+      
       case mainMenu:
         return MaterialPageRoute<void>(
           builder: (_) => const MainMenuScreen(),
