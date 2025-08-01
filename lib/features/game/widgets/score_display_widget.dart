@@ -11,7 +11,7 @@ class ScoreDisplayWidget extends StatelessWidget {
   final bool showHighScore;
   final TextStyle? scoreTextStyle;
   final TextStyle? highScoreTextStyle;
-  
+
   const ScoreDisplayWidget({
     super.key,
     required this.scoreStream,
@@ -29,7 +29,7 @@ class ScoreDisplayWidget extends StatelessWidget {
       initialData: currentScore,
       builder: (context, snapshot) {
         final score = snapshot.data ?? currentScore;
-        
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -38,21 +38,25 @@ class ScoreDisplayWidget extends StatelessWidget {
             _buildScoreText(
               context,
               'Score: $score',
-              scoreTextStyle ?? Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              scoreTextStyle ??
+                  Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
             ),
-            
+
             // High score (if enabled and available)
             if (showHighScore && highScore > 0) ...[
               const SizedBox(height: 4),
               _buildScoreText(
                 context,
                 'Best: $highScore',
-                highScoreTextStyle ?? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
-                ),
+                highScoreTextStyle ??
+                    Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.7),
+                    ),
               ),
             ],
           ],
@@ -60,13 +64,13 @@ class ScoreDisplayWidget extends StatelessWidget {
       },
     );
   }
-  
+
   /// Builds score text with optional animation for score changes.
   Widget _buildScoreText(BuildContext context, String text, TextStyle? style) {
     return AnimatedDefaultTextStyle(
       duration: const Duration(milliseconds: 200),
       style: style ?? DefaultTextStyle.of(context).style,
-      child: Text(text),
+      child: Text(text, style: style),
     );
   }
 }
@@ -76,7 +80,7 @@ class CompactScoreDisplayWidget extends StatelessWidget {
   final Stream<int> scoreStream;
   final int currentScore;
   final TextStyle? textStyle;
-  
+
   const CompactScoreDisplayWidget({
     super.key,
     required this.scoreStream,
@@ -91,13 +95,15 @@ class CompactScoreDisplayWidget extends StatelessWidget {
       initialData: currentScore,
       builder: (context, snapshot) {
         final score = snapshot.data ?? currentScore;
-        
+
         return Text(
           score.toString(),
-          style: textStyle ?? Theme.of(context).textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.primary,
-          ),
+          style:
+              textStyle ??
+              Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+              ),
         );
       },
     );
@@ -110,7 +116,7 @@ class AnimatedScoreDisplayWidget extends StatefulWidget {
   final int currentScore;
   final int highScore;
   final Duration animationDuration;
-  
+
   const AnimatedScoreDisplayWidget({
     super.key,
     required this.scoreStream,
@@ -120,7 +126,8 @@ class AnimatedScoreDisplayWidget extends StatefulWidget {
   });
 
   @override
-  State<AnimatedScoreDisplayWidget> createState() => _AnimatedScoreDisplayWidgetState();
+  State<AnimatedScoreDisplayWidget> createState() =>
+      _AnimatedScoreDisplayWidgetState();
 }
 
 class _AnimatedScoreDisplayWidgetState extends State<AnimatedScoreDisplayWidget>
@@ -128,7 +135,7 @@ class _AnimatedScoreDisplayWidgetState extends State<AnimatedScoreDisplayWidget>
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   late Animation<Color?> _colorAnimation;
-  
+
   int _previousScore = 0;
   bool _showScoreIncrease = false;
 
@@ -136,20 +143,16 @@ class _AnimatedScoreDisplayWidgetState extends State<AnimatedScoreDisplayWidget>
   void initState() {
     super.initState();
     _previousScore = widget.currentScore;
-    
+
     _animationController = AnimationController(
       duration: widget.animationDuration,
       vsync: this,
     );
-    
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: 1.2,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.elasticOut,
-    ));
-    
+
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.2).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.elasticOut),
+    );
+
     _colorAnimation = ColorTween(
       begin: Colors.green,
       end: Colors.green.withValues(alpha: 0.0),
@@ -167,7 +170,7 @@ class _AnimatedScoreDisplayWidgetState extends State<AnimatedScoreDisplayWidget>
       setState(() {
         _showScoreIncrease = true;
       });
-      
+
       _animationController.forward().then((_) {
         _animationController.reverse().then((_) {
           if (mounted) {
@@ -188,12 +191,12 @@ class _AnimatedScoreDisplayWidgetState extends State<AnimatedScoreDisplayWidget>
       initialData: widget.currentScore,
       builder: (context, snapshot) {
         final score = snapshot.data ?? widget.currentScore;
-        
+
         // Trigger animation on score change
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _onScoreChanged(score);
         });
-        
+
         return Stack(
           children: [
             // Main score display
@@ -210,7 +213,7 @@ class _AnimatedScoreDisplayWidgetState extends State<AnimatedScoreDisplayWidget>
                 );
               },
             ),
-            
+
             // Score increase indicator
             if (_showScoreIncrease)
               Positioned(

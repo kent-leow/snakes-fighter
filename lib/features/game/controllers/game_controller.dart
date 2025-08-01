@@ -312,7 +312,7 @@ class GameController extends ChangeNotifier {
   }
 
   void _resetGameState() {
-    _scoreManager.resetScore();
+    _scoreManager.startNewSession();
     _snake = Snake(
       initialPosition: _gridSystem.centerPosition,
       initialDirection: Direction.right,

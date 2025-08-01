@@ -7,6 +7,7 @@ import 'package:snakes_fight/core/services/settings_service.dart';
 import 'package:snakes_fight/features/game/audio/game_audio_manager.dart';
 import 'package:snakes_fight/features/menu/audio/menu_audio_manager.dart';
 
+@Tags(['audio', 'integration'])
 void main() {
   group('Audio System Integration', () {
     late AppInitializationService appService;

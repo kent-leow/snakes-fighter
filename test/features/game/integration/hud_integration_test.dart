@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:snakes_fight/core/utils/grid_system.dart';
 import 'package:snakes_fight/features/game/controllers/game_controller.dart';
+import 'package:snakes_fight/features/game/controllers/game_state_manager.dart';
 import 'package:snakes_fight/features/game/widgets/game_hud.dart';
 
 void main() {
@@ -20,65 +21,81 @@ void main() {
       gameController = GameController(gridSystem: gridSystem);
     });
 
-    tearDown(() {
+    tearDown(() async {
+      try {
+        if (gameController.isPlaying || gameController.isPaused) {
+          await gameController.stopGame();
+        }
+      } catch (e) {
+        // Ignore errors during cleanup
+      }
       gameController.dispose();
     });
 
     group('HUD with GameController integration', () {
-      testWidgets('should display real-time score updates from game controller', (tester) async {
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: ListenableBuilder(
-              listenable: gameController,
-              builder: (context, _) {
-                return GameHUD(
-                  scoreManager: gameController.scoreManager,
-                  stateManager: gameController.stateManager,
-                  onPause: () => gameController.pauseGame(),
-                  onResume: () => gameController.resumeGame(),
-                  onRestart: () => gameController.resetGame(),
-                );
-              },
+      testWidgets(
+        'should display real-time score updates from game controller',
+        (tester) async {
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: ListenableBuilder(
+                  listenable: gameController,
+                  builder: (context, _) {
+                    return GameHUD(
+                      scoreManager: gameController.scoreManager,
+                      stateManager: gameController.stateManager,
+                      onPause: () => gameController.pauseGame(),
+                      onResume: () => gameController.resumeGame(),
+                      onRestart: () => gameController.resetGame(),
+                    );
+                  },
+                ),
+              ),
+            ),
+          );
+
+          // Initial state
+          expect(find.text('Score: 0'), findsOneWidget);
+          expect(find.text('TAP TO START'), findsOneWidget);
+
+          // Start game
+          await gameController.startGame();
+          await tester.pump();
+
+          expect(find.text('Score: 0'), findsOneWidget);
+          expect(find.text('Pause'), findsOneWidget);
+
+          // Simulate food consumption by directly adding points
+          gameController.scoreManager.addFoodPoints(snakeLength: 5);
+          await tester.pump();
+
+          expect(find.text('Score: 10'), findsOneWidget);
+          expect(find.text('Food: 1'), findsOneWidget);
+        },
+      );
+
+      testWidgets('should handle game state transitions correctly', (
+        tester,
+      ) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: ListenableBuilder(
+                listenable: gameController,
+                builder: (context, _) {
+                  return GameHUD(
+                    scoreManager: gameController.scoreManager,
+                    stateManager: gameController.stateManager,
+                    onPause: () => gameController.pauseGame(),
+                    onResume: () => gameController.resumeGame(),
+                    onRestart: () => gameController.resetGame(),
+                  );
+                },
+              ),
             ),
           ),
-        ));
-
-        // Initial state
-        expect(find.text('Score: 0'), findsOneWidget);
-        expect(find.text('TAP TO START'), findsOneWidget);
-
-        // Start game
-        await gameController.startGame();
-        await tester.pump();
-
-        expect(find.text('Score: 0'), findsOneWidget);
-        expect(find.text('Pause'), findsOneWidget);
-
-        // Simulate food consumption by directly adding points
-        gameController.scoreManager.addFoodPoints(snakeLength: 5);
-        await tester.pump();
-
-        expect(find.text('Score: 10'), findsOneWidget);
-        expect(find.text('Food: 1'), findsOneWidget);
-      });
-
-      testWidgets('should handle game state transitions correctly', (tester) async {
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: ListenableBuilder(
-              listenable: gameController,
-              builder: (context, _) {
-                return GameHUD(
-                  scoreManager: gameController.scoreManager,
-                  stateManager: gameController.stateManager,
-                  onPause: () => gameController.pauseGame(),
-                  onResume: () => gameController.resumeGame(),
-                  onRestart: () => gameController.resetGame(),
-                );
-              },
-            ),
-          ),
-        ));
+        );
 
         // Start game
         await gameController.startGame();
@@ -103,22 +120,24 @@ void main() {
       });
 
       testWidgets('should handle button callbacks correctly', (tester) async {
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: ListenableBuilder(
-              listenable: gameController,
-              builder: (context, _) {
-                return GameHUD(
-                  scoreManager: gameController.scoreManager,
-                  stateManager: gameController.stateManager,
-                  onPause: () => gameController.pauseGame(),
-                  onResume: () => gameController.resumeGame(),
-                  onRestart: () => gameController.resetGame(),
-                );
-              },
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: ListenableBuilder(
+                listenable: gameController,
+                builder: (context, _) {
+                  return GameHUD(
+                    scoreManager: gameController.scoreManager,
+                    stateManager: gameController.stateManager,
+                    onPause: () => gameController.pauseGame(),
+                    onResume: () => gameController.resumeGame(),
+                    onRestart: () => gameController.resetGame(),
+                  );
+                },
+              ),
             ),
           ),
-        ));
+        );
 
         // Start game
         await gameController.startGame();
@@ -150,22 +169,24 @@ void main() {
       });
 
       testWidgets('should update session count correctly', (tester) async {
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: ListenableBuilder(
-              listenable: gameController,
-              builder: (context, _) {
-                return GameHUD(
-                  scoreManager: gameController.scoreManager,
-                  stateManager: gameController.stateManager,
-                  onPause: () => gameController.pauseGame(),
-                  onResume: () => gameController.resumeGame(),
-                  onRestart: () => gameController.resetGame(),
-                );
-              },
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: ListenableBuilder(
+                listenable: gameController,
+                builder: (context, _) {
+                  return GameHUD(
+                    scoreManager: gameController.scoreManager,
+                    stateManager: gameController.stateManager,
+                    onPause: () => gameController.pauseGame(),
+                    onResume: () => gameController.resumeGame(),
+                    onRestart: () => gameController.resetGame(),
+                  );
+                },
+              ),
             ),
           ),
-        ));
+        );
 
         // Start first game
         await gameController.startGame();
@@ -173,33 +194,47 @@ void main() {
 
         expect(find.text('Session: 1'), findsOneWidget);
 
-        // Restart game (should increment session)
-        await gameController.resetGame();
+        // Stop game cleanly and return to menu
+        await gameController.stopGame();
+        await tester.pump();
+
+        // Return to menu state (this allows starting a new game)
+        gameController.stateManager.transitionTo(GameState.menu);
+        await tester.pump();
+
+        // Start a new game (simulating restart)
+        await gameController.startGame();
         await tester.pump();
 
         expect(find.text('Session: 2'), findsOneWidget);
+
+        // Clean up - stop the game before test ends
+        await gameController.stopGame();
+        await tester.pump();
       });
 
       testWidgets('should show high score when available', (tester) async {
         // Set up initial high score
         gameController.scoreManager.updateHighScore(150);
 
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: ListenableBuilder(
-              listenable: gameController,
-              builder: (context, _) {
-                return GameHUD(
-                  scoreManager: gameController.scoreManager,
-                  stateManager: gameController.stateManager,
-                  onPause: () => gameController.pauseGame(),
-                  onResume: () => gameController.resumeGame(),
-                  onRestart: () => gameController.resetGame(),
-                );
-              },
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: ListenableBuilder(
+                listenable: gameController,
+                builder: (context, _) {
+                  return GameHUD(
+                    scoreManager: gameController.scoreManager,
+                    stateManager: gameController.stateManager,
+                    onPause: () => gameController.pauseGame(),
+                    onResume: () => gameController.resumeGame(),
+                    onRestart: () => gameController.resetGame(),
+                  );
+                },
+              ),
             ),
           ),
-        ));
+        );
 
         expect(find.text('Best: 150'), findsOneWidget);
 
@@ -214,23 +249,27 @@ void main() {
     });
 
     group('Performance and responsiveness', () {
-      testWidgets('should handle rapid score updates efficiently', (tester) async {
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: ListenableBuilder(
-              listenable: gameController,
-              builder: (context, _) {
-                return GameHUD(
-                  scoreManager: gameController.scoreManager,
-                  stateManager: gameController.stateManager,
-                  onPause: () => gameController.pauseGame(),
-                  onResume: () => gameController.resumeGame(),
-                  onRestart: () => gameController.resetGame(),
-                );
-              },
+      testWidgets('should handle rapid score updates efficiently', (
+        tester,
+      ) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: ListenableBuilder(
+                listenable: gameController,
+                builder: (context, _) {
+                  return GameHUD(
+                    scoreManager: gameController.scoreManager,
+                    stateManager: gameController.stateManager,
+                    onPause: () => gameController.pauseGame(),
+                    onResume: () => gameController.resumeGame(),
+                    onRestart: () => gameController.resetGame(),
+                  );
+                },
+              ),
             ),
           ),
-        ));
+        );
 
         await gameController.startGame();
         await tester.pump();
@@ -245,23 +284,27 @@ void main() {
         expect(find.text('Food: 10'), findsOneWidget);
       });
 
-      testWidgets('should be responsive to different screen sizes', (tester) async {
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: ListenableBuilder(
-              listenable: gameController,
-              builder: (context, _) {
-                return GameHUD(
-                  scoreManager: gameController.scoreManager,
-                  stateManager: gameController.stateManager,
-                  onPause: () => gameController.pauseGame(),
-                  onResume: () => gameController.resumeGame(),
-                  onRestart: () => gameController.resetGame(),
-                );
-              },
+      testWidgets('should be responsive to different screen sizes', (
+        tester,
+      ) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: ListenableBuilder(
+                listenable: gameController,
+                builder: (context, _) {
+                  return GameHUD(
+                    scoreManager: gameController.scoreManager,
+                    stateManager: gameController.stateManager,
+                    onPause: () => gameController.pauseGame(),
+                    onResume: () => gameController.resumeGame(),
+                    onRestart: () => gameController.resetGame(),
+                  );
+                },
+              ),
             ),
           ),
-        ));
+        );
 
         // Test different screen sizes
         final screenSizes = [
