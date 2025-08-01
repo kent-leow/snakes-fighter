@@ -4,40 +4,40 @@ import 'package:snakes_fight/core/models/position.dart';
 import 'package:snakes_fight/core/utils/grid_utils.dart';
 
 void main() {
-  group('Direction', () {
+  group('GridDirection', () {
     test('should have correct delta values', () {
-      expect(Direction.up.delta, equals(const Position(0, -1)));
-      expect(Direction.right.delta, equals(const Position(1, 0)));
-      expect(Direction.down.delta, equals(const Position(0, 1)));
-      expect(Direction.left.delta, equals(const Position(-1, 0)));
+      expect(GridDirection.up.delta, equals(const Position(0, -1)));
+      expect(GridDirection.right.delta, equals(const Position(1, 0)));
+      expect(GridDirection.down.delta, equals(const Position(0, 1)));
+      expect(GridDirection.left.delta, equals(const Position(-1, 0)));
     });
 
     test('should have correct names', () {
-      expect(Direction.up.name, equals('Up'));
-      expect(Direction.right.name, equals('Right'));
-      expect(Direction.down.name, equals('Down'));
-      expect(Direction.left.name, equals('Left'));
+      expect(GridDirection.up.name, equals('Up'));
+      expect(GridDirection.right.name, equals('Right'));
+      expect(GridDirection.down.name, equals('Down'));
+      expect(GridDirection.left.name, equals('Left'));
     });
 
     test('should return correct opposite directions', () {
-      expect(Direction.up.opposite, equals(Direction.down));
-      expect(Direction.down.opposite, equals(Direction.up));
-      expect(Direction.left.opposite, equals(Direction.right));
-      expect(Direction.right.opposite, equals(Direction.left));
+      expect(GridDirection.up.opposite, equals(GridDirection.down));
+      expect(GridDirection.down.opposite, equals(GridDirection.up));
+      expect(GridDirection.left.opposite, equals(GridDirection.right));
+      expect(GridDirection.right.opposite, equals(GridDirection.left));
     });
 
     test('should return correct clockwise directions', () {
-      expect(Direction.up.clockwise, equals(Direction.right));
-      expect(Direction.right.clockwise, equals(Direction.down));
-      expect(Direction.down.clockwise, equals(Direction.left));
-      expect(Direction.left.clockwise, equals(Direction.up));
+      expect(GridDirection.up.clockwise, equals(GridDirection.right));
+      expect(GridDirection.right.clockwise, equals(GridDirection.down));
+      expect(GridDirection.down.clockwise, equals(GridDirection.left));
+      expect(GridDirection.left.clockwise, equals(GridDirection.up));
     });
 
     test('should return correct counter-clockwise directions', () {
-      expect(Direction.up.counterClockwise, equals(Direction.left));
-      expect(Direction.left.counterClockwise, equals(Direction.down));
-      expect(Direction.down.counterClockwise, equals(Direction.right));
-      expect(Direction.right.counterClockwise, equals(Direction.up));
+      expect(GridDirection.up.counterClockwise, equals(GridDirection.left));
+      expect(GridDirection.left.counterClockwise, equals(GridDirection.down));
+      expect(GridDirection.down.counterClockwise, equals(GridDirection.right));
+      expect(GridDirection.right.counterClockwise, equals(GridDirection.up));
     });
   });
 
@@ -180,19 +180,19 @@ void main() {
 
         expect(
           GridUtils.getDirectionBetween(from, const Position(5, 4)),
-          equals(Direction.up),
+          equals(GridDirection.up),
         );
         expect(
           GridUtils.getDirectionBetween(from, const Position(6, 5)),
-          equals(Direction.right),
+          equals(GridDirection.right),
         );
         expect(
           GridUtils.getDirectionBetween(from, const Position(5, 6)),
-          equals(Direction.down),
+          equals(GridDirection.down),
         );
         expect(
           GridUtils.getDirectionBetween(from, const Position(4, 5)),
-          equals(Direction.left),
+          equals(GridDirection.left),
         );
       });
 
@@ -202,21 +202,21 @@ void main() {
         // More horizontal movement
         expect(
           GridUtils.getDirectionBetween(from, const Position(8, 6)),
-          equals(Direction.right),
+          equals(GridDirection.right),
         );
         expect(
           GridUtils.getDirectionBetween(from, const Position(2, 6)),
-          equals(Direction.left),
+          equals(GridDirection.left),
         );
 
         // More vertical movement
         expect(
           GridUtils.getDirectionBetween(from, const Position(6, 2)),
-          equals(Direction.up),
+          equals(GridDirection.up),
         );
         expect(
           GridUtils.getDirectionBetween(from, const Position(6, 8)),
-          equals(Direction.down),
+          equals(GridDirection.down),
         );
       });
 

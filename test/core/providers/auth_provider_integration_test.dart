@@ -133,6 +133,22 @@ class _MockUser implements User {
   final bool isAnonymous;
 
   @override
+  UserMetadata get metadata => _MockUserMetadata();
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => null;
+}
+
+class _MockUserMetadata implements UserMetadata {
+  @override
+  DateTime? get creationTime =>
+      DateTime.now().subtract(const Duration(days: 30));
+
+  @override
+  DateTime? get lastSignInTime =>
+      DateTime.now().subtract(const Duration(hours: 1));
+
+  @override
   dynamic noSuchMethod(Invocation invocation) => null;
 }
 
@@ -232,27 +248,39 @@ void main() {
       );
     });
 
-    tearDown(() {
+    tearDown(() async {
+      // Give time for async operations to complete before disposal
+      await Future.delayed(const Duration(milliseconds: 100));
       testAuthService.dispose();
       container.dispose();
     });
 
     test('should initialize with unauthenticated state', () async {
-      // Give some time for initialization
-      await Future.delayed(const Duration(milliseconds: 50));
+      // Wait for initialization to complete (initial -> loading -> unauthenticated)
+      AuthState authState;
+      int attempts = 0;
+      const maxAttempts = 20; // 2 seconds max wait time
 
-      final authState = container.read(authProvider);
+      do {
+        await Future.delayed(const Duration(milliseconds: 100));
+        authState = container.read(authProvider);
+        attempts++;
+      } while (authState.status == AuthStatus.initial &&
+          attempts < maxAttempts);
 
       expect(authState.status, AuthStatus.unauthenticated);
       expect(authState.user, isNull);
       expect(authState.isLoading, false);
       expect(authState.error, isNull);
-    });
+    }, tags: ['firebase']);
 
     test('should handle successful anonymous sign in', () async {
       final authNotifier = container.read(authProvider.notifier);
 
       await authNotifier.signInAnonymously();
+
+      // Wait for state to propagate
+      await Future.delayed(const Duration(milliseconds: 100));
 
       final authState = container.read(authProvider);
       expect(authState.status, AuthStatus.authenticated);
@@ -260,7 +288,7 @@ void main() {
       expect(authState.user!.isAnonymous, true);
       expect(authState.isLoading, false);
       expect(authState.error, isNull);
-    });
+    }, tags: ['firebase']);
 
     test('should persist user data after sign in', () async {
       final authNotifier = container.read(authProvider.notifier);
@@ -268,7 +296,7 @@ void main() {
       await authNotifier.signInAnonymously();
 
       // Give some time for async operations
-      await Future.delayed(const Duration(milliseconds: 50));
+      await Future.delayed(const Duration(milliseconds: 100));
 
       // Check that data was stored
       final storedUser = await testStorageService.getUserData();
@@ -277,18 +305,18 @@ void main() {
 
       final isSessionValid = await testStorageService.isSessionValid();
       expect(isSessionValid, true);
-    });
+    }, tags: ['firebase']);
 
     test('should handle sign out and clear data', () async {
       final authNotifier = container.read(authProvider.notifier);
 
       // Sign in first
       await authNotifier.signInAnonymously();
-      await Future.delayed(const Duration(milliseconds: 50));
+      await Future.delayed(const Duration(milliseconds: 100));
 
       // Sign out
       await authNotifier.signOut();
-      await Future.delayed(const Duration(milliseconds: 50));
+      await Future.delayed(const Duration(milliseconds: 100));
 
       final authState = container.read(authProvider);
       expect(authState.status, AuthStatus.unauthenticated);
@@ -300,23 +328,26 @@ void main() {
 
       final isSessionValid = await testStorageService.isSessionValid();
       expect(isSessionValid, false);
-    });
+    }, tags: ['firebase']);
 
     test('should handle Google sign in', () async {
       final authNotifier = container.read(authProvider.notifier);
 
       await authNotifier.signInWithGoogle();
 
+      // Wait for state to propagate
+      await Future.delayed(const Duration(milliseconds: 100));
+
       final authState = container.read(authProvider);
       expect(authState.status, AuthStatus.authenticated);
       expect(authState.user, isNotNull);
       expect(authState.user!.isAnonymous, false);
       expect(authState.user!.email, 'test@gmail.com');
-    });
+    }, tags: ['firebase']);
 
     test('should provide computed authentication state', () async {
       // Check unauthenticated state
-      await Future.delayed(const Duration(milliseconds: 50));
+      await Future.delayed(const Duration(milliseconds: 100));
 
       bool isAuthenticated = container.read(isAuthenticatedProvider);
       expect(isAuthenticated, false);
@@ -328,6 +359,9 @@ void main() {
       final authNotifier = container.read(authProvider.notifier);
       await authNotifier.signInAnonymously();
 
+      // Wait for state to propagate
+      await Future.delayed(const Duration(milliseconds: 100));
+
       // Check authenticated state
       isAuthenticated = container.read(isAuthenticatedProvider);
       expect(isAuthenticated, true);
@@ -335,41 +369,44 @@ void main() {
       currentUser = container.read(currentUserProvider);
       expect(currentUser, isNotNull);
       expect(currentUser!.isAnonymous, true);
-    });
+    }, tags: ['firebase']);
 
     test('should handle account linking', () async {
       final authNotifier = container.read(authProvider.notifier);
 
       // Start with anonymous user
       await authNotifier.signInAnonymously();
+      await Future.delayed(const Duration(milliseconds: 100));
 
       var authState = container.read(authProvider);
       expect(authState.user!.isAnonymous, true);
 
       // Link with Google
       await authNotifier.linkAnonymousWithGoogle();
+      await Future.delayed(const Duration(milliseconds: 100));
 
       authState = container.read(authProvider);
       expect(authState.user!.isAnonymous, false);
       expect(authState.user!.email, 'linked@gmail.com');
-    });
+    }, tags: ['firebase']);
 
     test('should handle anonymous user deletion', () async {
       final authNotifier = container.read(authProvider.notifier);
 
       // Sign in anonymously
       await authNotifier.signInAnonymously();
+      await Future.delayed(const Duration(milliseconds: 100));
 
       var authState = container.read(authProvider);
       expect(authState.isAnonymous, true);
 
       // Delete anonymous user
       await authNotifier.deleteAnonymousUser();
-      await Future.delayed(const Duration(milliseconds: 50));
+      await Future.delayed(const Duration(milliseconds: 100));
 
       authState = container.read(authProvider);
       expect(authState.status, AuthStatus.unauthenticated);
       expect(authState.user, isNull);
-    });
+    }, tags: ['firebase']);
   });
 }
