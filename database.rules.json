@@ -1,32 +1,59 @@
 {
   "rules": {
     "rooms": {
+      ".indexOn": [
+        "roomCode",
+        "createdAt",
+        "status"
+      ],
       "$roomId": {
         ".read": "auth != null && (data.child('players').child(auth.uid).exists() || !data.exists())",
         ".write": "auth != null",
         "players": {
+          ".indexOn": [
+            "joinedAt",
+            "isReady",
+            "isConnected"
+          ],
           "$playerId": {
             ".write": "auth != null && $playerId == auth.uid"
           }
         },
         "gameState": {
-          ".write": "auth != null && data.parent().child('players').child(auth.uid).exists()"
+          ".write": "auth != null && data.parent().child('players').child(auth.uid).exists()",
+          "snakes": {
+            ".indexOn": [
+              "alive",
+              "score"
+            ]
+          }
         }
       }
     },
     "users": {
+      ".indexOn": [
+        "lastActive"
+      ],
       "$userId": {
         ".read": "auth != null && $userId == auth.uid",
         ".write": "auth != null && $userId == auth.uid"
       }
     },
     "games": {
+      ".indexOn": [
+        "status",
+        "createdAt"
+      ],
       "$gameId": {
         ".read": "auth != null",
         ".write": "auth != null"
       }
     },
     "players": {
+      ".indexOn": [
+        "status",
+        "joinedAt"
+      ],
       "$uid": {
         ".read": "$uid === auth.uid",
         ".write": "$uid === auth.uid"
