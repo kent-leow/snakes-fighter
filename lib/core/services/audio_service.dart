@@ -48,6 +48,7 @@ class AudioService {
         _players[entry.key] = player;
       } catch (e) {
         // Gracefully handle missing audio files during development
+        // ignore: avoid_print
         print('Warning: Could not load audio file ${entry.value}: $e');
       }
     }
@@ -66,6 +67,7 @@ class AudioService {
         await player.seek(Duration.zero);
         await player.resume();
       } catch (e) {
+        // ignore: avoid_print
         print('Warning: Could not play sound $soundId: $e');
       }
     }

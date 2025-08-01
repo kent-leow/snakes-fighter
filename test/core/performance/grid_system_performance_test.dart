@@ -31,6 +31,7 @@ void main() {
           1000; // Convert to milliseconds
 
       expect(avgTime, lessThan(GridConstants.maxCoordinateCalculationTime));
+      // ignore: avoid_print
       print(
         'Average coordinate conversion time: ${avgTime.toStringAsFixed(3)}ms',
       );
@@ -52,6 +53,7 @@ void main() {
       final avgTime = stopwatch.elapsedMicroseconds / positions.length / 1000;
 
       expect(avgTime, lessThan(GridConstants.maxCoordinateCalculationTime));
+      // ignore: avoid_print
       print(
         'Average distance calculation time: ${avgTime.toStringAsFixed(3)}ms',
       );
@@ -73,6 +75,7 @@ void main() {
       final avgTime = stopwatch.elapsedMicroseconds / positions.length / 1000;
 
       expect(avgTime, lessThan(GridConstants.maxCoordinateCalculationTime));
+      // ignore: avoid_print
       print(
         'Average neighbor calculation time: ${avgTime.toStringAsFixed(3)}ms',
       );

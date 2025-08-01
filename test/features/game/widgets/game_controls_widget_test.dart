@@ -18,17 +18,19 @@ void main() {
     });
 
     testWidgets('should display start button in menu state', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: GameControlsWidget(
-            gameState: GameState.menu,
-            onPause: () => pauseCalled = true,
-            onResume: () => resumeCalled = true,
-            onRestart: () => restartCalled = true,
-            onStart: () => startCalled = true,
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: GameControlsWidget(
+              gameState: GameState.menu,
+              onPause: () => pauseCalled = true,
+              onResume: () => resumeCalled = true,
+              onRestart: () => restartCalled = true,
+              onStart: () => startCalled = true,
+            ),
           ),
         ),
-      ));
+      );
 
       expect(find.text('Start'), findsOneWidget);
       expect(find.byIcon(Icons.play_arrow), findsOneWidget);
@@ -38,16 +40,18 @@ void main() {
     });
 
     testWidgets('should display pause button in playing state', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: GameControlsWidget(
-            gameState: GameState.playing,
-            onPause: () => pauseCalled = true,
-            onResume: () => resumeCalled = true,
-            onRestart: () => restartCalled = true,
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: GameControlsWidget(
+              gameState: GameState.playing,
+              onPause: () => pauseCalled = true,
+              onResume: () => resumeCalled = true,
+              onRestart: () => restartCalled = true,
+            ),
           ),
         ),
-      ));
+      );
 
       expect(find.text('Pause'), findsOneWidget);
       expect(find.byIcon(Icons.pause), findsOneWidget);
@@ -56,17 +60,21 @@ void main() {
       expect(pauseCalled, isTrue);
     });
 
-    testWidgets('should display resume and restart buttons in paused state', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: GameControlsWidget(
-            gameState: GameState.paused,
-            onPause: () => pauseCalled = true,
-            onResume: () => resumeCalled = true,
-            onRestart: () => restartCalled = true,
+    testWidgets('should display resume and restart buttons in paused state', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: GameControlsWidget(
+              gameState: GameState.paused,
+              onPause: () => pauseCalled = true,
+              onResume: () => resumeCalled = true,
+              onRestart: () => restartCalled = true,
+            ),
           ),
         ),
-      ));
+      );
 
       expect(find.text('Resume'), findsOneWidget);
       expect(find.text('Restart'), findsOneWidget);
@@ -78,17 +86,21 @@ void main() {
       expect(restartCalled, isTrue);
     });
 
-    testWidgets('should display play again button in game over state', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: GameControlsWidget(
-            gameState: GameState.gameOver,
-            onPause: () => pauseCalled = true,
-            onResume: () => resumeCalled = true,
-            onRestart: () => restartCalled = true,
+    testWidgets('should display play again button in game over state', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: GameControlsWidget(
+              gameState: GameState.gameOver,
+              onPause: () => pauseCalled = true,
+              onResume: () => resumeCalled = true,
+              onRestart: () => restartCalled = true,
+            ),
           ),
         ),
-      ));
+      );
 
       expect(find.text('Play Again'), findsOneWidget);
       expect(find.byIcon(Icons.replay), findsOneWidget);
@@ -98,50 +110,65 @@ void main() {
     });
 
     testWidgets('should hide controls during restarting state', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: GameControlsWidget(
-            gameState: GameState.restarting,
-            onPause: () => pauseCalled = true,
-            onResume: () => resumeCalled = true,
-            onRestart: () => restartCalled = true,
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: GameControlsWidget(
+              gameState: GameState.restarting,
+              onPause: () => pauseCalled = true,
+              onResume: () => resumeCalled = true,
+              onRestart: () => restartCalled = true,
+            ),
           ),
         ),
-      ));
+      );
 
       expect(find.byType(ElevatedButton), findsNothing);
       expect(find.byType(SizedBox), findsOneWidget);
     });
 
-    testWidgets('should layout buttons in column when showAsRow is false', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: GameControlsWidget(
-            gameState: GameState.paused,
-            onPause: () => pauseCalled = true,
-            onResume: () => resumeCalled = true,
-            onRestart: () => restartCalled = true,
-            showAsRow: false,
+    testWidgets('should layout buttons in column when showAsRow is false', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: GameControlsWidget(
+              gameState: GameState.paused,
+              onPause: () => pauseCalled = true,
+              onResume: () => resumeCalled = true,
+              onRestart: () => restartCalled = true,
+              showAsRow: false,
+            ),
           ),
         ),
-      ));
+      );
 
       expect(find.byType(Column), findsOneWidget);
-      expect(find.byType(Row), findsNothing);
+      // ElevatedButton.icon internally uses Row, so we check for the main layout structure
+      expect(
+        find.descendant(
+          of: find.byType(GameControlsWidget),
+          matching: find.byType(Column),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('should use custom button spacing', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: GameControlsWidget(
-            gameState: GameState.paused,
-            onPause: () => pauseCalled = true,
-            onResume: () => resumeCalled = true,
-            onRestart: () => restartCalled = true,
-            buttonSpacing: 20,
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: GameControlsWidget(
+              gameState: GameState.paused,
+              onPause: () => pauseCalled = true,
+              onResume: () => resumeCalled = true,
+              onRestart: () => restartCalled = true,
+              buttonSpacing: 20,
+            ),
           ),
         ),
-      ));
+      );
 
       // Check that SizedBox with custom width exists
       final sizedBoxes = find.byType(SizedBox);
@@ -161,16 +188,18 @@ void main() {
     });
 
     testWidgets('should display pause button in playing state', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: CompactGameControlsWidget(
-            gameState: GameState.playing,
-            onPause: () => pauseCalled = true,
-            onResume: () => resumeCalled = true,
-            onRestart: () => restartCalled = true,
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CompactGameControlsWidget(
+              gameState: GameState.playing,
+              onPause: () => pauseCalled = true,
+              onResume: () => resumeCalled = true,
+              onRestart: () => restartCalled = true,
+            ),
           ),
         ),
-      ));
+      );
 
       expect(find.byIcon(Icons.pause), findsOneWidget);
       expect(find.byType(IconButton), findsOneWidget);
@@ -180,16 +209,18 @@ void main() {
     });
 
     testWidgets('should display resume button in paused state', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: CompactGameControlsWidget(
-            gameState: GameState.paused,
-            onPause: () => pauseCalled = true,
-            onResume: () => resumeCalled = true,
-            onRestart: () => restartCalled = true,
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CompactGameControlsWidget(
+              gameState: GameState.paused,
+              onPause: () => pauseCalled = true,
+              onResume: () => resumeCalled = true,
+              onRestart: () => restartCalled = true,
+            ),
           ),
         ),
-      ));
+      );
 
       expect(find.byIcon(Icons.play_arrow), findsOneWidget);
 
@@ -197,17 +228,21 @@ void main() {
       expect(resumeCalled, isTrue);
     });
 
-    testWidgets('should display restart button in game over state', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: CompactGameControlsWidget(
-            gameState: GameState.gameOver,
-            onPause: () => pauseCalled = true,
-            onResume: () => resumeCalled = true,
-            onRestart: () => restartCalled = true,
+    testWidgets('should display restart button in game over state', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CompactGameControlsWidget(
+              gameState: GameState.gameOver,
+              onPause: () => pauseCalled = true,
+              onResume: () => resumeCalled = true,
+              onRestart: () => restartCalled = true,
+            ),
           ),
         ),
-      ));
+      );
 
       expect(find.byIcon(Icons.replay), findsOneWidget);
 
@@ -217,16 +252,18 @@ void main() {
 
     testWidgets('should hide in menu and restarting states', (tester) async {
       for (final state in [GameState.menu, GameState.restarting]) {
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: CompactGameControlsWidget(
-              gameState: state,
-              onPause: () => pauseCalled = true,
-              onResume: () => resumeCalled = true,
-              onRestart: () => restartCalled = true,
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: CompactGameControlsWidget(
+                gameState: state,
+                onPause: () => pauseCalled = true,
+                onResume: () => resumeCalled = true,
+                onRestart: () => restartCalled = true,
+              ),
             ),
           ),
-        ));
+        );
 
         expect(find.byType(SizedBox), findsOneWidget);
         expect(find.byType(IconButton), findsNothing);
@@ -236,17 +273,19 @@ void main() {
     testWidgets('should use custom button size', (tester) async {
       const customSize = 60.0;
 
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: CompactGameControlsWidget(
-            gameState: GameState.playing,
-            onPause: () => pauseCalled = true,
-            onResume: () => resumeCalled = true,
-            onRestart: () => restartCalled = true,
-            buttonSize: customSize,
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CompactGameControlsWidget(
+              gameState: GameState.playing,
+              onPause: () => pauseCalled = true,
+              onResume: () => resumeCalled = true,
+              onRestart: () => restartCalled = true,
+              buttonSize: customSize,
+            ),
           ),
         ),
-      ));
+      );
 
       final containerWidget = tester.widget<Container>(
         find.ancestor(
@@ -271,17 +310,21 @@ void main() {
       restartCalled = false;
     });
 
-    testWidgets('should display floating pause button in playing state', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: FloatingGameControlsWidget(
-            gameState: GameState.playing,
-            onPause: () => pauseCalled = true,
-            onResume: () => resumeCalled = true,
-            onRestart: () => restartCalled = true,
+    testWidgets('should display floating pause button in playing state', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FloatingGameControlsWidget(
+              gameState: GameState.playing,
+              onPause: () => pauseCalled = true,
+              onResume: () => resumeCalled = true,
+              onRestart: () => restartCalled = true,
+            ),
           ),
         ),
-      ));
+      );
 
       expect(find.byType(FloatingActionButton), findsOneWidget);
       expect(find.byIcon(Icons.pause), findsOneWidget);
@@ -290,17 +333,21 @@ void main() {
       expect(pauseCalled, isTrue);
     });
 
-    testWidgets('should display floating resume button in paused state', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: FloatingGameControlsWidget(
-            gameState: GameState.paused,
-            onPause: () => pauseCalled = true,
-            onResume: () => resumeCalled = true,
-            onRestart: () => restartCalled = true,
+    testWidgets('should display floating resume button in paused state', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FloatingGameControlsWidget(
+              gameState: GameState.paused,
+              onPause: () => pauseCalled = true,
+              onResume: () => resumeCalled = true,
+              onRestart: () => restartCalled = true,
+            ),
           ),
         ),
-      ));
+      );
 
       expect(find.byIcon(Icons.play_arrow), findsOneWidget);
 
@@ -308,17 +355,21 @@ void main() {
       expect(resumeCalled, isTrue);
     });
 
-    testWidgets('should display floating restart button in game over state', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: FloatingGameControlsWidget(
-            gameState: GameState.gameOver,
-            onPause: () => pauseCalled = true,
-            onResume: () => resumeCalled = true,
-            onRestart: () => restartCalled = true,
+    testWidgets('should display floating restart button in game over state', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FloatingGameControlsWidget(
+              gameState: GameState.gameOver,
+              onPause: () => pauseCalled = true,
+              onResume: () => resumeCalled = true,
+              onRestart: () => restartCalled = true,
+            ),
           ),
         ),
-      ));
+      );
 
       expect(find.byIcon(Icons.replay), findsOneWidget);
 
@@ -328,16 +379,18 @@ void main() {
 
     testWidgets('should hide in menu and restarting states', (tester) async {
       for (final state in [GameState.menu, GameState.restarting]) {
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: FloatingGameControlsWidget(
-              gameState: state,
-              onPause: () => pauseCalled = true,
-              onResume: () => resumeCalled = true,
-              onRestart: () => restartCalled = true,
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: FloatingGameControlsWidget(
+                gameState: state,
+                onPause: () => pauseCalled = true,
+                onResume: () => resumeCalled = true,
+                onRestart: () => restartCalled = true,
+              ),
             ),
           ),
-        ));
+        );
 
         expect(find.byType(SizedBox), findsOneWidget);
         expect(find.byType(FloatingActionButton), findsNothing);

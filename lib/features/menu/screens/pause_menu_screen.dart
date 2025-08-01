@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/navigation/navigation_service.dart';
-
 /// Pause menu screen that overlays the game when paused.
 ///
 /// Provides options to resume, restart, or return to main menu
@@ -10,7 +8,7 @@ class PauseMenuScreen extends StatelessWidget {
   final VoidCallback onResume;
   final VoidCallback onRestart;
   final VoidCallback onMainMenu;
-  
+
   const PauseMenuScreen({
     super.key,
     required this.onResume,
@@ -47,7 +45,7 @@ class PauseMenuScreen extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildPauseTitle(BuildContext context) {
     return Column(
       children: [
@@ -67,32 +65,34 @@ class PauseMenuScreen extends StatelessWidget {
       ],
     );
   }
-  
+
   Widget _buildPauseMenuButtons() {
-    return Column(
-      children: [
-        _buildPauseMenuButton(
-          'Resume',
-          icon: Icons.play_arrow,
-          onPressed: onResume,
-          isPrimary: true,
-        ),
-        const SizedBox(height: 12),
-        _buildPauseMenuButton(
-          'Restart',
-          icon: Icons.refresh,
-          onPressed: () => _showRestartConfirmation(),
-        ),
-        const SizedBox(height: 12),
-        _buildPauseMenuButton(
-          'Main Menu',
-          icon: Icons.home,
-          onPressed: () => _showMainMenuConfirmation(),
-        ),
-      ],
+    return Builder(
+      builder: (context) => Column(
+        children: [
+          _buildPauseMenuButton(
+            'Resume',
+            icon: Icons.play_arrow,
+            onPressed: onResume,
+            isPrimary: true,
+          ),
+          const SizedBox(height: 12),
+          _buildPauseMenuButton(
+            'Restart',
+            icon: Icons.refresh,
+            onPressed: () => _showRestartConfirmation(context),
+          ),
+          const SizedBox(height: 12),
+          _buildPauseMenuButton(
+            'Main Menu',
+            icon: Icons.home,
+            onPressed: () => _showMainMenuConfirmation(context),
+          ),
+        ],
+      ),
     );
   }
-  
+
   Widget _buildPauseMenuButton(
     String text, {
     required IconData icon,
@@ -141,11 +141,8 @@ class PauseMenuScreen extends StatelessWidget {
             ),
     );
   }
-  
-  void _showRestartConfirmation() {
-    final context = NavigationService.navigatorKey.currentContext;
-    if (context == null) return;
-    
+
+  void _showRestartConfirmation(BuildContext context) {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -172,11 +169,8 @@ class PauseMenuScreen extends StatelessWidget {
       ),
     );
   }
-  
-  void _showMainMenuConfirmation() {
-    final context = NavigationService.navigatorKey.currentContext;
-    if (context == null) return;
-    
+
+  void _showMainMenuConfirmation(BuildContext context) {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -194,9 +188,7 @@ class PauseMenuScreen extends StatelessWidget {
               Navigator.of(dialogContext).pop();
               onMainMenu();
             },
-            style: TextButton.styleFrom(
-              foregroundColor: Colors.red.shade600,
-            ),
+            style: TextButton.styleFrom(foregroundColor: Colors.red.shade600),
             child: const Text('Main Menu'),
           ),
         ],

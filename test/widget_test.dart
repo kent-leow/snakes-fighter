@@ -13,12 +13,11 @@ void main() {
   testWidgets('App launches successfully', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const SnakesFightApp());
+    await tester.pumpAndSettle();
 
-    // Verify that the welcome text is displayed.
-    expect(find.text('Welcome to Snakes Fight!'), findsOneWidget);
-    expect(find.text('A multiplayer Snake game'), findsOneWidget);
-
-    // Verify that the app bar title is correct.
-    expect(find.text('Snakes Fight'), findsOneWidget);
+    // Verify that main menu buttons are displayed
+    expect(find.text('PLAY'), findsOneWidget);
+    expect(find.text('SETTINGS'), findsOneWidget);
+    expect(find.text('EXIT'), findsOneWidget);
   });
 }

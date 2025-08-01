@@ -51,7 +51,7 @@ void main() {
         expect(find.byType(GameInputWidget), findsOneWidget);
         expect(find.byType(GameCanvas), findsOneWidget);
         expect(find.byType(GestureDetector), findsOneWidget);
-        expect(find.byType(RawKeyboardListener), findsOneWidget);
+        expect(find.byType(KeyboardListener), findsOneWidget);
 
         // Test touch interaction
         await tester.drag(find.byType(GameCanvas), const Offset(100, 0));

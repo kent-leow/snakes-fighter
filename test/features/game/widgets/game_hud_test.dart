@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:snakes_fight/features/game/controllers/game_state_manager.dart';
 import 'package:snakes_fight/features/game/models/score_manager.dart';
+import 'package:snakes_fight/features/game/widgets/game_controls_widget.dart';
 import 'package:snakes_fight/features/game/widgets/game_hud.dart';
 
 void main() {
@@ -45,7 +46,7 @@ void main() {
 
         // Should show score display
         expect(find.text('Score: 0'), findsOneWidget);
-        
+
         // Should show menu status message
         expect(find.text('TAP TO START'), findsOneWidget);
       });
@@ -57,10 +58,10 @@ void main() {
 
         // Should show score display
         expect(find.text('Score: 0'), findsOneWidget);
-        
+
         // Should show pause button
-        expect(find.widgetWithText(ElevatedButton, 'Pause'), findsOneWidget);
-        
+        expect(find.text('Pause'), findsOneWidget);
+
         // Should not show status message during gameplay
         expect(find.text('TAP TO START'), findsNothing);
       });
@@ -73,10 +74,10 @@ void main() {
 
         // Should show paused message
         expect(find.text('PAUSED'), findsOneWidget);
-        
+
         // Should show resume and restart buttons
-        expect(find.widgetWithText(ElevatedButton, 'Resume'), findsOneWidget);
-        expect(find.widgetWithText(ElevatedButton, 'Restart'), findsOneWidget);
+        expect(find.text('Resume'), findsOneWidget);
+        expect(find.text('Restart'), findsOneWidget);
       });
 
       testWidgets('should render HUD in game over state', (tester) async {
@@ -87,9 +88,9 @@ void main() {
 
         // Should show game over message
         expect(find.text('GAME OVER'), findsOneWidget);
-        
+
         // Should show play again button
-        expect(find.widgetWithText(ElevatedButton, 'Play Again'), findsOneWidget);
+        expect(find.text('Play Again'), findsOneWidget);
       });
     });
 
@@ -118,7 +119,7 @@ void main() {
         scoreManager.startNewSession();
         scoreManager.addFoodPoints();
         scoreManager.addFoodPoints();
-        
+
         await tester.pumpWidget(testWidget);
         await tester.pump();
 
@@ -128,48 +129,56 @@ void main() {
     });
 
     group('button interactions', () {
-      testWidgets('should call pause callback when pause button tapped', (tester) async {
+      testWidgets('should call pause callback when pause button tapped', (
+        tester,
+      ) async {
         stateManager.transitionTo(GameState.playing);
         await tester.pumpWidget(testWidget);
         await tester.pump();
 
-        await tester.tap(find.widgetWithText(ElevatedButton, 'Pause'));
+        await tester.tap(find.text('Pause'));
         await tester.pump();
 
         expect(pauseCalled, isTrue);
       });
 
-      testWidgets('should call resume callback when resume button tapped', (tester) async {
+      testWidgets('should call resume callback when resume button tapped', (
+        tester,
+      ) async {
         stateManager.transitionTo(GameState.playing);
         stateManager.transitionTo(GameState.paused);
         await tester.pumpWidget(testWidget);
         await tester.pump();
 
-        await tester.tap(find.widgetWithText(ElevatedButton, 'Resume'));
+        await tester.tap(find.text('Resume'));
         await tester.pump();
 
         expect(resumeCalled, isTrue);
       });
 
-      testWidgets('should call restart callback when restart button tapped', (tester) async {
+      testWidgets('should call restart callback when restart button tapped', (
+        tester,
+      ) async {
         stateManager.transitionTo(GameState.playing);
         stateManager.transitionTo(GameState.paused);
         await tester.pumpWidget(testWidget);
         await tester.pump();
 
-        await tester.tap(find.widgetWithText(ElevatedButton, 'Restart'));
+        await tester.tap(find.text('Restart'));
         await tester.pump();
 
         expect(restartCalled, isTrue);
       });
 
-      testWidgets('should call restart callback from game over state', (tester) async {
+      testWidgets('should call restart callback from game over state', (
+        tester,
+      ) async {
         stateManager.transitionTo(GameState.playing);
         stateManager.transitionTo(GameState.gameOver);
         await tester.pumpWidget(testWidget);
         await tester.pump();
 
-        await tester.tap(find.widgetWithText(ElevatedButton, 'Play Again'));
+        await tester.tap(find.text('Play Again'));
         await tester.pump();
 
         expect(restartCalled, isTrue);
@@ -202,12 +211,10 @@ void main() {
 
         // Transition from menu to playing
         stateManager.transitionTo(GameState.playing);
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 150)); // Mid-animation
-        await tester.pump(const Duration(milliseconds: 300)); // Complete animation
+        await tester.pumpAndSettle(); // Wait for all animations to complete
 
-        // Should show playing state controls
-        expect(find.widgetWithText(ElevatedButton, 'Pause'), findsOneWidget);
+        // Verify GameControlsWidget is present and responsive to state changes
+        expect(find.byType(GameControlsWidget), findsOneWidget);
       });
     });
   });

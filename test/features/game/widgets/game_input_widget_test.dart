@@ -58,7 +58,7 @@ void main() {
         expect(find.byType(GestureDetector), findsOneWidget);
 
         // Should have keyboard listener for keyboard input
-        expect(find.byType(RawKeyboardListener), findsOneWidget);
+        expect(find.byType(KeyboardListener), findsOneWidget);
       });
 
       testWidgets('should include visual feedback when enabled', (
@@ -180,10 +180,10 @@ void main() {
         );
 
         // Find the keyboard listener
-        final keyboardListener = find.byType(RawKeyboardListener);
+        final keyboardListener = find.byType(KeyboardListener);
         expect(keyboardListener, findsOneWidget);
 
-        final widget = tester.widget<RawKeyboardListener>(keyboardListener);
+        final widget = tester.widget<KeyboardListener>(keyboardListener);
         expect(widget.autofocus, isTrue);
       });
     });

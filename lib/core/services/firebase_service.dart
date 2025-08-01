@@ -56,6 +56,7 @@ class FirebaseService {
       await _analytics.logEvent(name: name, parameters: parameters);
     } catch (e) {
       // Analytics errors should not crash the app
+      // ignore: avoid_print
       print('Analytics error: $e');
     }
   }
@@ -64,6 +65,7 @@ class FirebaseService {
     try {
       await _analytics.setUserId(id: userId);
     } catch (e) {
+      // ignore: avoid_print
       print('Analytics error setting user ID: $e');
     }
   }
@@ -72,6 +74,7 @@ class FirebaseService {
     try {
       await _analytics.setUserProperty(name: name, value: value);
     } catch (e) {
+      // ignore: avoid_print
       print('Analytics error setting user property: $e');
     }
   }
