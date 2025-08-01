@@ -88,7 +88,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
         const SizedBox(height: 8),
         Text(
           'v${AppConstants.appVersion}',
-          style: TextStyle(fontSize: 16, color: Colors.white.withOpacity(0.8)),
+          style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: 0.8)),
         ),
       ],
     );

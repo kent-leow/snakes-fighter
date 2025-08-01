@@ -77,7 +77,7 @@ void main() {
         ).first,
       );
       
-      expect(container.color, Colors.black.withOpacity(0.8));
+      expect(container.color, Colors.black.withValues(alpha: 0.8));
     });
     
     testWidgets('should call resume callback when resume is pressed', (tester) async {

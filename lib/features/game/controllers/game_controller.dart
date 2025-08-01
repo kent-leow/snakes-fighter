@@ -72,6 +72,9 @@ class GameController extends ChangeNotifier {
   /// Gets the current game state.
   GameState get currentState => _stateManager.currentState;
 
+  /// Alias for currentState to maintain backward compatibility with tests.
+  GameState get gameState => _stateManager.currentState;
+
   /// Gets the state manager.
   GameStateManager get stateManager => _stateManager;
 
@@ -186,6 +189,12 @@ class GameController extends ChangeNotifier {
   bool changeSnakeDirection(Direction direction) {
     if (!isPlaying) return false;
     return _snake.changeDirection(direction);
+  }
+
+  /// Steps the game by one frame for testing purposes.
+  void stepGame() {
+    if (!isPlaying) return;
+    _gameTick(const Duration(milliseconds: 16)); // Simulate ~60fps frame
   }
 
   // Public API - Validation & Stats

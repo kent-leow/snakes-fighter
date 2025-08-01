@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:snakes_fight/core/utils/grid_system.dart';
 import 'package:snakes_fight/features/game/controllers/game_controller.dart';
+import 'package:snakes_fight/features/game/controllers/game_state_manager.dart';
 import 'package:snakes_fight/features/game/controllers/input_controller.dart';
 import 'package:snakes_fight/features/game/models/direction.dart';
 

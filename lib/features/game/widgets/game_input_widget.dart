@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../controllers/game_controller.dart';
 import '../input/adaptive_input_manager.dart';
@@ -85,27 +84,10 @@ class _GameInputWidgetState extends State<GameInputWidget> {
     }
   }
 
-  void _handleRawKeyEvent(RawKeyEvent event) {
+  void _handleKeyEvent(KeyEvent event) {
     final keyboardHandler = _inputManager.getController<KeyboardInputHandler>();
     if (keyboardHandler != null && keyboardHandler.isActive) {
-      // Convert RawKeyEvent to KeyEvent for the handler
-      if (event is RawKeyDownEvent) {
-        keyboardHandler.handleKeyEvent(
-          KeyDownEvent(
-            logicalKey: event.logicalKey,
-            physicalKey: event.physicalKey,
-            timeStamp: Duration.zero,
-          ),
-        );
-      } else if (event is RawKeyUpEvent) {
-        keyboardHandler.handleKeyEvent(
-          KeyUpEvent(
-            logicalKey: event.logicalKey,
-            physicalKey: event.physicalKey,
-            timeStamp: Duration.zero,
-          ),
-        );
-      }
+      keyboardHandler.handleKeyEvent(event);
     }
   }
 
@@ -157,9 +139,9 @@ class _GameInputWidgetState extends State<GameInputWidget> {
     );
 
     // Wrap with keyboard listener for keyboard input
-    gameWidget = RawKeyboardListener(
+    gameWidget = KeyboardListener(
       focusNode: _focusNode,
-      onKey: _handleRawKeyEvent,
+      onKeyEvent: _handleKeyEvent,
       autofocus: true,
       child: gameWidget,
     );

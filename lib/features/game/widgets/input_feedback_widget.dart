@@ -198,7 +198,7 @@ class DirectionalFeedbackPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = color.withOpacity(progress * 0.8)
+      ..color = color.withValues(alpha: progress * 0.8)
       ..strokeWidth = 4.0
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
@@ -278,7 +278,7 @@ class SwipeTrailPainter extends CustomPainter {
     if (trail.length < 2) return;
 
     final paint = Paint()
-      ..color = color.withOpacity((1.0 - progress) * 0.6)
+      ..color = color.withValues(alpha: (1.0 - progress) * 0.6)
       ..strokeWidth = 6.0 * (1.0 - progress)
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
@@ -294,7 +294,7 @@ class SwipeTrailPainter extends CustomPainter {
 
     // Draw dots along the trail
     final dotPaint = Paint()
-      ..color = color.withOpacity((1.0 - progress) * 0.8)
+      ..color = color.withValues(alpha: (1.0 - progress) * 0.8)
       ..style = PaintingStyle.fill;
 
     for (int i = 0; i < trail.length; i += 3) {

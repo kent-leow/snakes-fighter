@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 /// game navigation without interfering with gameplay.
 class GridRenderer {
   // Grid colors
-  static const Color _gridLineColor = Color(0xFF424242);     // Dark gray
+  static const Color _gridLineColor = Color(0xFF424242); // Dark gray
   static const Color _gridBackgroundColor = Color(0xFF212121); // Very dark gray
-  
+
   // Visual properties
   static const double _gridLineWidth = 0.5;
   static const double _gridOpacity = 0.3;
@@ -27,7 +27,7 @@ class GridRenderer {
   ) {
     // Draw background
     _renderGridBackground(canvas, canvasSize);
-    
+
     // Draw grid lines
     _renderGridLines(canvas, canvasSize, gridSize, cellSize);
   }
@@ -35,9 +35,9 @@ class GridRenderer {
   /// Renders a subtle background for the grid.
   static void _renderGridBackground(Canvas canvas, Size canvasSize) {
     final backgroundPaint = Paint()
-      ..color = _gridBackgroundColor.withOpacity(_gridOpacity)
+      ..color = _gridBackgroundColor.withValues(alpha: _gridOpacity)
       ..style = PaintingStyle.fill;
-    
+
     canvas.drawRect(
       Rect.fromLTWH(0, 0, canvasSize.width, canvasSize.height),
       backgroundPaint,
@@ -52,7 +52,7 @@ class GridRenderer {
     Size cellSize,
   ) {
     final linePaint = Paint()
-      ..color = _gridLineColor.withOpacity(_gridOpacity)
+      ..color = _gridLineColor.withValues(alpha: _gridOpacity)
       ..strokeWidth = _gridLineWidth
       ..style = PaintingStyle.stroke;
 
@@ -92,16 +92,16 @@ class GridRenderer {
     Color color,
   ) {
     final highlightPaint = Paint()
-      ..color = color.withOpacity(0.3)
+      ..color = color.withValues(alpha: 0.3)
       ..style = PaintingStyle.fill;
-    
+
     final rect = Rect.fromLTWH(
       x * cellSize.width,
       y * cellSize.height,
       cellSize.width,
       cellSize.height,
     );
-    
+
     canvas.drawRect(rect, highlightPaint);
   }
 
@@ -138,7 +138,7 @@ class GridRenderer {
       ..color = color
       ..strokeWidth = width
       ..style = PaintingStyle.stroke;
-    
+
     canvas.drawRect(
       Rect.fromLTWH(0, 0, canvasSize.width, canvasSize.height),
       borderPaint,
@@ -163,18 +163,18 @@ class GridRenderer {
       for (int y = 0; y < gridSize.height; y++) {
         final isEven = (x + y) % 2 == 0;
         final color = isEven ? lightColor : darkColor;
-        
+
         final paint = Paint()
           ..color = color
           ..style = PaintingStyle.fill;
-        
+
         final rect = Rect.fromLTWH(
           x * cellSize.width,
           y * cellSize.height,
           cellSize.width,
           cellSize.height,
         );
-        
+
         canvas.drawRect(rect, paint);
       }
     }
@@ -195,20 +195,17 @@ class GridRenderer {
     for (int x = 0; x < gridSize.width; x++) {
       for (int y = 0; y < gridSize.height; y++) {
         final textPainter = TextPainter(
-          text: TextSpan(
-            text: '($x,$y)',
-            style: textStyle,
-          ),
+          text: TextSpan(text: '($x,$y)', style: textStyle),
           textDirection: TextDirection.ltr,
         );
-        
+
         textPainter.layout();
-        
+
         final offset = Offset(
           x * cellSize.width + (cellSize.width - textPainter.width) / 2,
           y * cellSize.height + (cellSize.height - textPainter.height) / 2,
         );
-        
+
         textPainter.paint(canvas, offset);
       }
     }
@@ -226,10 +223,10 @@ class GridRenderer {
     if (screenPosition.dx < 0 || screenPosition.dy < 0) {
       return null;
     }
-    
+
     final x = (screenPosition.dx / cellSize.width).floor();
     final y = (screenPosition.dy / cellSize.height).floor();
-    
+
     return (x, y);
   }
 

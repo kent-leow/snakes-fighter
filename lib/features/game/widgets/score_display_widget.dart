@@ -51,7 +51,7 @@ class ScoreDisplayWidget extends StatelessWidget {
                 context,
                 'Best: $highScore',
                 highScoreTextStyle ?? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
               ),
             ],
@@ -152,7 +152,7 @@ class _AnimatedScoreDisplayWidgetState extends State<AnimatedScoreDisplayWidget>
     
     _colorAnimation = ColorTween(
       begin: Colors.green,
-      end: Colors.green.withOpacity(0.0),
+      end: Colors.green.withValues(alpha: 0.0),
     ).animate(_animationController);
   }
 
