@@ -49,6 +49,21 @@ A real-time multiplayer Snake game built with **Flutter** and **Firebase** that 
 ### Backend & Services
 - **Database**: Firebase Realtime Database (game state sync)
 - **Authentication**: Firebase Auth (anonymous + Google Sign-In)
+
+## 🔒 Security & Setup
+
+### Firebase Credentials
+This project uses Firebase but **does not commit credentials to version control**. You must set up your own Firebase project:
+
+1. **Quick Setup**: Run `./scripts/setup-credentials.sh`
+2. **Manual Setup**: See [FIREBASE_SETUP.md](FIREBASE_SETUP.md)
+3. **Verify Security**: Run `./scripts/verify-security.sh`
+
+### Security Features
+- ✅ Comprehensive Firebase security rules
+- ✅ No API keys or credentials in git history
+- ✅ Authentication required for all operations
+- ✅ Data isolation between users and rooms
 - **Game Logic**: Firebase Cloud Functions (move validation, game orchestration)
 - **Hosting**: Firebase Hosting (web deployment)
 - **Analytics**: Firebase Analytics
