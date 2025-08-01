@@ -1,4 +1,3 @@
-````markdown
 ---
 status: Done
 completed_date: 2025-07-31T10:00:00Z
