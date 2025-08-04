@@ -229,6 +229,17 @@ class MockDatabaseService extends _i1.Mock implements _i4.DatabaseService {
               ),
             ),
       ) as _i3.Future<T>);
+
+  @override
+  _i3.Future<void> batchUpdate(Map<String, dynamic>? updates) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #batchUpdate,
+          [updates],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
 }
 
 /// A class which mocks [AuthService].

@@ -85,6 +85,9 @@ abstract class DatabaseService {
   // Transaction operations
   /// Runs an atomic database operation.
   Future<T> runAtomicOperation<T>(Future<T> Function() operation);
+
+  /// Performs a batch update operation on multiple paths.
+  Future<void> batchUpdate(Map<String, dynamic> updates);
 }
 
 /// Firebase implementation of the database service.
