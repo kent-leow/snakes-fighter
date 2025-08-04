@@ -68,4 +68,24 @@ extension DirectionExtension on Direction {
         return const Position(1, 0);
     }
   }
+  
+  /// Checks if this direction can change to the given direction.
+  /// Prevents 180-degree turns (backwards movement).
+  bool canChangeTo(Direction newDirection) {
+    return this != newDirection.opposite;
+  }
+  
+  /// Gets the change in x,y coordinates for one step in this direction.
+  (int, int) get delta {
+    switch (this) {
+      case Direction.up:
+        return (0, -1);
+      case Direction.down:
+        return (0, 1);
+      case Direction.left:
+        return (-1, 0);
+      case Direction.right:
+        return (1, 0);
+    }
+  }
 }
