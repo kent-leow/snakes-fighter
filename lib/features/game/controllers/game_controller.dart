@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../../core/models/position.dart';
 import '../../../core/utils/grid_system.dart';
-import '../../../core/utils/performance_monitor.dart';
+import '../../../core/performance/performance_monitor.dart';
 import '../models/direction.dart';
 import '../models/food.dart';
 import '../models/score_manager.dart';
@@ -109,11 +109,11 @@ class GameController extends ChangeNotifier {
 
   // Public API - Performance
 
-  /// Gets the current FPS.
+  /// Gets the current FPS from performance monitoring.
   double get currentFps => _performanceMonitor.getCurrentFps();
 
-  /// Gets the average frame time in milliseconds.
-  double get averageFrameTime => _performanceMonitor.getAverageFrameTime();
+  /// Gets the average frame time in milliseconds from the game loop.
+  double get averageFrameTime => _gameLoop.averageFrameTime.inMilliseconds.toDouble();
 
   // Public API - Game Control
 
