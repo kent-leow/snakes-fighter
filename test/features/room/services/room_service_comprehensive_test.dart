@@ -1,0 +1,408 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:snakes_fight/core/models/models.dart';
+import 'package:snakes_fight/core/services/services.dart';
+import 'package:snakes_fight/core/services/room_code_service.dart';
+import 'package:snakes_fight/features/room/services/room_service.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
+
+// Manual mocks to avoid build issues
+class MockAuthService extends Mock implements AuthService {}
+class MockDatabaseService extends Mock implements DatabaseService {}
+class MockRoomCodeService extends Mock implements RoomCodeService {}
+
+class MockUser extends Mock implements auth.User {
+  @override
+  String get uid => 'test_user_id';
+
+  @override
+  String? get displayName => 'Test User';
+
+  @override
+  bool get isAnonymous => false;
+}
+
+void main() {
+  group('RoomService', () {
+    late RoomService roomService;
+    late MockDatabaseService mockDatabaseService;
+    late MockAuthService mockAuthService;
+    late MockRoomCodeService mockRoomCodeService;
+    late MockUser mockUser;
+
+    setUp(() {
+      mockDatabaseService = MockDatabaseService();
+      mockAuthService = MockAuthService();
+      mockRoomCodeService = MockRoomCodeService();
+      mockUser = MockUser();
+
+      roomService = RoomService(
+        mockDatabaseService,
+        mockAuthService,
+        mockRoomCodeService,
+      );
+
+      // Default setup
+      when(mockAuthService.currentUser).thenReturn(mockUser);
+      when(mockRoomCodeService.generateUniqueRoomCode())
+          .thenAnswer((_) async => 'ABC123');
+    });
+
+    group('createRoom', () {
+      test('should create room with authenticated user as host', () async {
+        // Arrange
+        final expectedRoom = Room(
+          id: 'test_room_id',
+          roomCode: 'ABC123',
+          hostId: 'test_user_id',
+          status: RoomStatus.waiting,
+          createdAt: DateTime.now(),
+          maxPlayers: 4,
+          players: {
+            'test_user_id': Player(
+              uid: 'test_user_id',
+              displayName: 'Test User',
+              color: PlayerColor.red,
+              joinedAt: DateTime.now(),
+            ),
+          },
+        );
+
+        when(mockDatabaseService.createRoom(argThat(isA<Room>())))
+            .thenAnswer((_) async => expectedRoom);
+
+        // Act
+        final result = await roomService.createRoom();
+
+        // Assert
+        expect(result.hostId, equals('test_user_id'));
+        expect(result.roomCode, equals('ABC123'));
+        expect(result.status, equals(RoomStatus.waiting));
+        expect(result.maxPlayers, equals(4));
+        expect(result.players.length, equals(1));
+        expect(result.players.containsKey('test_user_id'), isTrue);
+        
+        verify(mockDatabaseService.createRoom(argThat(isA<Room>()))).called(1);
+      });
+
+      test('should create room with custom max players', () async {
+        // Arrange
+        const maxPlayers = 6;
+        final expectedRoom = Room(
+          id: 'test_room_id',
+          roomCode: 'ABC123',
+          hostId: 'test_user_id',
+          status: RoomStatus.waiting,
+          createdAt: DateTime.now(),
+          maxPlayers: maxPlayers,
+          players: {
+            'test_user_id': Player(
+              uid: 'test_user_id',
+              displayName: 'Test User',
+              color: PlayerColor.red,
+              joinedAt: DateTime.now(),
+            ),
+          },
+        );
+
+        when(mockDatabaseService.createRoom(argThat(isA<Room>())))
+            .thenAnswer((_) async => expectedRoom);
+
+        // Act
+        final result = await roomService.createRoom(maxPlayers: maxPlayers);
+
+        // Assert
+        expect(result.maxPlayers, equals(maxPlayers));
+        verify(mockDatabaseService.createRoom(argThat(isA<Room>()))).called(1);
+      });
+
+      test('should throw exception when user not authenticated', () async {
+        // Arrange
+        when(mockAuthService.currentUser).thenReturn(null);
+
+        // Act & Assert
+        expect(
+          () => roomService.createRoom(),
+          throwsA(isA<RoomException>()),
+        );
+        
+        verifyNever(mockDatabaseService.createRoom(argThat(isA<Room>())));
+      });
+
+      test('should throw exception for invalid max players', () async {
+        // Act & Assert - Too few players
+        expect(
+          () => roomService.createRoom(maxPlayers: 1),
+          throwsA(isA<RoomException>()),
+        );
+
+        // Act & Assert - Too many players
+        expect(
+          () => roomService.createRoom(maxPlayers: 9),
+          throwsA(isA<RoomException>()),
+        );
+        
+        verifyNever(mockDatabaseService.createRoom(argThat(isA<Room>())));
+      });
+
+      test('should handle database errors', () async {
+        // Arrange
+        when(mockDatabaseService.createRoom(argThat(isA<Room>())))
+            .thenThrow(Exception('Database error'));
+
+        // Act & Assert
+        expect(
+          () => roomService.createRoom(),
+          throwsA(isA<RoomException>()),
+        );
+      });
+    });
+
+    group('joinRoom', () {
+      late Room existingRoom;
+
+      setUp(() {
+        existingRoom = Room(
+          id: 'existing_room_id',
+          roomCode: 'ABC123',
+          hostId: 'host_user_id',
+          status: RoomStatus.waiting,
+          createdAt: DateTime.now(),
+          maxPlayers: 4,
+          players: {
+            'host_user_id': Player(
+              uid: 'host_user_id',
+              displayName: 'Host User',
+              color: PlayerColor.red,
+              joinedAt: DateTime.now(),
+            ),
+          },
+        );
+      });
+
+      test('should add player to existing room', () async {
+        // Arrange
+        when(mockDatabaseService.getRoomByCode('ABC123'))
+            .thenAnswer((_) async => existingRoom);
+        when(mockDatabaseService.addPlayerToRoom(argThat(isA<String>()), argThat(isA<Player>())))
+            .thenAnswer((_) async {});
+
+        // Act
+        final result = await roomService.joinRoom('ABC123');
+
+        // Assert
+        expect(result.players.length, equals(2));
+        expect(result.players.containsKey('test_user_id'), isTrue);
+        
+        verify(mockDatabaseService.getRoomByCode('ABC123')).called(1);
+        verify(mockDatabaseService.addPlayerToRoom(argThat(isA<String>()), argThat(isA<Player>()))).called(1);
+      });
+
+      test('should throw exception for non-existent room', () async {
+        // Arrange
+        when(mockDatabaseService.getRoomByCode('INVALID'))
+            .thenAnswer((_) async => null);
+
+        // Act & Assert
+        expect(
+          () => roomService.joinRoom('INVALID'),
+          throwsA(isA<RoomException>()),
+        );
+        
+        verify(mockDatabaseService.getRoomByCode('INVALID')).called(1);
+        verifyNever(mockDatabaseService.addPlayerToRoom(argThat(isA<String>()), argThat(isA<Player>())));
+      });
+
+      test('should throw exception when user not authenticated', () async {
+        // Arrange
+        when(mockAuthService.currentUser).thenReturn(null);
+
+        // Act & Assert
+        expect(
+          () => roomService.joinRoom('ABC123'),
+          throwsA(isA<RoomException>()),
+        );
+        
+        verifyNever(mockDatabaseService.getRoomByCode(argThat(isA<String>())));
+      });
+
+      test('should throw exception when room is full', () async {
+        // Arrange - Create full room
+        final fullRoom = existingRoom.copyWith(
+          players: {
+            for (int i = 0; i < 4; i++)
+              'player_$i': Player(
+                uid: 'player_$i',
+                displayName: 'Player $i',
+                color: PlayerColor.values[i],
+                joinedAt: DateTime.now(),
+              ),
+          },
+        );
+
+        when(mockDatabaseService.getRoomByCode('ABC123'))
+            .thenAnswer((_) async => fullRoom);
+
+        // Act & Assert
+        expect(
+          () => roomService.joinRoom('ABC123'),
+          throwsA(isA<RoomException>()),
+        );
+        
+        verify(mockDatabaseService.getRoomByCode('ABC123')).called(1);
+        verifyNever(mockDatabaseService.addPlayerToRoom(argThat(isA<String>()), argThat(isA<Player>())));
+      });
+
+      test('should throw exception when room is active', () async {
+        // Arrange
+        final activeRoom = existingRoom.copyWith(status: RoomStatus.active);
+        when(mockDatabaseService.getRoomByCode('ABC123'))
+            .thenAnswer((_) async => activeRoom);
+
+        // Act & Assert
+        expect(
+          () => roomService.joinRoom('ABC123'),
+          throwsA(isA<RoomException>()),
+        );
+        
+        verify(mockDatabaseService.getRoomByCode('ABC123')).called(1);
+        verifyNever(mockDatabaseService.addPlayerToRoom(argThat(isA<String>()), argThat(isA<Player>())));
+      });
+
+      test('should assign available color to new player', () async {
+        // Arrange - Room with red color taken
+        when(mockDatabaseService.getRoomByCode('ABC123'))
+            .thenAnswer((_) async => existingRoom);
+        when(mockDatabaseService.addPlayerToRoom(argThat(isA<String>()), argThat(isA<Player>())))
+            .thenAnswer((_) async {});
+
+        // Act
+        final result = await roomService.joinRoom('ABC123');
+
+        // Assert
+        final newPlayer = result.players['test_user_id']!;
+        expect(newPlayer.color, equals(PlayerColor.blue)); // Should get next available color
+      });
+    });
+
+    group('leaveRoom', () {
+      late Room roomWithMultiplePlayers;
+
+      setUp(() {
+        roomWithMultiplePlayers = Room(
+          id: 'test_room_id',
+          roomCode: 'ABC123',
+          hostId: 'test_user_id', // Current user is host
+          status: RoomStatus.waiting,
+          createdAt: DateTime.now(),
+          maxPlayers: 4,
+          players: {
+            'test_user_id': Player(
+              uid: 'test_user_id',
+              displayName: 'Test User',
+              color: PlayerColor.red,
+              joinedAt: DateTime.now(),
+            ),
+            'other_user_id': Player(
+              uid: 'other_user_id',
+              displayName: 'Other User',
+              color: PlayerColor.blue,
+              joinedAt: DateTime.now(),
+            ),
+          },
+        );
+      });
+
+      test('should remove player from room', () async {
+        // Arrange
+        when(mockDatabaseService.getRoomById('test_room_id'))
+            .thenAnswer((_) async => roomWithMultiplePlayers);
+        when(mockDatabaseService.removePlayerFromRoom(argThat(isA<String>()), argThat(isA<String>())))
+            .thenAnswer((_) async {});
+
+        // Act
+        await roomService.leaveRoom('test_room_id');
+
+        // Assert
+        verify(mockDatabaseService.removePlayerFromRoom('test_room_id', 'test_user_id')).called(1);
+      });
+
+      test('should do nothing when user not authenticated', () async {
+        // Arrange
+        when(mockAuthService.currentUser).thenReturn(null);
+
+        // Act
+        await roomService.leaveRoom('test_room_id');
+
+        // Assert
+        verifyNever(mockDatabaseService.getRoomById(argThat(isA<String>())));
+        verifyNever(mockDatabaseService.removePlayerFromRoom(argThat(isA<String>()), argThat(isA<String>())));
+      });
+
+      test('should do nothing when room not found', () async {
+        // Arrange
+        when(mockDatabaseService.getRoomById('test_room_id'))
+            .thenAnswer((_) async => null);
+
+        // Act
+        await roomService.leaveRoom('test_room_id');
+
+        // Assert
+        verify(mockDatabaseService.getRoomById('test_room_id')).called(1);
+        verifyNever(mockDatabaseService.removePlayerFromRoom(argThat(isA<String>()), argThat(isA<String>())));
+      });
+
+      test('should transfer host when host leaves with other players present', () async {
+        // Arrange
+        when(mockDatabaseService.getRoomById('test_room_id'))
+            .thenAnswer((_) async => roomWithMultiplePlayers);
+        when(mockDatabaseService.removePlayerFromRoom(argThat(isA<String>()), argThat(isA<String>())))
+            .thenAnswer((_) async {});
+        when(mockDatabaseService.updateRoom(argThat(isA<Room>())))
+            .thenAnswer((_) async {});
+
+        // Act
+        await roomService.leaveRoom('test_room_id');
+
+        // Assert
+        verify(mockDatabaseService.removePlayerFromRoom('test_room_id', 'test_user_id')).called(1);
+        verify(mockDatabaseService.updateRoom(argThat(isA<Room>()))).called(1);
+      });
+    });
+
+    group('edge cases', () {
+      test('should handle concurrent room creation', () async {
+        // This test would verify that room codes are unique even with concurrent requests
+        // In a real implementation, this would test the room code generation service
+        
+        final futures = List.generate(5, (_) => roomService.createRoom());
+        
+        when(mockDatabaseService.createRoom(argThat(isA<Room>())))
+            .thenAnswer((invocation) async {
+          final room = invocation.positionalArguments[0] as Room;
+          return room;
+        });
+
+        final results = await Future.wait(futures);
+        
+        // All rooms should be created successfully
+        expect(results.length, equals(5));
+        for (final room in results) {
+          expect(room.hostId, equals('test_user_id'));
+        }
+      });
+
+      test('should handle network timeouts gracefully', () async {
+        // Arrange
+        when(mockDatabaseService.createRoom(argThat(isA<Room>())))
+            .thenThrow(Exception('Network timeout'));
+
+        // Act & Assert
+        expect(
+          () => roomService.createRoom(),
+          throwsA(isA<RoomException>()),
+        );
+      });
+    });
+  });
+}
