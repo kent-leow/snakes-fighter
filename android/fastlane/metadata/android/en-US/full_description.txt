@@ -1,0 +1,25 @@
+Experience the classic snake game like never before! Compete with friends and players worldwide in real-time multiplayer battles.
+
+🎮 KEY FEATURES:
+• Real-time multiplayer gameplay with up to 4 players
+• Secure user authentication with Google Sign-In
+• Cross-platform compatibility (Web, Android, iOS)
+• Smooth animations and responsive touch controls
+• Global leaderboards and statistics
+• Custom game rooms for private matches
+• Modern, polished user interface
+
+🏆 GAMEPLAY:
+Battle against other players in fast-paced snake matches. Grow your snake by collecting food while avoiding other players and walls. The last snake standing wins! Use strategy and quick reflexes to outmaneuver opponents and claim victory.
+
+🌟 PERFECT FOR:
+• Quick gaming sessions during breaks
+• Competitive matches with friends
+• Family entertainment
+• Retro gaming enthusiasts
+• Multiplayer arcade game fans
+
+🔒 SECURE & SAFE:
+Built with Firebase backend for secure authentication and real-time data synchronization. Your progress and statistics are safely stored in the cloud.
+
+Join millions of players worldwide and become the ultimate snake champion! Download now and start your multiplayer snake adventure.

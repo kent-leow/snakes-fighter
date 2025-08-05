@@ -1,0 +1,13 @@
+Snakes Fight - Multiplayer Snake Game
+
+Experience the classic snake game like never before! Compete with friends and players worldwide in real-time multiplayer battles.
+
+Features:
+• Real-time multiplayer gameplay
+• Secure user authentication
+• Cross-platform compatibility
+• Smooth animations and responsive controls
+• Global leaderboards
+• Custom game rooms
+
+Perfect for quick gaming sessions or competitive matches with friends. Join the battle and become the ultimate snake champion!

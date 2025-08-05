@@ -1,0 +1,48 @@
+default_platform(:android)
+
+platform :android do
+  desc "Upload to Google Play Console"
+  lane :deploy do
+    gradle(
+      task: "bundle",
+      build_type: "Release",
+      project_dir: "android/"
+    )
+    
+    upload_to_play_store(
+      package_name: "com.snakesfight.game",
+      json_key_data: ENV["GOOGLE_PLAY_JSON_KEY"],
+      aab: "build/app/outputs/bundle/release/app-release.aab",
+      track: "production",
+      rollout: "1.0"
+    )
+  end
+  
+  desc "Upload to internal testing"
+  lane :internal do
+    gradle(
+      task: "bundle",
+      build_type: "Release",
+      project_dir: "android/"
+    )
+    
+    upload_to_play_store(
+      package_name: "com.snakesfight.game",
+      json_key_data: ENV["GOOGLE_PLAY_JSON_KEY"],
+      aab: "build/app/outputs/bundle/release/app-release.aab",
+      track: "internal",
+      rollout: "1.0"
+    )
+  end
+  
+  desc "Promote from internal to production"
+  lane :promote_to_production do
+    upload_to_play_store(
+      package_name: "com.snakesfight.game",
+      json_key_data: ENV["GOOGLE_PLAY_JSON_KEY"],
+      track: "internal",
+      track_promote_to: "production",
+      rollout: "1.0"
+    )
+  end
+end

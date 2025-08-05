@@ -1,0 +1,80 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Build and upload to TestFlight"
+  lane :beta do
+    # Setup certificates and provisioning profiles
+    match(
+      type: "appstore",
+      readonly: true
+    )
+    
+    # Build the app
+    build_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      output_directory: "build",
+      export_options: {
+        method: "app-store",
+        uploadBitcode: false,
+        compileBitcode: false,
+        uploadSymbols: true,
+        manageAppVersionAndBuildNumber: false
+      }
+    )
+    
+    # Upload to TestFlight
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true,
+      apple_id: ENV["APPLE_ID"],
+      app_identifier: "com.snakesfight.game",
+      team_id: ENV["TEAM_ID"]
+    )
+  end
+  
+  desc "Deploy to App Store"
+  lane :release do
+    # Setup certificates and provisioning profiles
+    match(
+      type: "appstore",
+      readonly: true
+    )
+    
+    # Build the app
+    build_app(
+      workspace: "Runner.xcworkspace", 
+      scheme: "Runner",
+      export_method: "app-store",
+      output_directory: "build",
+      export_options: {
+        method: "app-store",
+        uploadBitcode: false,
+        compileBitcode: false,
+        uploadSymbols: true,
+        manageAppVersionAndBuildNumber: false
+      }
+    )
+    
+    # Upload to App Store
+    upload_to_app_store(
+      force: true,
+      reject_if_possible: true,
+      skip_metadata: false,
+      skip_screenshots: false,
+      submit_for_review: true,
+      automatic_release: true,
+      app_identifier: "com.snakesfight.game",
+      team_id: ENV["TEAM_ID"]
+    )
+  end
+  
+  desc "Update metadata only"
+  lane :metadata do
+    upload_to_app_store(
+      skip_binary_upload: true,
+      app_identifier: "com.snakesfight.game",
+      team_id: ENV["TEAM_ID"]
+    )
+  end
+end
