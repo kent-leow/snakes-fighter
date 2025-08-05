@@ -4,11 +4,8 @@ import 'package:mockito/mockito.dart';
 import 'package:snakes_fight/core/models/models.dart';
 import 'package:snakes_fight/core/services/services.dart';
 
-// Generate mocks for these classes  
-@GenerateMocks([
-  AuthService,
-  DatabaseService,
-])
+// Generate mocks for these classes
+@GenerateMocks([AuthService, DatabaseService])
 import 'test_helpers.mocks.dart';
 
 /// Mock User (Firebase Auth User)
@@ -67,7 +64,7 @@ class TestData {
     startedAt: DateTime.now(),
     food: const Food(position: Position(10, 10)),
     snakes: {
-      'test_player_1': Snake(
+      'test_player_1': const Snake(
         positions: [Position(5, 5)],
         direction: Direction.right,
       ),
@@ -81,11 +78,11 @@ class TestHelpers {
   static MockAuthService createMockAuthService() {
     final mock = MockAuthService();
     final mockUser = MockUser();
-    
+
     when(mock.currentUser).thenReturn(mockUser);
-    when(mock.signInAnonymously()).thenAnswer(
-      (_) async => MockUserCredential(),
-    );
+    when(
+      mock.signInAnonymously(),
+    ).thenAnswer((_) async => MockUserCredential());
     when(mock.isSignedIn).thenReturn(true);
     when(mock.userDisplayName).thenReturn('Test User');
     return mock;
@@ -94,21 +91,15 @@ class TestHelpers {
   /// Creates a mock DatabaseService with default behavior
   static MockDatabaseService createMockDatabaseService() {
     final mock = MockDatabaseService();
-    when(mock.createRoom(any)).thenAnswer(
-      (_) async => TestData.sampleRoom,
-    );
-    when(mock.getRoomById(any)).thenAnswer(
-      (_) async => TestData.sampleRoom,
-    );
-    when(mock.getRoomByCode(any)).thenAnswer(
-      (_) async => TestData.sampleRoom,
-    );
-    when(mock.watchRoom(any)).thenAnswer(
-      (_) => Stream.value(TestData.sampleRoom),
-    );
-    when(mock.watchGameState(any)).thenAnswer(
-      (_) => Stream.value(TestData.sampleGameState),
-    );
+    when(mock.createRoom(any)).thenAnswer((_) async => TestData.sampleRoom);
+    when(mock.getRoomById(any)).thenAnswer((_) async => TestData.sampleRoom);
+    when(mock.getRoomByCode(any)).thenAnswer((_) async => TestData.sampleRoom);
+    when(
+      mock.watchRoom(any),
+    ).thenAnswer((_) => Stream.value(TestData.sampleRoom));
+    when(
+      mock.watchGameState(any),
+    ).thenAnswer((_) => Stream.value(TestData.sampleGameState));
     return mock;
   }
 
@@ -161,7 +152,9 @@ class TestHelpers {
   }
 
   /// Waits for a specified duration (useful for async tests)
-  static Future<void> wait([Duration duration = const Duration(milliseconds: 100)]) {
+  static Future<void> wait([
+    Duration duration = const Duration(milliseconds: 100),
+  ]) {
     return Future.delayed(duration);
   }
 
@@ -178,7 +171,9 @@ class TestHelpers {
         throw Exception('Expected $T but got ${e.runtimeType}');
       }
       if (!e.toString().contains(expectedMessage)) {
-        throw Exception('Expected message to contain "$expectedMessage" but got "${e.toString()}"');
+        throw Exception(
+          'Expected message to contain "$expectedMessage" but got "${e.toString()}"',
+        );
       }
     }
   }

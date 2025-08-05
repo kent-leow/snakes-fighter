@@ -1,0 +1,91 @@
+{
+  "database": {
+    "rules": "database.rules.prod.json"
+  },
+  "functions": {
+    "predeploy": [
+      "npm --prefix \"$RESOURCE_DIR\" run lint",
+      "npm --prefix \"$RESOURCE_DIR\" run build"
+    ],
+    "source": "functions"
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(js|css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000"
+          }
+        ]
+      },
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "DENY"
+          },
+          {
+            "key": "X-XSS-Protection",
+            "value": "1; mode=block"
+          },
+          {
+            "key": "Strict-Transport-Security",
+            "value": "max-age=31536000; includeSubDomains"
+          },
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' *.googleapis.com *.gstatic.com; style-src 'self' 'unsafe-inline' *.googleapis.com fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: *.googleapis.com; connect-src 'self' *.googleapis.com *.firebase.com *.firebaseio.com wss://*.firebaseio.com"
+          }
+        ]
+      }
+    ]
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "snakes-fight-prod",
+          "appId": "1:PROD_ANDROID_APP_ID:android:PROD_ANDROID_HASH",
+          "fileOutput": "android/app/google-services.prod.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "snakes-fight-prod",
+          "appId": "1:PROD_IOS_APP_ID:ios:PROD_IOS_HASH",
+          "uploadDebugSymbols": true,
+          "fileOutput": "ios/Runner/GoogleService-Info.prod.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.prod.dart": {
+          "projectId": "snakes-fight-prod",
+          "configurations": {
+            "android": "1:PROD_ANDROID_APP_ID:android:PROD_ANDROID_HASH",
+            "ios": "1:PROD_IOS_APP_ID:ios:PROD_IOS_HASH",
+            "web": "1:PROD_WEB_APP_ID:web:PROD_WEB_HASH"
+          }
+        }
+      }
+    }
+  }
+}

@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   group('Game Widget Tests', () {
-    testWidgets('Game Screen renders without crashing', (WidgetTester tester) async {
+    testWidgets('Game Screen renders without crashing', (
+      WidgetTester tester,
+    ) async {
       // Create a test widget with proper provider scope
       await tester.pumpWidget(
         ProviderScope(
@@ -14,9 +16,7 @@ void main() {
                 width: 400,
                 height: 600,
                 color: Colors.black,
-                child: const Center(
-                  child: Text('Game Canvas Placeholder'),
-                ),
+                child: const Center(child: Text('Game Canvas Placeholder')),
               ),
             ),
           ),
@@ -40,9 +40,7 @@ void main() {
                 width: 400,
                 height: 600,
                 color: Colors.black,
-                child: const Center(
-                  child: Text('Touch to control'),
-                ),
+                child: const Center(child: Text('Touch to control')),
               ),
             ),
           ),
@@ -56,7 +54,9 @@ void main() {
       expect(touchDetected, isTrue);
     });
 
-    testWidgets('Game HUD displays score correctly', (WidgetTester tester) async {
+    testWidgets('Game HUD displays score correctly', (
+      WidgetTester tester,
+    ) async {
       const testScore = 150;
 
       await tester.pumpWidget(
@@ -66,17 +66,12 @@ void main() {
               children: [
                 Container(
                   padding: const EdgeInsets.all(16),
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Score: $testScore'),
-                      const Text('Lives: 3'),
-                    ],
+                    children: [Text('Score: $testScore'), Text('Lives: 3')],
                   ),
                 ),
-                Expanded(
-                  child: Container(color: Colors.black),
-                ),
+                Expanded(child: Container(color: Colors.black)),
               ],
             ),
           ),
@@ -87,7 +82,9 @@ void main() {
       expect(find.text('Lives: 3'), findsOneWidget);
     });
 
-    testWidgets('Game controls respond to swipe gestures', (WidgetTester tester) async {
+    testWidgets('Game controls respond to swipe gestures', (
+      WidgetTester tester,
+    ) async {
       String? detectedDirection;
 
       await tester.pumpWidget(
@@ -106,9 +103,7 @@ void main() {
                 width: 400,
                 height: 600,
                 color: Colors.black,
-                child: const Center(
-                  child: Text('Swipe to control'),
-                ),
+                child: const Center(child: Text('Swipe to control')),
               ),
             ),
           ),
@@ -128,7 +123,9 @@ void main() {
       expect(detectedDirection, equals('up'));
     });
 
-    testWidgets('Game pause functionality works correctly', (WidgetTester tester) async {
+    testWidgets('Game pause functionality works correctly', (
+      WidgetTester tester,
+    ) async {
       // Test pause button functionality
       await tester.pumpWidget(
         MaterialApp(
@@ -151,13 +148,15 @@ void main() {
       );
 
       expect(find.byIcon(Icons.pause), findsOneWidget);
-      
+
       // Test pause button tap
       await tester.tap(find.byIcon(Icons.pause));
       await tester.pump();
     });
 
-    testWidgets('Game over screen displays correctly', (WidgetTester tester) async {
+    testWidgets('Game over screen displays correctly', (
+      WidgetTester tester,
+    ) async {
       const finalScore = 250;
 
       await tester.pumpWidget(
@@ -180,10 +179,7 @@ void main() {
                     const SizedBox(height: 20),
                     const Text(
                       'Final Score: $finalScore',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                      ),
+                      style: TextStyle(color: Colors.white, fontSize: 24),
                     ),
                     const SizedBox(height: 40),
                     Row(
@@ -213,7 +209,9 @@ void main() {
       expect(find.text('Main Menu'), findsOneWidget);
     });
 
-    testWidgets('Multiplayer game shows all player scores', (WidgetTester tester) async {
+    testWidgets('Multiplayer game shows all player scores', (
+      WidgetTester tester,
+    ) async {
       final players = [
         {'name': 'Player 1', 'score': 100, 'alive': true},
         {'name': 'Player 2', 'score': 75, 'alive': false},
@@ -235,13 +233,17 @@ void main() {
                           Text(
                             player['name'] as String,
                             style: TextStyle(
-                              color: player['alive'] as bool ? Colors.white : Colors.grey,
+                              color: player['alive'] as bool
+                                  ? Colors.white
+                                  : Colors.grey,
                             ),
                           ),
                           Text(
                             '${player['score']}',
                             style: TextStyle(
-                              color: player['alive'] as bool ? Colors.white : Colors.grey,
+                              color: player['alive'] as bool
+                                  ? Colors.white
+                                  : Colors.grey,
                             ),
                           ),
                         ],
@@ -249,9 +251,7 @@ void main() {
                     }).toList(),
                   ),
                 ),
-                Expanded(
-                  child: Container(color: Colors.black),
-                ),
+                Expanded(child: Container(color: Colors.black)),
               ],
             ),
           ),
@@ -267,7 +267,9 @@ void main() {
     });
 
     group('Responsive Design Tests', () {
-      testWidgets('Game UI adapts to different screen sizes', (WidgetTester tester) async {
+      testWidgets('Game UI adapts to different screen sizes', (
+        WidgetTester tester,
+      ) async {
         // Test small screen
         tester.view.physicalSize = const Size(320, 568);
         tester.view.devicePixelRatio = 1.0;
@@ -284,14 +286,10 @@ void main() {
                         padding: EdgeInsets.all(isSmallScreen ? 8 : 16),
                         child: Text(
                           'Snakes Fight',
-                          style: TextStyle(
-                            fontSize: isSmallScreen ? 16 : 24,
-                          ),
+                          style: TextStyle(fontSize: isSmallScreen ? 16 : 24),
                         ),
                       ),
-                      Expanded(
-                        child: Container(color: Colors.black),
-                      ),
+                      Expanded(child: Container(color: Colors.black)),
                     ],
                   );
                 },
@@ -304,7 +302,9 @@ void main() {
         addTearDown(() => tester.view.resetPhysicalSize());
       });
 
-      testWidgets('Game controls adjust for tablet layout', (WidgetTester tester) async {
+      testWidgets('Game controls adjust for tablet layout', (
+        WidgetTester tester,
+      ) async {
         // Test tablet screen
         tester.view.physicalSize = const Size(768, 1024);
         tester.view.devicePixelRatio = 1.0;
@@ -327,8 +327,14 @@ void main() {
                           color: Colors.grey.shade800,
                           child: const Column(
                             children: [
-                              Text('Game Info', style: TextStyle(color: Colors.white)),
-                              Text('Score: 0', style: TextStyle(color: Colors.white)),
+                              Text(
+                                'Game Info',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Text(
+                                'Score: 0',
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ],
                           ),
                         ),
