@@ -98,11 +98,11 @@ jobs:
           file: coverage/lcov.info
           fail_ci_if_error: false
 
-  # Build for different environments
+  # Build and deploy to development
   build-dev:
     runs-on: ubuntu-latest
     needs: test
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
     timeout-minutes: 20
     steps:
       - name: Checkout code
@@ -122,56 +122,19 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Build web (development)
+      - name: Build web application
         run: |
           flutter build web --release \
             --dart-define=ENVIRONMENT=development \
             --dart-define=FIREBASE_PROJECT_ID=snakes-fight-dev
 
-      - name: Deploy to development
+      - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DEV }}'
           channelId: live
           projectId: snakes-fight-dev
-
-  build-prod:
-    runs-on: ubuntu-latest
-    needs: test
-    if: github.ref == 'refs/heads/main'
-    timeout-minutes: 20
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: 'stable'
-          cache: true
-
-      - name: Create Firebase options file
-        run: |
-          cp lib/firebase_options.dart.example lib/firebase_options.dart
-
-      - name: Get dependencies
-        run: flutter pub get
-
-      - name: Build web (production)
-        run: |
-          flutter build web --release -O 4 \
-            --dart-define=ENVIRONMENT=production \
-            --dart-define=FIREBASE_PROJECT_ID=snakes-fight-prod
-
-      - name: Deploy to production
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          channelId: live
-          projectId: snakes-fight-prod
 
   # Mobile builds on release
   build-mobile-release:
@@ -240,7 +203,7 @@ jobs:
   # Deployment status
   deployment-status:
     runs-on: ubuntu-latest
-    needs: [build-dev, build-prod, build-mobile-release]
+    needs: [build-dev, build-mobile-release]
     if: always()
     steps:
       - name: Report deployment status
@@ -255,14 +218,6 @@ jobs:
             echo "| Development | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
           else
             echo "| Development | ❌ Failed |" >> $GITHUB_STEP_SUMMARY
-          fi
-          
-          if [ "${{ needs.build-prod.result }}" == "success" ]; then
-            echo "| Production | ✅ Deployed |" >> $GITHUB_STEP_SUMMARY
-          elif [ "${{ needs.build-prod.result }}" == "skipped" ]; then
-            echo "| Production | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "| Production | ❌ Failed |" >> $GITHUB_STEP_SUMMARY
           fi
           
           if [ "${{ needs.build-mobile-release.result }}" == "success" ]; then

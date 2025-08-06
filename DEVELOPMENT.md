@@ -45,6 +45,12 @@ This document outlines the development environment configuration for the Snakes 
   ```
 - **Configuration**: 80-character line length (matches CI/CD)
 
+### Firebase Deployment
+- **Script**: `scripts/test-firebase-deploy.sh`
+- **Purpose**: Test Firebase deployment locally before CI/CD
+- **GitHub Secret Setup**: `scripts/setup-github-secret.sh`
+- **Required Secret**: `FIREBASE_SERVICE_ACCOUNT_DEV`
+
 ### Available Scripts
 Located in the `scripts/` directory:
 

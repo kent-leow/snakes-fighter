@@ -160,6 +160,25 @@ dart format --page-width=80 .
 - Android Studio: Set right margin to 80 characters
 - See [FORMATTING.md](FORMATTING.md) for detailed setup instructions
 
+### Firebase Deployment
+
+**Quick Setup:**
+```bash
+# Test Firebase deployment locally
+./scripts/test-firebase-deploy.sh
+```
+
+**GitHub Secrets Required:**
+- `FIREBASE_SERVICE_ACCOUNT_DEV` - Development environment service account JSON
+
+**Setup Instructions:**
+1. Go to [Firebase Console](https://console.firebase.google.com/) → Your Project → Project Settings → Service Accounts
+2. Click "Generate New Private Key" and download the JSON file
+3. In GitHub: Settings → Secrets and variables → Actions
+4. Add secret `FIREBASE_SERVICE_ACCOUNT_DEV` with the entire JSON content
+
+See [FIREBASE_DEPLOYMENT_SETUP.md](FIREBASE_DEPLOYMENT_SETUP.md) for detailed instructions.
+
 ### Firebase Setup Details
 ```bash
 # Enable required Firebase services
