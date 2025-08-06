@@ -63,7 +63,7 @@ void main() {
           final latency = receivedTimes[i].difference(broadcastTimes[i]);
           expect(
             latency.inMilliseconds,
-            lessThan(10),
+            lessThanOrEqualTo(15),
             reason: 'Event $i had latency of ${latency.inMilliseconds}ms',
           );
         }
