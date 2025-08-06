@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -8,10 +10,10 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    keystoreProperties.load(keystorePropertiesFile.inputStream())
 }
 
 android {
@@ -29,11 +31,15 @@ android {
     }
 
     signingConfigs {
-        release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String?
+            keyPassword = keystoreProperties["keyPassword"] as String?
+            storeFile = if (keystoreProperties["storeFile"] != null) {
+                file(keystoreProperties["storeFile"] as String)
+            } else {
+                null
+            }
+            storePassword = keystoreProperties["storePassword"] as String?
         }
     }
 
@@ -45,25 +51,25 @@ android {
         versionName = flutter.versionName
         
         // Metadata for app stores
-        manifestPlaceholders = [
-            appName: "Snakes Fight",
-            appDescription: "Multiplayer Snake Game"
-        ]
+        manifestPlaceholders += mapOf(
+            "appName" to "Snakes Fight",
+            "appDescription" to "Multiplayer Snake Game"
+        )
     }
 
     buildTypes {
-        release {
-            signingConfig = signingConfigs.release
-            minifyEnabled = true
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
-        debug {
-            signingConfig = signingConfigs.debug
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("debug")
             applicationIdSuffix = ".debug"
-            debuggable = true
+            isDebuggable = true
         }
     }
 }
