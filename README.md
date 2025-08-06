@@ -140,6 +140,26 @@ This project uses Firebase but **does not commit credentials to version control*
    flutter run
    ```
 
+### Code Formatting
+
+This project uses consistent code formatting with **80-character line length**:
+
+```bash
+# Format all files (recommended before commits)
+./scripts/format.sh
+
+# Check formatting without changes (CI mode)
+./scripts/format.sh --check
+
+# Manual formatting command
+dart format --page-width=80 .
+```
+
+**IDE Configuration:**
+- VS Code: Settings already configured in `.vscode/settings.json`
+- Android Studio: Set right margin to 80 characters
+- See [FORMATTING.md](FORMATTING.md) for detailed setup instructions
+
 ### Firebase Setup Details
 ```bash
 # Enable required Firebase services
