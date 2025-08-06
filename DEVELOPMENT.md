@@ -29,6 +29,22 @@ This document outlines the development environment configuration for the Snakes 
 
 ## Development Scripts
 
+### Code Formatting
+- **Script**: `scripts/format.sh`
+- **Purpose**: Ensures consistent code formatting across all environments
+- **Usage**:
+  ```bash
+  # Format all files
+  ./scripts/format.sh
+  
+  # Check formatting (CI mode)
+  ./scripts/format.sh --check
+  
+  # Custom line width
+  ./scripts/format.sh --page-width 120
+  ```
+- **Configuration**: 80-character line length (matches CI/CD)
+
 ### Available Scripts
 Located in the `scripts/` directory:
 
