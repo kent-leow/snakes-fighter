@@ -31,6 +31,10 @@ jobs:
           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: ${{ runner.os }}-pub-
 
+      - name: Create Firebase options file
+        run: |
+          cp lib/firebase_options.dart.example lib/firebase_options.dart
+
       - name: Get dependencies
         run: flutter pub get
 
@@ -63,6 +67,10 @@ jobs:
           path: ${{ env.PUB_CACHE }}
           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: ${{ runner.os }}-pub-
+
+      - name: Create Firebase options file
+        run: |
+          cp lib/firebase_options.dart.example lib/firebase_options.dart
 
       - name: Get dependencies
         run: flutter pub get
@@ -98,6 +106,10 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
+
+      - name: Create Firebase options file
+        run: |
+          cp lib/firebase_options.dart.example lib/firebase_options.dart
 
       - name: Get dependencies
         run: flutter pub get

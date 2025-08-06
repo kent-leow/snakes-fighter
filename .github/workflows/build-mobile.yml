@@ -48,6 +48,10 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
 
+      - name: Create Firebase options file
+        run: |
+          cp lib/firebase_options.dart.example lib/firebase_options.dart
+
       - name: Get dependencies
         run: flutter pub get
 
@@ -109,6 +113,10 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
+
+      - name: Create Firebase options file
+        run: |
+          cp lib/firebase_options.dart.example lib/firebase_options.dart
 
       - name: Get dependencies
         run: flutter pub get
