@@ -124,7 +124,7 @@ jobs:
 
       - name: Build web (development)
         run: |
-          flutter build web --release --web-renderer canvaskit \
+          flutter build web --release \
             --dart-define=ENVIRONMENT=development \
             --dart-define=FIREBASE_PROJECT_ID=snakes-fight-dev
 
@@ -161,7 +161,7 @@ jobs:
 
       - name: Build web (production)
         run: |
-          flutter build web --release --web-renderer canvaskit \
+          flutter build web --release -O 4 \
             --dart-define=ENVIRONMENT=production \
             --dart-define=FIREBASE_PROJECT_ID=snakes-fight-prod
 
@@ -219,7 +219,7 @@ jobs:
         run: flutter pub get
 
       - name: Build web for performance analysis
-        run: flutter build web --release --web-renderer canvaskit
+        run: flutter build web --release -O 4
 
       - name: Analyze bundle size
         run: |

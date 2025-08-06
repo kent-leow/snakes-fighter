@@ -77,7 +77,7 @@ jobs:
 
       - name: Build web app
         run: |
-          flutter build web --release --web-renderer canvaskit \
+          flutter build web --release -O 4 \
             --dart-define=ENVIRONMENT=production \
             --dart-define=FIREBASE_PROJECT_ID=snakes-fight-prod
 
@@ -116,7 +116,7 @@ jobs:
 
       - name: Build web app (development)
         run: |
-          flutter build web --release --web-renderer canvaskit \
+          flutter build web --release \
             --dart-define=ENVIRONMENT=development \
             --dart-define=FIREBASE_PROJECT_ID=snakes-fight-dev
 

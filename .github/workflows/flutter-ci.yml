@@ -63,7 +63,7 @@ jobs:
         platform: [web, android]
         include:
           - platform: web
-            build_command: flutter build web --release --dart-define=FLUTTER_WEB_USE_SKIA=true
+            build_command: flutter build web --release -O 4
             artifact_path: build/web
           - platform: android
             build_command: flutter build apk --release --split-per-abi
