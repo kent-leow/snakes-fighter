@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+
 import 'package:snakes_fight/core/models/models.dart';
-import 'package:snakes_fight/core/services/services.dart';
 import 'package:snakes_fight/core/services/room_code_service.dart';
+import 'package:snakes_fight/core/services/services.dart';
 import 'package:snakes_fight/features/room/services/room_service.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 // Manual mocks to avoid build issues
 class MockAuthService extends Mock implements AuthService {}

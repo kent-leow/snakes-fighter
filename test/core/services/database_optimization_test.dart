@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:snakes_fight/core/services/cache_service.dart';
 import 'package:snakes_fight/core/models/models.dart';
+import 'package:snakes_fight/core/services/cache_service.dart';
 
 void main() {
   group('Database Service Optimization Tests', () {

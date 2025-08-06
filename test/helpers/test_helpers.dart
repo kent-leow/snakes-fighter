@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 import 'package:snakes_fight/core/models/models.dart';
 import 'package:snakes_fight/core/services/services.dart';
+import 'test_helpers.mocks.dart';
 
 // Generate mocks for these classes
 @GenerateMocks([AuthService, DatabaseService])
-import 'test_helpers.mocks.dart';
 
 /// Mock User (Firebase Auth User)
 class MockUser extends Mock implements auth.User {

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../controllers/game_controller.dart';
 import '../input/adaptive_input_manager.dart';
+import '../input/input_controller_interface.dart';
 import '../input/keyboard_input_handler.dart';
 import '../input/touch_input_handler.dart';
-import '../input/input_controller_interface.dart';
 import '../models/direction.dart';
 import 'input_feedback_widget.dart';
 

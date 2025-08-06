@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../design_system/design_tokens.dart';
 
 /// App theme configuration for Snakes Fight

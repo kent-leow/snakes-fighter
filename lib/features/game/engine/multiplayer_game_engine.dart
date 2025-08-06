@@ -1,6 +1,6 @@
-import '../../../core/models/position.dart';
-import '../../../core/models/player.dart';
 import '../../../core/models/enums.dart';
+import '../../../core/models/player.dart';
+import '../../../core/models/position.dart';
 import '../models/game_board.dart';
 import '../services/game_sync_service.dart';
 import 'multiplayer_collision_detector.dart';

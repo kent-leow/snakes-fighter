@@ -1,9 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:snakes_fight/features/game/logic/self_collision_detector.dart';
-import 'package:snakes_fight/features/game/models/snake.dart';
-import 'package:snakes_fight/features/game/models/direction.dart';
-import 'package:snakes_fight/features/game/models/collision.dart';
+
 import 'package:snakes_fight/core/models/position.dart';
+import 'package:snakes_fight/features/game/logic/self_collision_detector.dart';
+import 'package:snakes_fight/features/game/models/collision.dart';
+import 'package:snakes_fight/features/game/models/direction.dart';
+import 'package:snakes_fight/features/game/models/snake.dart';
 
 void main() {
   group('SelfCollisionDetector', () {

@@ -5,7 +5,6 @@ import 'package:mockito/mockito.dart';
 import 'package:snakes_fight/core/models/models.dart';
 import 'package:snakes_fight/core/services/database_service.dart';
 import 'package:snakes_fight/core/services/room_code_service.dart';
-
 import 'room_code_service_test.mocks.dart';
 
 @GenerateMocks([DatabaseService])

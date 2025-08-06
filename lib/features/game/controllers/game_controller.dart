@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 
 import '../../../core/models/position.dart';
-import '../../../core/utils/grid_system.dart';
 import '../../../core/performance/performance_monitor.dart';
+import '../../../core/utils/grid_system.dart';
 import '../models/direction.dart';
 import '../models/food.dart';
 import '../models/score_manager.dart';

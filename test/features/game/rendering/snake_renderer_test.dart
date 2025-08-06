@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:snakes_fight/core/models/position.dart';
 import 'package:snakes_fight/features/game/controllers/game_state_manager.dart';
 import 'package:snakes_fight/features/game/models/direction.dart';

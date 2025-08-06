@@ -8,7 +8,6 @@ import 'package:snakes_fight/core/services/auth_service.dart';
 import 'package:snakes_fight/core/services/database_service.dart';
 import 'package:snakes_fight/core/services/room_code_service.dart';
 import 'package:snakes_fight/features/room/services/room_service.dart';
-
 import 'room_creation_integration_test.mocks.dart';
 
 @GenerateMocks([DatabaseService, AuthService])

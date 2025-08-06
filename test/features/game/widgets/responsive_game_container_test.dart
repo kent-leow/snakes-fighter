@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:snakes_fight/features/game/widgets/responsive_game_container.dart';
 
 void main() {

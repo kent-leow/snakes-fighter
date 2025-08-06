@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:snakes_fight/core/utils/performance_monitor.dart';
 
 void main() {

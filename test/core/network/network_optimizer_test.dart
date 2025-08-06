@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:snakes_fight/core/network/network_optimizer.dart';
 
 void main() {

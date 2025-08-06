@@ -1,5 +1,5 @@
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/scheduler.dart';
 
 /// A custom ticker provider for the game loop.
 class _GameLoopTickerProvider extends TickerProvider {

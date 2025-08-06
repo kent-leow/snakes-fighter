@@ -1,5 +1,5 @@
-import '../../../core/models/position.dart';
 import '../../../core/models/enums.dart';
+import '../../../core/models/position.dart';
 
 /// Represents the result of a snake movement operation.
 class SnakeMoveResult {

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:snakes_fight/core/models/position.dart';
 import 'package:snakes_fight/features/game/logic/consumption_system.dart';
 import 'package:snakes_fight/features/game/models/direction.dart';

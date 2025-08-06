@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:snakes_fight/features/game/widgets/score_display_widget.dart';
 
 void main() {

@@ -3,9 +3,9 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 
 import '../../../core/models/enums.dart';
+import '../controllers/game_state_manager.dart';
 import '../models/food.dart';
 import '../models/snake.dart';
-import '../controllers/game_state_manager.dart';
 
 /// Optimized game renderer for high-performance 60fps rendering.
 ///

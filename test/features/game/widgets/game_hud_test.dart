@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:snakes_fight/features/game/controllers/game_state_manager.dart';
 import 'package:snakes_fight/features/game/models/score_manager.dart';
 import 'package:snakes_fight/features/game/widgets/game_controls_widget.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:snakes_fight/features/game/controllers/game_state_manager.dart';
 import 'package:snakes_fight/features/game/controllers/lifecycle_manager.dart';
 

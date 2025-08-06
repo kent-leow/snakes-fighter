@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:snakes_fight/features/game/models/collision.dart';
+
 import 'package:snakes_fight/core/models/position.dart';
+import 'package:snakes_fight/features/game/models/collision.dart';
 
 void main() {
   group('Collision Models', () {
