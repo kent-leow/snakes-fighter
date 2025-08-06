@@ -412,7 +412,6 @@ class GameConfig {
   factory GameConfig.defaultConfig() {
     return const GameConfig(
       pointsPerFood: 1,
-      targetScore: null,
       maxGameDurationMs: 300000, // 5 minutes
       tickRateMs: 150, // ~6.7 FPS
     );

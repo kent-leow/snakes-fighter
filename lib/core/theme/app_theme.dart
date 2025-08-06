@@ -78,7 +78,7 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: DesignTokens.lightColorScheme.surfaceVariant.withOpacity(0.12),
+        fillColor: DesignTokens.lightColorScheme.surfaceContainerHighest.withValues(alpha: 0.12),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
           borderSide: BorderSide(color: DesignTokens.lightColorScheme.outline),
@@ -192,7 +192,7 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: DesignTokens.darkColorScheme.surfaceVariant.withOpacity(0.12),
+        fillColor: DesignTokens.darkColorScheme.surfaceContainerHighest.withValues(alpha: 0.12),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
           borderSide: BorderSide(color: DesignTokens.darkColorScheme.outline),

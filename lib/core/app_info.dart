@@ -38,7 +38,7 @@ class AppInfo {
   /// Full app identifier with environment
   static String get fullAppId => isProduction 
       ? packageName 
-      : '$packageName.${environment}';
+      : '$packageName.$environment';
   
   /// API base URL based on environment
   static String get apiBaseUrl {

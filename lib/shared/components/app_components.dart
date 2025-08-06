@@ -69,7 +69,7 @@ class AppCard extends StatelessWidget {
           Border.all(color: colorScheme.outline),
         ),
       AppCardVariant.filled => (
-          color ?? colorScheme.surfaceVariant,
+          color ?? colorScheme.surfaceContainerHighest,
           0.0,
           null,
         ),
@@ -84,7 +84,7 @@ class AppCard extends StatelessWidget {
         boxShadow: cardElevation > 0
             ? [
                 BoxShadow(
-                  color: colorScheme.shadow.withOpacity(0.1),
+                  color: colorScheme.shadow.withValues(alpha: 0.1),
                   blurRadius: cardElevation * 2,
                   offset: Offset(0, cardElevation),
                 ),

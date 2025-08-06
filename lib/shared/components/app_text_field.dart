@@ -174,7 +174,7 @@ class _AppTextFieldState extends State<AppTextField> {
           autofocus: widget.autofocus,
           textCapitalization: widget.textCapitalization,
           style: theme.textTheme.bodyLarge?.copyWith(
-            color: widget.enabled ? colorScheme.onSurface : colorScheme.onSurface.withOpacity(0.38),
+            color: widget.enabled ? colorScheme.onSurface : colorScheme.onSurface.withValues(alpha: 0.38),
           ),
           decoration: InputDecoration(
             labelText: widget.labelText,
@@ -185,7 +185,7 @@ class _AppTextFieldState extends State<AppTextField> {
             prefixText: widget.prefixText,
             suffixText: widget.suffixText,
             filled: true,
-            fillColor: colorScheme.surfaceVariant.withOpacity(0.12),
+            fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.12),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
               borderSide: BorderSide(color: colorScheme.outline),
@@ -208,7 +208,7 @@ class _AppTextFieldState extends State<AppTextField> {
             ),
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
-              borderSide: BorderSide(color: colorScheme.onSurface.withOpacity(0.12)),
+              borderSide: BorderSide(color: colorScheme.onSurface.withValues(alpha: 0.12)),
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: DesignTokens.spacing16,
@@ -218,7 +218,7 @@ class _AppTextFieldState extends State<AppTextField> {
               color: colorScheme.onSurfaceVariant,
             ),
             hintStyle: theme.textTheme.bodyLarge?.copyWith(
-              color: colorScheme.onSurfaceVariant.withOpacity(0.6),
+              color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
             ),
             errorStyle: theme.textTheme.bodySmall?.copyWith(
               color: colorScheme.error,

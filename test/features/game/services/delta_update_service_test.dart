@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../../../lib/core/models/models.dart';
-import '../../../../lib/features/game/services/delta_update_service.dart';
+import 'package:snakes_fight/core/models/models.dart';
+import 'package:snakes_fight/features/game/services/delta_update_service.dart';
 
 void main() {
   group('DeltaUpdateService', () {

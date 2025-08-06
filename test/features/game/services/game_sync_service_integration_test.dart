@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../../../lib/core/models/models.dart';
-import '../../../../lib/core/services/database_service.dart';
-import '../../../../lib/features/game/services/game_sync_service.dart';
+import 'package:snakes_fight/core/models/models.dart';
+import 'package:snakes_fight/core/services/database_service.dart';
+import 'package:snakes_fight/features/game/services/game_sync_service.dart';
 
 // Simple test implementation of DatabaseService
 class TestDatabaseService implements DatabaseService {

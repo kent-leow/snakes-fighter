@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../../../lib/core/models/models.dart';
-import '../../../../lib/features/game/services/services.dart';
+import 'package:snakes_fight/core/models/models.dart';
+import 'package:snakes_fight/features/game/services/services.dart';
 
 void main() {
   group('Real-time Sync Performance Tests', () {

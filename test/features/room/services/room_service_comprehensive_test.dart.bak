@@ -72,7 +72,7 @@ void main() {
         );
 
         when(
-          mockDatabaseService.createRoom(argThat(isA<Room>())),
+          mockDatabaseService.createRoom(any),
         ).thenAnswer((_) async => expectedRoom);
 
         // Act
@@ -86,7 +86,7 @@ void main() {
         expect(result.players.length, equals(1));
         expect(result.players.containsKey('test_user_id'), isTrue);
 
-        verify(mockDatabaseService.createRoom(argThat(isA<Room>()))).called(1);
+        verify(mockDatabaseService.createRoom(any)).called(1);
       });
 
       test('should create room with custom max players', () async {
@@ -110,7 +110,7 @@ void main() {
         );
 
         when(
-          mockDatabaseService.createRoom(argThat(isA<Room>())),
+          mockDatabaseService.createRoom(any),
         ).thenAnswer((_) async => expectedRoom);
 
         // Act
@@ -118,7 +118,7 @@ void main() {
 
         // Assert
         expect(result.maxPlayers, equals(maxPlayers));
-        verify(mockDatabaseService.createRoom(argThat(isA<Room>()))).called(1);
+        verify(mockDatabaseService.createRoom(any)).called(1);
       });
 
       test('should throw exception when user not authenticated', () async {
@@ -128,7 +128,7 @@ void main() {
         // Act & Assert
         expect(() => roomService.createRoom(), throwsA(isA<RoomException>()));
 
-        verifyNever(mockDatabaseService.createRoom(argThat(isA<Room>())));
+        verifyNever(mockDatabaseService.createRoom(any));
       });
 
       test('should throw exception for invalid max players', () async {
@@ -144,13 +144,13 @@ void main() {
           throwsA(isA<RoomException>()),
         );
 
-        verifyNever(mockDatabaseService.createRoom(argThat(isA<Room>())));
+        verifyNever(mockDatabaseService.createRoom(any));
       });
 
       test('should handle database errors', () async {
         // Arrange
         when(
-          mockDatabaseService.createRoom(argThat(isA<Room>())),
+          mockDatabaseService.createRoom(any),
         ).thenThrow(Exception('Database error'));
 
         // Act & Assert
@@ -187,8 +187,8 @@ void main() {
         ).thenAnswer((_) async => existingRoom);
         when(
           mockDatabaseService.addPlayerToRoom(
-            argThat(isA<String>()),
-            argThat(isA<Player>()),
+            any,
+            any,
           ),
         ).thenAnswer((_) async {});
 
@@ -202,8 +202,8 @@ void main() {
         verify(mockDatabaseService.getRoomByCode('ABC123')).called(1);
         verify(
           mockDatabaseService.addPlayerToRoom(
-            argThat(isA<String>()),
-            argThat(isA<Player>()),
+            any,
+            any,
           ),
         ).called(1);
       });
@@ -223,8 +223,8 @@ void main() {
         verify(mockDatabaseService.getRoomByCode('INVALID')).called(1);
         verifyNever(
           mockDatabaseService.addPlayerToRoom(
-            argThat(isA<String>()),
-            argThat(isA<Player>()),
+            any,
+            any,
           ),
         );
       });
@@ -239,7 +239,7 @@ void main() {
           throwsA(isA<RoomException>()),
         );
 
-        verifyNever(mockDatabaseService.getRoomByCode(argThat(isA<String>())));
+        verifyNever(mockDatabaseService.getRoomByCode(any));
       });
 
       test('should throw exception when room is full', () async {
@@ -269,8 +269,8 @@ void main() {
         verify(mockDatabaseService.getRoomByCode('ABC123')).called(1);
         verifyNever(
           mockDatabaseService.addPlayerToRoom(
-            argThat(isA<String>()),
-            argThat(isA<Player>()),
+            any,
+            any,
           ),
         );
       });
@@ -291,8 +291,8 @@ void main() {
         verify(mockDatabaseService.getRoomByCode('ABC123')).called(1);
         verifyNever(
           mockDatabaseService.addPlayerToRoom(
-            argThat(isA<String>()),
-            argThat(isA<Player>()),
+            any,
+            any,
           ),
         );
       });
@@ -304,8 +304,8 @@ void main() {
         ).thenAnswer((_) async => existingRoom);
         when(
           mockDatabaseService.addPlayerToRoom(
-            argThat(isA<String>()),
-            argThat(isA<Player>()),
+            any,
+            any,
           ),
         ).thenAnswer((_) async {});
 
@@ -356,8 +356,8 @@ void main() {
         ).thenAnswer((_) async => roomWithMultiplePlayers);
         when(
           mockDatabaseService.removePlayerFromRoom(
-            argThat(isA<String>()),
-            argThat(isA<String>()),
+            any,
+            any,
           ),
         ).thenAnswer((_) async {});
 
@@ -381,11 +381,11 @@ void main() {
         await roomService.leaveRoom('test_room_id');
 
         // Assert
-        verifyNever(mockDatabaseService.getRoomById(argThat(isA<String>())));
+        verifyNever(mockDatabaseService.getRoomById(any));
         verifyNever(
           mockDatabaseService.removePlayerFromRoom(
-            argThat(isA<String>()),
-            argThat(isA<String>()),
+            any,
+            any,
           ),
         );
       });
@@ -403,8 +403,8 @@ void main() {
         verify(mockDatabaseService.getRoomById('test_room_id')).called(1);
         verifyNever(
           mockDatabaseService.removePlayerFromRoom(
-            argThat(isA<String>()),
-            argThat(isA<String>()),
+            any,
+            any,
           ),
         );
       });
@@ -418,12 +418,12 @@ void main() {
           ).thenAnswer((_) async => roomWithMultiplePlayers);
           when(
             mockDatabaseService.removePlayerFromRoom(
-              argThat(isA<String>()),
-              argThat(isA<String>()),
+              any,
+              any,
             ),
           ).thenAnswer((_) async {});
           when(
-            mockDatabaseService.updateRoom(argThat(isA<Room>())),
+            mockDatabaseService.updateRoom(any),
           ).thenAnswer((_) async {});
 
           // Act
@@ -437,7 +437,7 @@ void main() {
             ),
           ).called(1);
           verify(
-            mockDatabaseService.updateRoom(argThat(isA<Room>())),
+            mockDatabaseService.updateRoom(any),
           ).called(1);
         },
       );
@@ -450,7 +450,7 @@ void main() {
 
         final futures = List.generate(5, (_) => roomService.createRoom());
 
-        when(mockDatabaseService.createRoom(argThat(isA<Room>()))).thenAnswer((
+        when(mockDatabaseService.createRoom(any)).thenAnswer((
           invocation,
         ) async {
           final room = invocation.positionalArguments[0] as Room;
@@ -469,7 +469,7 @@ void main() {
       test('should handle network timeouts gracefully', () async {
         // Arrange
         when(
-          mockDatabaseService.createRoom(argThat(isA<Room>())),
+          mockDatabaseService.createRoom(any),
         ).thenThrow(Exception('Network timeout'));
 
         // Act & Assert

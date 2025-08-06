@@ -238,7 +238,11 @@ class GameEventBroadcaster {
   /// Creates a new broadcast stream controller if one doesn't exist
   /// for the specified room. Multiple listeners can subscribe to the
   /// same stream.
+  /// 
+  /// Note: StreamController is intentionally not closed here as it's
+  /// managed by dispose() and disposeAll() methods.
   Stream<GameEvent> getEventStream(String roomId) {
+    // ignore: close_sinks
     _controllers[roomId] ??= StreamController<GameEvent>.broadcast();
     return _controllers[roomId]!.stream;
   }

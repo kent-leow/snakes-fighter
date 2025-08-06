@@ -341,7 +341,7 @@ class PerformanceMonitor {
     if (!_isMonitoring) return;
     
     // Calculate frame time (this is a simplified implementation)
-    final frameTime = Duration(milliseconds: 16); // ~60fps
+    const frameTime = Duration(milliseconds: 16); // ~60fps
     recordFrameTime(frameTime);
   }
 

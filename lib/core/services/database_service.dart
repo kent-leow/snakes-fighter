@@ -438,6 +438,7 @@ class FirebaseDatabaseService implements DatabaseService {
   }
 
   /// Batch update multiple paths atomically
+  @override
   Future<void> batchUpdate(Map<String, dynamic> updates) async {
     try {
       await _database.ref().update(updates);

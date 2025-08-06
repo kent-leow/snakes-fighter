@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../../../lib/core/models/models.dart';
-import '../../../../lib/features/game/services/event_broadcaster.dart';
+import 'package:snakes_fight/core/models/models.dart';
+import 'package:snakes_fight/features/game/services/event_broadcaster.dart';
 
 void main() {
   group('GameEventBroadcaster', () {

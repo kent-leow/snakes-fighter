@@ -199,7 +199,7 @@ class OptimizedGameRenderer {
 
   /// Maps player ID to color for consistency.
   PlayerColor _getPlayerColor(String playerId) {
-    final colors = PlayerColor.values;
+    const colors = PlayerColor.values;
     final hash = playerId.hashCode.abs();
     return colors[hash % colors.length];
   }
@@ -233,10 +233,10 @@ class OptimizedGameRenderer {
 extension ColorExtension on Color {
   Color get darker {
     return Color.fromARGB(
-      alpha,
-      (red * 0.8).round(),
-      (green * 0.8).round(),
-      (blue * 0.8).round(),
+      (a * 255.0).round() & 0xff,
+      (((r * 255.0).round() & 0xff) * 0.8).round(),
+      (((g * 255.0).round() & 0xff) * 0.8).round(),
+      (((b * 255.0).round() & 0xff) * 0.8).round(),
     );
   }
 }
