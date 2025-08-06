@@ -120,7 +120,7 @@ class AppTheme {
           color: DesignTokens.lightColorScheme.onInverseSurface,
         ),
       ),
-      bottomSheetTheme: BottomSheetThemeData(
+      bottomSheetTheme: const BottomSheetThemeData(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(DesignTokens.radiusLarge),
@@ -241,7 +241,7 @@ class AppTheme {
           color: DesignTokens.darkColorScheme.onInverseSurface,
         ),
       ),
-      bottomSheetTheme: BottomSheetThemeData(
+      bottomSheetTheme: const BottomSheetThemeData(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(DesignTokens.radiusLarge),

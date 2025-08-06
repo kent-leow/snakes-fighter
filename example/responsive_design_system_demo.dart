@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../lib/core/core.dart';
-import '../lib/shared/shared.dart';
+import 'package:snakes_fight/core/core.dart';
+import 'package:snakes_fight/shared/shared.dart';
 
 /// Example app demonstrating the responsive UI design system
 class ResponsiveDesignSystemDemo extends ConsumerWidget {
@@ -36,15 +36,15 @@ class DemoHomePage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: ResponsiveValue<EdgeInsets>(
-          mobile: const EdgeInsets.all(DesignTokens.spacing16),
-          tablet: const EdgeInsets.all(DesignTokens.spacing24),
-          desktop: const EdgeInsets.all(DesignTokens.spacing32),
+        padding: const ResponsiveValue<EdgeInsets>(
+          mobile: EdgeInsets.all(DesignTokens.spacing16),
+          tablet: EdgeInsets.all(DesignTokens.spacing24),
+          desktop: EdgeInsets.all(DesignTokens.spacing32),
         ).getValue(context),
-        child: ResponsiveLayout(
-          mobile: const _MobileLayout(),
-          tablet: const _TabletLayout(),
-          desktop: const _DesktopLayout(),
+        child: const ResponsiveLayout(
+          mobile: _MobileLayout(),
+          tablet: _TabletLayout(),
+          desktop: _DesktopLayout(),
         ),
       ),
     );
@@ -169,13 +169,13 @@ Widget _buildButtonSection() {
         const SizedBox(height: DesignTokens.spacing8),
         AppButton.text(text: 'Text Button', onPressed: () {}),
         const SizedBox(height: DesignTokens.spacing16),
-        Row(
+        const Row(
           children: [
-            const AppBadge(text: 'New'),
-            const SizedBox(width: DesignTokens.spacing8),
-            const AppBadge.success(text: 'Success'),
-            const SizedBox(width: DesignTokens.spacing8),
-            const AppBadge.error(text: 'Error'),
+            AppBadge(text: 'New'),
+            SizedBox(width: DesignTokens.spacing8),
+            AppBadge.success(text: 'Success'),
+            SizedBox(width: DesignTokens.spacing8),
+            AppBadge.error(text: 'Error'),
           ],
         ),
       ],
@@ -199,8 +199,6 @@ Widget _buildFormSection() {
         const AppTextArea(
           labelText: 'Message',
           hintText: 'Enter your message here...',
-          minLines: 3,
-          maxLines: 5,
         ),
       ],
     ),

@@ -51,7 +51,7 @@ void main() {
       );
 
       // Act
-      final room = await roomService.createRoom(maxPlayers: 4);
+      final room = await roomService.createRoom();
 
       // Assert
       expect(room.hostId, equals('test-uid'));

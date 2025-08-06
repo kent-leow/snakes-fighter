@@ -208,21 +208,21 @@ void main() {
           expect(
             initialSize,
             lessThan(2048), // 2KB
-            reason: 'Initial state delta size was ${initialSize} bytes',
+            reason: 'Initial state delta size was $initialSize bytes',
           );
 
           // Movement updates should be small
           expect(
             movementSize,
             lessThan(512), // 512 bytes
-            reason: 'Movement delta size was ${movementSize} bytes',
+            reason: 'Movement delta size was $movementSize bytes',
           );
 
           // Food updates should be small
           expect(
             foodSize,
             lessThan(512), // 512 bytes
-            reason: 'Food delta size was ${foodSize} bytes',
+            reason: 'Food delta size was $foodSize bytes',
           );
         },
       );

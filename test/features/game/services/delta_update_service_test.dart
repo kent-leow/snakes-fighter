@@ -79,7 +79,6 @@ void main() {
             'player1': const Snake(
               positions: [Position(1, 1)],
               direction: Direction.right,
-              score: 0,
             ),
           },
         );
@@ -168,7 +167,6 @@ void main() {
             'player1': const Snake(
               positions: [Position(1, 1)],
               direction: Direction.right,
-              score: 0,
             ),
           },
         );
@@ -176,7 +174,6 @@ void main() {
         const updatedSnake = Snake(
           positions: [Position(2, 1)], // Head moved
           direction: Direction.right, // Same direction
-          score: 0, // Same score
         );
 
         // Act
@@ -241,7 +238,6 @@ void main() {
             'player1': const Snake(
               positions: [Position(1, 1)],
               direction: Direction.right,
-              score: 0,
             ),
           },
         );

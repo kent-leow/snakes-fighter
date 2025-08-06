@@ -18,7 +18,6 @@ class WinConditionHandler {
     if (aliveSnakes.isEmpty) {
       return GameEndResult(
         isGameEnded: true,
-        winner: null,
         endReason: GameEndReason.allPlayersDead,
         finalScores: _calculateFinalScores(snakes),
         playerRankings: _calculatePlayerRankings(snakes),

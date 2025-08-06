@@ -3,6 +3,7 @@
 /// This library provides services for synchronizing game state across
 /// multiple players in real-time, broadcasting events, and optimizing
 /// network performance through delta updates.
+library;
 
 export 'delta_update_service.dart';
 export 'event_broadcaster.dart';

@@ -89,17 +89,17 @@ void main() {
         // Arrange
         const roomId = 'room1';
         final events = [
-          PlayerMoveEvent(
+          const PlayerMoveEvent(
             playerId: 'player1',
             timestamp: 1000,
             direction: Direction.up,
-            newHeadPosition: const Position(1, 0),
+            newHeadPosition: Position(1, 0),
           ),
-          FoodConsumedEvent(
+          const FoodConsumedEvent(
             playerId: 'player1',
             timestamp: 2000,
-            foodPosition: const Position(5, 5),
-            newFoodPosition: const Position(3, 3),
+            foodPosition: Position(5, 5),
+            newFoodPosition: Position(3, 3),
             newScore: 10,
           ),
         ];
@@ -126,17 +126,17 @@ void main() {
       test('filters events by type', () async {
         // Arrange
         const roomId = 'room1';
-        final moveEvent = PlayerMoveEvent(
+        const moveEvent = PlayerMoveEvent(
           playerId: 'player1',
           timestamp: 1000,
           direction: Direction.up,
-          newHeadPosition: const Position(1, 0),
+          newHeadPosition: Position(1, 0),
         );
-        final foodEvent = FoodConsumedEvent(
+        const foodEvent = FoodConsumedEvent(
           playerId: 'player1',
           timestamp: 2000,
-          foodPosition: const Position(5, 5),
-          newFoodPosition: const Position(3, 3),
+          foodPosition: Position(5, 5),
+          newFoodPosition: Position(3, 3),
           newScore: 10,
         );
 
@@ -289,11 +289,11 @@ void main() {
     group('toJson', () {
       test('serializes PlayerMoveEvent correctly', () {
         // Arrange
-        final event = PlayerMoveEvent(
+        const event = PlayerMoveEvent(
           playerId: 'player1',
           timestamp: 1000,
           direction: Direction.up,
-          newHeadPosition: const Position(1, 0),
+          newHeadPosition: Position(1, 0),
         );
 
         // Act
@@ -309,11 +309,11 @@ void main() {
 
       test('serializes FoodConsumedEvent correctly', () {
         // Arrange
-        final event = FoodConsumedEvent(
+        const event = FoodConsumedEvent(
           playerId: 'player1',
           timestamp: 2000,
-          foodPosition: const Position(5, 5),
-          newFoodPosition: const Position(3, 3),
+          foodPosition: Position(5, 5),
+          newFoodPosition: Position(3, 3),
           newScore: 10,
         );
 

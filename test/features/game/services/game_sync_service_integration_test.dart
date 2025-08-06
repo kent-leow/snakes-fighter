@@ -118,9 +118,9 @@ void main() {
         await service.syncPlayerMove(roomId, playerId, direction);
 
         // Assert
-        final expectedKey1 =
+        const expectedKey1 =
             'rooms/$roomId/gameState/snakes/$playerId/direction';
-        final expectedKey2 =
+        const expectedKey2 =
             'rooms/$roomId/gameState/snakes/$playerId/lastUpdate';
 
         expect(testDatabaseService._data[expectedKey1], equals('up'));
@@ -147,8 +147,8 @@ void main() {
         );
 
         // Assert
-        final expectedFoodKey = 'rooms/$roomId/gameState/food/position';
-        final expectedScoreKey =
+        const expectedFoodKey = 'rooms/$roomId/gameState/food/position';
+        const expectedScoreKey =
             'rooms/$roomId/gameState/snakes/$playerId/score';
 
         expect(
@@ -169,9 +169,9 @@ void main() {
         await service.syncPlayerDeath(roomId, playerId);
 
         // Assert
-        final expectedAliveKey =
+        const expectedAliveKey =
             'rooms/$roomId/gameState/snakes/$playerId/alive';
-        final expectedDeathTimeKey =
+        const expectedDeathTimeKey =
             'rooms/$roomId/gameState/snakes/$playerId/deathTime';
 
         expect(testDatabaseService._data[expectedAliveKey], equals(false));
@@ -200,13 +200,13 @@ void main() {
         );
 
         // Assert
-        final expectedPositionsKey =
+        const expectedPositionsKey =
             'rooms/$roomId/gameState/snakes/$playerId/positions';
-        final expectedDirectionKey =
+        const expectedDirectionKey =
             'rooms/$roomId/gameState/snakes/$playerId/direction';
-        final expectedAliveKey =
+        const expectedAliveKey =
             'rooms/$roomId/gameState/snakes/$playerId/alive';
-        final expectedScoreKey =
+        const expectedScoreKey =
             'rooms/$roomId/gameState/snakes/$playerId/score';
 
         expect(
@@ -229,9 +229,9 @@ void main() {
         await service.syncGameEnd(roomId, winnerId);
 
         // Assert
-        final expectedEndedAtKey = 'rooms/$roomId/gameState/endedAt';
-        final expectedWinnerKey = 'rooms/$roomId/gameState/winner';
-        final expectedStatusKey = 'rooms/$roomId/status';
+        const expectedEndedAtKey = 'rooms/$roomId/gameState/endedAt';
+        const expectedWinnerKey = 'rooms/$roomId/gameState/winner';
+        const expectedStatusKey = 'rooms/$roomId/status';
 
         expect(testDatabaseService._data[expectedEndedAtKey], isA<String>());
         expect(testDatabaseService._data[expectedWinnerKey], equals(winnerId));
@@ -246,7 +246,7 @@ void main() {
         await service.syncGameEnd(roomId, null);
 
         // Assert
-        final expectedWinnerKey = 'rooms/$roomId/gameState/winner';
+        const expectedWinnerKey = 'rooms/$roomId/gameState/winner';
         expect(testDatabaseService._data[expectedWinnerKey], isNull);
       });
     });
@@ -260,8 +260,8 @@ void main() {
         await service.syncGameStart(roomId);
 
         // Assert
-        final expectedStartedAtKey = 'rooms/$roomId/gameState/startedAt';
-        final expectedStatusKey = 'rooms/$roomId/status';
+        const expectedStartedAtKey = 'rooms/$roomId/gameState/startedAt';
+        const expectedStatusKey = 'rooms/$roomId/status';
 
         expect(testDatabaseService._data[expectedStartedAtKey], isA<String>());
         expect(testDatabaseService._data[expectedStatusKey], equals('active'));
@@ -280,7 +280,7 @@ void main() {
 
         // Trigger some updates
         await service.syncGameStart(roomId);
-        await Future.delayed(Duration(milliseconds: 10));
+        await Future.delayed(const Duration(milliseconds: 10));
 
         // Assert
         expect(events, hasLength(1));

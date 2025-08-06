@@ -256,6 +256,7 @@ class GameEventBroadcaster {
   /// event stream for the specified room. Events are delivered
   /// immediately without buffering.
   void broadcastEvent(String roomId, GameEvent event) {
+    // ignore: close_sinks
     final controller = _controllers[roomId];
     if (controller != null && !controller.isClosed) {
       controller.add(event);
@@ -267,6 +268,7 @@ class GameEventBroadcaster {
   /// Efficient method for sending multiple events at once.
   /// Events are sent in the order provided.
   void broadcastEvents(String roomId, List<GameEvent> events) {
+    // ignore: close_sinks
     final controller = _controllers[roomId];
     if (controller != null && !controller.isClosed) {
       for (final event in events) {
@@ -290,6 +292,7 @@ class GameEventBroadcaster {
   /// event stream. Useful for optimization to avoid broadcasting
   /// events when no one is listening.
   bool hasActiveListeners(String roomId) {
+    // ignore: close_sinks
     final controller = _controllers[roomId];
     return controller != null && !controller.isClosed && controller.hasListener;
   }
@@ -298,6 +301,7 @@ class GameEventBroadcaster {
   ///
   /// Returns the count of active subscriptions to the room's event stream.
   int getListenerCount(String roomId) {
+    // ignore: close_sinks
     final controller = _controllers[roomId];
     if (controller == null || controller.isClosed) {
       return 0;

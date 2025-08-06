@@ -443,8 +443,8 @@ class _StateChangedEvent extends GameFlowEvent {
   _StateChangedEvent({
     required this.fromState,
     required this.toState,
-    String? roomId,
-  }) : super(roomId: roomId);
+    super.roomId,
+  });
 
   @override
   String toString() =>
@@ -454,7 +454,7 @@ class _StateChangedEvent extends GameFlowEvent {
 class _ErrorEvent extends GameFlowEvent {
   final String message;
 
-  _ErrorEvent({required this.message, String? roomId}) : super(roomId: roomId);
+  _ErrorEvent({required this.message, super.roomId});
 
   @override
   String toString() => 'ErrorEvent(message: $message, roomId: $roomId)';

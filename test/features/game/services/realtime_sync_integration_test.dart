@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 
@@ -195,7 +194,6 @@ void main() {
             'player1': const Snake(
               positions: [Position(1, 1)],
               direction: Direction.right,
-              score: 0,
             ),
           },
         );
@@ -234,13 +232,11 @@ void main() {
         const initialSnake = Snake(
           positions: [Position(1, 1)],
           direction: Direction.right,
-          score: 0,
         );
 
         const movedSnake = Snake(
           positions: [Position(2, 1)], // Head moved
           direction: Direction.right, // Same direction
-          score: 0, // Same score
         );
 
         const grownSnake = Snake(
@@ -363,35 +359,35 @@ void main() {
     group('Event Serialization', () {
       test('serializes and deserializes events correctly', () {
         // Arrange & Act: Test different event types
-        final moveEvent = PlayerMoveEvent(
+        const moveEvent = PlayerMoveEvent(
           playerId: 'player1',
           timestamp: 1000,
           direction: Direction.up,
-          newHeadPosition: const Position(1, 0),
+          newHeadPosition: Position(1, 0),
         );
 
-        final foodEvent = FoodConsumedEvent(
+        const foodEvent = FoodConsumedEvent(
           playerId: 'player1',
           timestamp: 2000,
-          foodPosition: const Position(5, 5),
-          newFoodPosition: const Position(3, 3),
+          foodPosition: Position(5, 5),
+          newFoodPosition: Position(3, 3),
           newScore: 10,
         );
 
-        final deathEvent = PlayerDeathEvent(
+        const deathEvent = PlayerDeathEvent(
           playerId: 'player2',
           timestamp: 3000,
           cause: 'collision',
           finalScore: 5,
         );
 
-        final startEvent = GameStartEvent(
+        const startEvent = GameStartEvent(
           playerId: 'host',
           timestamp: 4000,
           roomId: 'room1',
         );
 
-        final endEvent = GameEndEvent(
+        const endEvent = GameEndEvent(
           playerId: 'host',
           timestamp: 5000,
           roomId: 'room1',

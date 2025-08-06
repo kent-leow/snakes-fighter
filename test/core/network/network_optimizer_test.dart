@@ -81,7 +81,7 @@ void main() {
       test('should limit history size', () {
         // Record more than the history limit (100)
         for (int i = 0; i < 150; i++) {
-          optimizer.recordLatency(Duration(milliseconds: 10));
+          optimizer.recordLatency(const Duration(milliseconds: 10));
         }
 
         final metrics = optimizer.getNetworkMetrics();

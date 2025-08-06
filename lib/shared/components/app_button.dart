@@ -124,7 +124,7 @@ class AppButton extends StatelessWidget {
             ),
             child: icon!,
           ),
-          SizedBox(width: DesignTokens.spacing8),
+          const SizedBox(width: DesignTokens.spacing8),
           Text(text),
         ],
       );
@@ -178,30 +178,30 @@ class AppButton extends StatelessWidget {
 
   _SizeConfig _getSizeConfig(AppButtonSize size) {
     return switch (size) {
-      AppButtonSize.small => _SizeConfig(
-        padding: const EdgeInsets.symmetric(
+      AppButtonSize.small => const _SizeConfig(
+        padding: EdgeInsets.symmetric(
           horizontal: DesignTokens.spacing16,
           vertical: DesignTokens.spacing8,
         ),
-        minimumSize: const Size(64, 32),
+        minimumSize: Size(64, 32),
         borderRadius: DesignTokens.radiusSmall,
         iconSize: DesignTokens.iconSmall,
       ),
-      AppButtonSize.medium => _SizeConfig(
-        padding: const EdgeInsets.symmetric(
+      AppButtonSize.medium => const _SizeConfig(
+        padding: EdgeInsets.symmetric(
           horizontal: DesignTokens.spacing24,
           vertical: DesignTokens.spacing12,
         ),
-        minimumSize: const Size(80, 40),
+        minimumSize: Size(80, 40),
         borderRadius: DesignTokens.radiusMedium,
         iconSize: DesignTokens.iconMedium,
       ),
-      AppButtonSize.large => _SizeConfig(
-        padding: const EdgeInsets.symmetric(
+      AppButtonSize.large => const _SizeConfig(
+        padding: EdgeInsets.symmetric(
           horizontal: DesignTokens.spacing32,
           vertical: DesignTokens.spacing16,
         ),
-        minimumSize: const Size(96, 48),
+        minimumSize: Size(96, 48),
         borderRadius: DesignTokens.radiusLarge,
         iconSize: DesignTokens.iconLarge,
       ),

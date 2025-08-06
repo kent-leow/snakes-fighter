@@ -42,7 +42,6 @@ class TestData {
     hostId: 'test_host',
     status: RoomStatus.waiting,
     createdAt: DateTime.now(),
-    maxPlayers: 4,
     players: {
       'test_host': Player(
         uid: 'test_host',
@@ -128,7 +127,6 @@ class TestHelpers {
       hostId: 'player_0',
       status: RoomStatus.waiting,
       createdAt: DateTime.now(),
-      maxPlayers: 4,
       players: players,
     );
   }
