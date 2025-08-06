@@ -55,7 +55,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: 'your-sender-id',
     projectId: 'your-project-id',
     authDomain: 'your-project.firebaseapp.com',
-    databaseURL: 'https://your-project-default-rtdb.region.firebasedatabase.app',
+    databaseURL:
+        'https://your-project-default-rtdb.region.firebasedatabase.app',
     storageBucket: 'your-project.firebasestorage.app',
   );
 
@@ -64,7 +65,8 @@ class DefaultFirebaseOptions {
     appId: 'your-android-app-id',
     messagingSenderId: 'your-sender-id',
     projectId: 'your-project-id',
-    databaseURL: 'https://your-project-default-rtdb.region.firebasedatabase.app',
+    databaseURL:
+        'https://your-project-default-rtdb.region.firebasedatabase.app',
     storageBucket: 'your-project.firebasestorage.app',
   );
 
@@ -73,7 +75,8 @@ class DefaultFirebaseOptions {
     appId: 'your-ios-app-id',
     messagingSenderId: 'your-sender-id',
     projectId: 'your-project-id',
-    databaseURL: 'https://your-project-default-rtdb.region.firebasedatabase.app',
+    databaseURL:
+        'https://your-project-default-rtdb.region.firebasedatabase.app',
     storageBucket: 'your-project.firebasestorage.app',
     iosBundleId: 'com.example.snakesFight',
   );

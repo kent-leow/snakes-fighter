@@ -34,6 +34,7 @@ jobs:
       - name: Create Firebase options file
         run: |
           cp lib/firebase_options.dart.example lib/firebase_options.dart
+          dart format --page-width=80 lib/firebase_options.dart
 
       - name: Get dependencies
         run: flutter pub get
@@ -106,6 +107,7 @@ jobs:
       - name: Create Firebase options file
         run: |
           cp lib/firebase_options.dart.example lib/firebase_options.dart
+          dart format --page-width=80 lib/firebase_options.dart
 
       - name: Get dependencies
         run: flutter pub get
@@ -144,12 +146,16 @@ jobs:
       - name: Create Firebase options file
         run: |
           cp lib/firebase_options.dart.example lib/firebase_options.dart
+          dart format --page-width=80 lib/firebase_options.dart
 
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Install dart_code_metrics
+        run: dart pub global activate dart_code_metrics
+
       - name: Run dart_code_metrics
-        run: dart run dart_code_metrics:metrics analyze lib --disable-sunset-warning
+        run: dart pub global run dart_code_metrics:metrics analyze lib
 
       - name: Check import sorting
         run: dart run import_sorter:main --no-comments --exit-if-changed

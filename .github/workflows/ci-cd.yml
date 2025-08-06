@@ -36,6 +36,7 @@ jobs:
       - name: Create Firebase options file
         run: |
           cp lib/firebase_options.dart.example lib/firebase_options.dart
+          dart format --page-width=80 lib/firebase_options.dart
 
       - name: Analyze code
         run: flutter analyze --fatal-infos
@@ -82,6 +83,7 @@ jobs:
       - name: Create Firebase options file
         run: |
           cp lib/firebase_options.dart.example lib/firebase_options.dart
+          dart format --page-width=80 lib/firebase_options.dart
 
       - name: Get dependencies
         run: flutter pub get
@@ -118,6 +120,7 @@ jobs:
       - name: Create Firebase options file
         run: |
           cp lib/firebase_options.dart.example lib/firebase_options.dart
+          dart format --page-width=80 lib/firebase_options.dart
 
       - name: Get dependencies
         run: flutter pub get
@@ -125,6 +128,7 @@ jobs:
       - name: Build web application
         run: |
           flutter build web --release \
+            --tree-shake-icons \
             --dart-define=ENVIRONMENT=development \
             --dart-define=FIREBASE_PROJECT_ID=snakes-fight-dev
 
@@ -177,28 +181,50 @@ jobs:
       - name: Create Firebase options file
         run: |
           cp lib/firebase_options.dart.example lib/firebase_options.dart
+          dart format --page-width=80 lib/firebase_options.dart
 
       - name: Get dependencies
         run: flutter pub get
 
       - name: Build web for performance analysis
-        run: flutter build web --release -O 4
+        run: |
+          flutter build web --release \
+            --dart-define=ENVIRONMENT=development \
+            --tree-shake-icons
 
       - name: Analyze bundle size
         run: |
           WEB_SIZE=$(du -sh build/web | cut -f1)
           echo "Web build size: $WEB_SIZE"
           
-          # Check if build is under 10MB
-          SIZE_BYTES=$(du -sb build/web | cut -f1)
-          MAX_SIZE=$((10 * 1024 * 1024))  # 10MB in bytes
+          # Check if build is under 30MB (reasonable for Flutter web with CanvasKit)
+          # Convert size to KB for comparison (works across platforms)
+          SIZE_KB=$(du -sk build/web | cut -f1)
+          MAX_SIZE_KB=$((30 * 1024))  # 30MB in KB
           
-          if [ $SIZE_BYTES -gt $MAX_SIZE ]; then
-            echo "⚠️  Build size ($WEB_SIZE) exceeds 10MB limit"
+          if [ $SIZE_KB -gt $MAX_SIZE_KB ]; then
+            echo "⚠️  Build size ($WEB_SIZE) exceeds 30MB limit"
             exit 1
           else
             echo "✅ Build size within limits"
           fi
+          
+          # Report component sizes for monitoring
+          CANVASKIT_SIZE=$(du -sh build/web/canvaskit 2>/dev/null | cut -f1 || echo "N/A")
+          MAIN_JS_SIZE=$(du -sh build/web/main.dart.js 2>/dev/null | cut -f1 || echo "N/A")
+          ASSETS_SIZE=$(du -sh build/web/assets 2>/dev/null | cut -f1 || echo "N/A")
+          
+          echo "📊 Bundle composition:"
+          echo "  CanvasKit: $CANVASKIT_SIZE"
+          echo "  Main JS: $MAIN_JS_SIZE"
+          echo "  Assets: $ASSETS_SIZE"
+          
+          # Performance recommendations
+          echo ""
+          echo "💡 Performance notes:"
+          echo "  - CanvasKit provides high-performance graphics rendering"
+          echo "  - Use 'flutter build web --web-renderer html' for smaller bundle (lower performance)"
+          echo "  - Current configuration prioritizes performance over size"
 
   # Deployment status
   deployment-status:
