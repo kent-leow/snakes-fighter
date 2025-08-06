@@ -133,7 +133,11 @@ void main() {
         );
 
         // Perform a swipe gesture
-        await tester.drag(find.byType(SizedBox), const Offset(100, 0), warnIfMissed: false);
+        await tester.drag(
+          find.byType(SizedBox),
+          const Offset(100, 0),
+          warnIfMissed: false,
+        );
         await tester.pump();
 
         // Should not throw any errors
