@@ -8,7 +8,6 @@ import 'test_helpers.mocks.dart';
 
 // Generate mocks for these classes
 @GenerateMocks([AuthService, DatabaseService])
-
 /// Mock User (Firebase Auth User)
 class MockUser extends Mock implements auth.User {
   @override
