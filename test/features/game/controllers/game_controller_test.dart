@@ -7,7 +7,7 @@ import 'package:snakes_fight/features/game/models/direction.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  
+
   group('GameController', () {
     late GridSystem gridSystem;
     late GameController gameController;

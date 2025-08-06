@@ -18,7 +18,7 @@ class AppRouter {
   static const String settingsRoute = '/settings';
   static const String pauseMenuRoute = '/pause-menu';
   static const String gameOverRoute = '/game-over';
-  
+
   /// Generate routes based on route settings.
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -27,20 +27,20 @@ class AppRouter {
           builder: (_) => const AuthScreen(),
           settings: settings,
         );
-      
+
       case mainMenu:
         return MaterialPageRoute<void>(
           builder: (_) => const MainMenuScreen(),
           settings: settings,
         );
-      
+
       case settingsRoute:
         final settingsService = settings.arguments as SettingsService?;
         return MaterialPageRoute<void>(
           builder: (_) => SettingsScreen(settingsService: settingsService),
           settings: settings,
         );
-      
+
       case pauseMenuRoute:
         final args = settings.arguments as PauseMenuArguments?;
         return PageRouteBuilder<void>(
@@ -53,7 +53,7 @@ class AppRouter {
           barrierColor: Colors.black54,
           settings: settings,
         );
-      
+
       case gameOverRoute:
         final args = settings.arguments as GameOverArguments?;
         return MaterialPageRoute<void>(
@@ -65,7 +65,7 @@ class AppRouter {
           ),
           settings: settings,
         );
-      
+
       default:
         return MaterialPageRoute<void>(
           builder: (_) => _ErrorScreen(routeName: settings.name ?? 'unknown'),
@@ -80,7 +80,7 @@ class PauseMenuArguments {
   final VoidCallback onResume;
   final VoidCallback onRestart;
   final VoidCallback onMainMenu;
-  
+
   const PauseMenuArguments({
     required this.onResume,
     required this.onRestart,
@@ -94,7 +94,7 @@ class GameOverArguments {
   final int highScore;
   final VoidCallback onRestart;
   final VoidCallback onMainMenu;
-  
+
   const GameOverArguments({
     required this.finalScore,
     required this.highScore,
@@ -106,15 +106,13 @@ class GameOverArguments {
 /// Error screen for undefined routes.
 class _ErrorScreen extends StatelessWidget {
   final String routeName;
-  
+
   const _ErrorScreen({required this.routeName});
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Error'),
-      ),
+      appBar: AppBar(title: const Text('Error')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

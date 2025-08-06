@@ -1,5 +1,5 @@
 /// Game services for real-time multiplayer synchronization.
-/// 
+///
 /// This library provides services for synchronizing game state across
 /// multiple players in real-time, broadcasting events, and optimizing
 /// network performance through delta updates.

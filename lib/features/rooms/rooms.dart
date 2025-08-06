@@ -11,6 +11,7 @@ library rooms;
 export '../room/presentation/create_room_screen.dart';
 export '../room/services/room_service.dart';
 export '../room/providers/room_providers.dart';
+
 // export 'presentation/join_room_screen.dart';
 // export 'data/rooms_repository.dart';
 // export 'domain/rooms_service.dart';

@@ -15,7 +15,7 @@ import 'room_creation_integration_test.mocks.dart';
 class MockFirebaseUser extends Mock implements firebase_auth.User {
   @override
   String get uid => 'test-uid';
-  
+
   @override
   String? get displayName => 'Test User';
 }
@@ -41,12 +41,14 @@ void main() {
     test('should complete full room creation flow', () async {
       // Arrange
       final mockUser = MockFirebaseUser();
-      
+
       when(mockAuthService.currentUser).thenReturn(mockUser);
-      when(mockDatabaseService.getRoomByCode(any))
-          .thenAnswer((_) async => null);
-      when(mockDatabaseService.createRoom(any))
-          .thenAnswer((invocation) async => invocation.positionalArguments[0] as Room);
+      when(
+        mockDatabaseService.getRoomByCode(any),
+      ).thenAnswer((_) async => null);
+      when(mockDatabaseService.createRoom(any)).thenAnswer(
+        (invocation) async => invocation.positionalArguments[0] as Room,
+      );
 
       // Act
       final room = await roomService.createRoom(maxPlayers: 4);
@@ -81,8 +83,9 @@ void main() {
 
       var callCount = 0;
       when(mockAuthService.currentUser).thenReturn(mockUser);
-      when(mockDatabaseService.getRoomByCode(any))
-          .thenAnswer((invocation) async {
+      when(mockDatabaseService.getRoomByCode(any)).thenAnswer((
+        invocation,
+      ) async {
         callCount++;
         // First call returns existing room, subsequent calls return null
         if (callCount == 1) {
@@ -90,8 +93,9 @@ void main() {
         }
         return null;
       });
-      when(mockDatabaseService.createRoom(any))
-          .thenAnswer((invocation) async => invocation.positionalArguments[0] as Room);
+      when(mockDatabaseService.createRoom(any)).thenAnswer(
+        (invocation) async => invocation.positionalArguments[0] as Room,
+      );
 
       // Act
       final room = await roomService.createRoom();
@@ -108,19 +112,24 @@ void main() {
     test('should assign available player colors', () async {
       // Arrange
       final mockUser = MockFirebaseUser();
-      
+
       when(mockAuthService.currentUser).thenReturn(mockUser);
-      when(mockDatabaseService.getRoomByCode(any))
-          .thenAnswer((_) async => null);
-      when(mockDatabaseService.createRoom(any))
-          .thenAnswer((invocation) async => invocation.positionalArguments[0] as Room);
+      when(
+        mockDatabaseService.getRoomByCode(any),
+      ).thenAnswer((_) async => null);
+      when(mockDatabaseService.createRoom(any)).thenAnswer(
+        (invocation) async => invocation.positionalArguments[0] as Room,
+      );
 
       // Act
       final room = await roomService.createRoom();
 
       // Assert
       final hostPlayer = room.players['test-uid'];
-      expect(hostPlayer?.color, equals(PlayerColor.red)); // First available color
+      expect(
+        hostPlayer?.color,
+        equals(PlayerColor.red),
+      ); // First available color
     });
   });
 }

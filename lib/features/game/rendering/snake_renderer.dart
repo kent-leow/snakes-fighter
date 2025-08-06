@@ -10,10 +10,10 @@ import '../models/snake.dart';
 /// head and body segments, optimized for performance.
 class SnakeRenderer {
   // Snake colors
-  static const Color _headColor = Color(0xFF4CAF50);  // Green
-  static const Color _bodyColor = Color(0xFF81C784);  // Light green
-  static const Color _deadColor = Color(0xFF757575);  // Gray
-  
+  static const Color _headColor = Color(0xFF4CAF50); // Green
+  static const Color _bodyColor = Color(0xFF81C784); // Light green
+  static const Color _deadColor = Color(0xFF757575); // Gray
+
   // Visual properties
   static const double _borderRadius = 2.0;
   static const double _headScale = 0.9;
@@ -32,26 +32,16 @@ class SnakeRenderer {
     GameState gameState,
   ) {
     if (snake.body.isEmpty) return;
-    
+
     final isDead = gameState == GameState.gameOver;
-    
+
     // Render body segments first (so head appears on top)
     for (int i = 1; i < snake.body.length; i++) {
-      renderSnakeBody(
-        canvas,
-        snake.body[i],
-        cellSize,
-        isDead,
-      );
+      renderSnakeBody(canvas, snake.body[i], cellSize, isDead);
     }
-    
+
     // Render head last
-    renderSnakeHead(
-      canvas,
-      snake.head,
-      cellSize,
-      isDead,
-    );
+    renderSnakeHead(canvas, snake.head, cellSize, isDead);
   }
 
   /// Renders the snake's head.
@@ -69,20 +59,16 @@ class SnakeRenderer {
     final paint = Paint()
       ..color = isDead ? _deadColor : _headColor
       ..style = PaintingStyle.fill;
-    
-    final rect = _getScaledRect(
-      headPosition,
-      cellSize,
-      _headScale,
-    );
-    
+
+    final rect = _getScaledRect(headPosition, cellSize, _headScale);
+
     final rrect = RRect.fromRectAndRadius(
       rect,
       const Radius.circular(_borderRadius),
     );
-    
+
     canvas.drawRRect(rrect, paint);
-    
+
     // Add eyes if alive
     if (!isDead) {
       _renderEyes(canvas, rect);
@@ -104,18 +90,14 @@ class SnakeRenderer {
     final paint = Paint()
       ..color = isDead ? _deadColor : _bodyColor
       ..style = PaintingStyle.fill;
-    
-    final rect = _getScaledRect(
-      bodyPosition,
-      cellSize,
-      _bodyScale,
-    );
-    
+
+    final rect = _getScaledRect(bodyPosition, cellSize, _bodyScale);
+
     final rrect = RRect.fromRectAndRadius(
       rect,
       const Radius.circular(_borderRadius),
     );
-    
+
     canvas.drawRRect(rrect, paint);
   }
 
@@ -141,18 +123,14 @@ class SnakeRenderer {
   /// [position] Grid position of the segment
   /// [cellSize] Size of each grid cell
   /// [scale] Scale factor (0.0 to 1.0)
-  static Rect _getScaledRect(
-    Position position,
-    Size cellSize,
-    double scale,
-  ) {
+  static Rect _getScaledRect(Position position, Size cellSize, double scale) {
     final x = position.x * cellSize.width;
     final y = position.y * cellSize.height;
-    
+
     final padding = (1.0 - scale) / 2.0;
     final paddingX = cellSize.width * padding;
     final paddingY = cellSize.height * padding;
-    
+
     return Rect.fromLTWH(
       x + paddingX,
       y + paddingY,
@@ -168,34 +146,26 @@ class SnakeRenderer {
   static void _renderEyes(Canvas canvas, Rect headRect) {
     const eyeColor = Colors.black;
     const eyeSize = 2.0;
-    
+
     final eyePaint = Paint()
       ..color = eyeColor
       ..style = PaintingStyle.fill;
-    
+
     // Calculate eye positions
     final eyeY = headRect.top + headRect.height * 0.3;
     final leftEyeX = headRect.left + headRect.width * 0.25;
     final rightEyeX = headRect.left + headRect.width * 0.75;
-    
+
     // Draw eyes
-    canvas.drawCircle(
-      Offset(leftEyeX, eyeY),
-      eyeSize,
-      eyePaint,
-    );
-    
-    canvas.drawCircle(
-      Offset(rightEyeX, eyeY),
-      eyeSize,
-      eyePaint,
-    );
+    canvas.drawCircle(Offset(leftEyeX, eyeY), eyeSize, eyePaint);
+
+    canvas.drawCircle(Offset(rightEyeX, eyeY), eyeSize, eyePaint);
   }
 
   /// Gets the color scheme for the snake based on game state.
   static Map<String, Color> getSnakeColors(GameState gameState) {
     final isDead = gameState == GameState.gameOver;
-    
+
     return {
       'head': isDead ? _deadColor : _headColor,
       'body': isDead ? _deadColor : _bodyColor,
@@ -210,10 +180,10 @@ class SnakeRenderer {
   ) {
     final x = position.x * cellSize.width;
     final y = position.y * cellSize.height;
-    
+
     return x >= 0 &&
-           y >= 0 &&
-           x + cellSize.width <= canvasSize.width &&
-           y + cellSize.height <= canvasSize.height;
+        y >= 0 &&
+        x + cellSize.width <= canvasSize.width &&
+        y + cellSize.height <= canvasSize.height;
   }
 }

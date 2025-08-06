@@ -14,7 +14,7 @@ class GameControlsWidget extends StatelessWidget {
   final VoidCallback? onStart;
   final bool showAsRow;
   final double buttonSpacing;
-  
+
   const GameControlsWidget({
     super.key,
     required this.gameState,
@@ -29,11 +29,11 @@ class GameControlsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controls = _buildControlButtons(context);
-    
+
     if (controls.isEmpty) {
       return const SizedBox.shrink();
     }
-    
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
@@ -58,7 +58,7 @@ class GameControlsWidget extends StatelessWidget {
             ),
     );
   }
-  
+
   /// Builds control buttons based on current game state.
   List<Widget> _buildControlButtons(BuildContext context) {
     switch (gameState) {
@@ -73,7 +73,7 @@ class GameControlsWidget extends StatelessWidget {
               isPrimary: true,
             ),
         ];
-        
+
       case GameState.playing:
         return [
           _buildControlButton(
@@ -83,7 +83,7 @@ class GameControlsWidget extends StatelessWidget {
             onPressed: onPause,
           ),
         ];
-        
+
       case GameState.paused:
         return [
           _buildControlButton(
@@ -100,7 +100,7 @@ class GameControlsWidget extends StatelessWidget {
             onPressed: onRestart,
           ),
         ];
-        
+
       case GameState.gameOver:
         return [
           _buildControlButton(
@@ -111,12 +111,12 @@ class GameControlsWidget extends StatelessWidget {
             isPrimary: true,
           ),
         ];
-        
+
       case GameState.restarting:
         return []; // No controls during restart
     }
   }
-  
+
   /// Builds a single control button with consistent styling.
   Widget _buildControlButton(
     BuildContext context, {
@@ -137,17 +137,15 @@ class GameControlsWidget extends StatelessWidget {
             ? Theme.of(context).colorScheme.onPrimary
             : Theme.of(context).colorScheme.onSecondary,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }
-  
+
   /// Helper to intersperse widgets with spacers.
   List<Widget> _intersperse(List<Widget> widgets, Widget spacer) {
     if (widgets.isEmpty) return widgets;
-    
+
     final result = <Widget>[];
     for (int i = 0; i < widgets.length; i++) {
       result.add(widgets[i]);
@@ -166,7 +164,7 @@ class CompactGameControlsWidget extends StatelessWidget {
   final VoidCallback onResume;
   final VoidCallback onRestart;
   final double buttonSize;
-  
+
   const CompactGameControlsWidget({
     super.key,
     required this.gameState,
@@ -179,14 +177,14 @@ class CompactGameControlsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final button = _buildPrimaryControlButton(context);
-    
+
     if (button == null) {
       return const SizedBox.shrink();
     }
-    
+
     return button;
   }
-  
+
   Widget? _buildPrimaryControlButton(BuildContext context) {
     switch (gameState) {
       case GameState.playing:
@@ -196,7 +194,7 @@ class CompactGameControlsWidget extends StatelessWidget {
           onPressed: onPause,
           tooltip: 'Pause Game',
         );
-        
+
       case GameState.paused:
         return _buildIconButton(
           context,
@@ -205,7 +203,7 @@ class CompactGameControlsWidget extends StatelessWidget {
           tooltip: 'Resume Game',
           isPrimary: true,
         );
-        
+
       case GameState.gameOver:
         return _buildIconButton(
           context,
@@ -214,13 +212,13 @@ class CompactGameControlsWidget extends StatelessWidget {
           tooltip: 'Restart Game',
           isPrimary: true,
         );
-        
+
       case GameState.menu:
       case GameState.restarting:
         return null;
     }
   }
-  
+
   Widget _buildIconButton(
     BuildContext context, {
     required IconData icon,
@@ -265,7 +263,7 @@ class FloatingGameControlsWidget extends StatelessWidget {
   final VoidCallback onPause;
   final VoidCallback onResume;
   final VoidCallback onRestart;
-  
+
   const FloatingGameControlsWidget({
     super.key,
     required this.gameState,
@@ -277,11 +275,11 @@ class FloatingGameControlsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fabData = _getFabData();
-    
+
     if (fabData == null) {
       return const SizedBox.shrink();
     }
-    
+
     return FloatingActionButton(
       onPressed: fabData.onPressed,
       tooltip: fabData.tooltip,
@@ -294,7 +292,7 @@ class FloatingGameControlsWidget extends StatelessWidget {
       child: Icon(fabData.icon),
     );
   }
-  
+
   _FabData? _getFabData() {
     switch (gameState) {
       case GameState.playing:
@@ -303,7 +301,7 @@ class FloatingGameControlsWidget extends StatelessWidget {
           onPressed: onPause,
           tooltip: 'Pause Game',
         );
-        
+
       case GameState.paused:
         return _FabData(
           icon: Icons.play_arrow,
@@ -311,7 +309,7 @@ class FloatingGameControlsWidget extends StatelessWidget {
           tooltip: 'Resume Game',
           isPrimary: true,
         );
-        
+
       case GameState.gameOver:
         return _FabData(
           icon: Icons.replay,
@@ -319,7 +317,7 @@ class FloatingGameControlsWidget extends StatelessWidget {
           tooltip: 'Restart Game',
           isPrimary: true,
         );
-        
+
       case GameState.menu:
       case GameState.restarting:
         return null;
@@ -333,7 +331,7 @@ class _FabData {
   final VoidCallback onPressed;
   final String tooltip;
   final bool isPrimary;
-  
+
   const _FabData({
     required this.icon,
     required this.onPressed,

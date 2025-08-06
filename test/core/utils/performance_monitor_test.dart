@@ -89,7 +89,9 @@ void main() {
 
       test('should handle varying frame times', () {
         monitor.recordFrameTime(const Duration(milliseconds: 16));
-        monitor.recordFrameTime(const Duration(milliseconds: 33)); // Drop to 30fps
+        monitor.recordFrameTime(
+          const Duration(milliseconds: 33),
+        ); // Drop to 30fps
         monitor.recordFrameTime(const Duration(milliseconds: 16));
 
         final fps = monitor.getCurrentFps();
@@ -426,7 +428,7 @@ void main() {
 
       test('should handle negative memory values gracefully', () {
         monitor.startMonitoring();
-        
+
         // Negative values shouldn't crash the system
         expect(() => monitor.recordMemoryUsage(-10), returnsNormally);
       });

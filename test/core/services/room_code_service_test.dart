@@ -22,8 +22,9 @@ void main() {
     group('generateUniqueRoomCode', () {
       test('should generate unique room code on first attempt', () async {
         // Arrange
-        when(mockDatabaseService.getRoomByCode(any))
-            .thenAnswer((_) async => null);
+        when(
+          mockDatabaseService.getRoomByCode(any),
+        ).thenAnswer((_) async => null);
 
         // Act
         final result = await roomCodeService.generateUniqueRoomCode();
@@ -46,8 +47,7 @@ void main() {
           createdAt: DateTime.now(),
         );
 
-        when(mockDatabaseService.getRoomByCode(any))
-            .thenAnswer((inv) async {
+        when(mockDatabaseService.getRoomByCode(any)).thenAnswer((inv) async {
           callCount++;
           // First few calls return existing room to simulate collision
           if (callCount <= 2) {
@@ -77,17 +77,20 @@ void main() {
         );
 
         // Always return existing room to force max attempts
-        when(mockDatabaseService.getRoomByCode(any))
-            .thenAnswer((_) async => existingRoom);
+        when(
+          mockDatabaseService.getRoomByCode(any),
+        ).thenAnswer((_) async => existingRoom);
 
         // Act & Assert
         await expectLater(
           roomCodeService.generateUniqueRoomCode(),
-          throwsA(isA<RoomCodeException>().having(
-            (e) => e.message,
-            'message',
-            contains('Failed to generate unique room code after 10 attempts'),
-          )),
+          throwsA(
+            isA<RoomCodeException>().having(
+              (e) => e.message,
+              'message',
+              contains('Failed to generate unique room code after 10 attempts'),
+            ),
+          ),
         );
 
         verify(mockDatabaseService.getRoomByCode(any)).called(10);
@@ -95,8 +98,9 @@ void main() {
 
       test('should handle database errors gracefully', () async {
         // Arrange
-        when(mockDatabaseService.getRoomByCode(any))
-            .thenThrow(const DatabaseException('Database connection failed'));
+        when(
+          mockDatabaseService.getRoomByCode(any),
+        ).thenThrow(const DatabaseException('Database connection failed'));
 
         // Act & Assert
         expect(
@@ -110,8 +114,9 @@ void main() {
 
     test('generated codes should contain only valid characters', () async {
       // Arrange
-      when(mockDatabaseService.getRoomByCode(any))
-          .thenAnswer((_) async => null);
+      when(
+        mockDatabaseService.getRoomByCode(any),
+      ).thenAnswer((_) async => null);
 
       // Act - Generate multiple codes to test pattern
       final codes = <String>[];
@@ -134,8 +139,9 @@ void main() {
 
     test('should generate different codes on subsequent calls', () async {
       // Arrange
-      when(mockDatabaseService.getRoomByCode(any))
-          .thenAnswer((_) async => null);
+      when(
+        mockDatabaseService.getRoomByCode(any),
+      ).thenAnswer((_) async => null);
 
       // Act
       final codes = <String>[];

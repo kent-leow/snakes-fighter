@@ -16,7 +16,7 @@ class TestDatabaseService implements DatabaseService {
     for (final entry in updates.entries) {
       _data[entry.key] = entry.value;
     }
-    
+
     // Notify game state listeners
     for (final roomId in _gameStateControllers.keys) {
       if (updates.keys.any((key) => key.contains('rooms/$roomId/gameState'))) {
@@ -55,36 +55,41 @@ class TestDatabaseService implements DatabaseService {
   // Stub implementations for required interface methods
   @override
   Future<Room> createRoom(Room room) => throw UnimplementedError();
-  
+
   @override
   Future<Room?> getRoomById(String roomId) => throw UnimplementedError();
-  
+
   @override
   Future<Room?> getRoomByCode(String roomCode) => throw UnimplementedError();
-  
+
   @override
   Future<void> updateRoom(Room room) => throw UnimplementedError();
-  
+
   @override
   Future<void> deleteRoom(String roomId) => throw UnimplementedError();
-  
+
   @override
   Stream<Room?> watchRoom(String roomId) => throw UnimplementedError();
-  
+
   @override
-  Future<void> addPlayerToRoom(String roomId, Player player) => throw UnimplementedError();
-  
+  Future<void> addPlayerToRoom(String roomId, Player player) =>
+      throw UnimplementedError();
+
   @override
-  Future<void> removePlayerFromRoom(String roomId, String playerId) => throw UnimplementedError();
-  
+  Future<void> removePlayerFromRoom(String roomId, String playerId) =>
+      throw UnimplementedError();
+
   @override
-  Future<void> updatePlayer(String roomId, Player player) => throw UnimplementedError();
-  
+  Future<void> updatePlayer(String roomId, Player player) =>
+      throw UnimplementedError();
+
   @override
-  Stream<Map<String, Player>> watchRoomPlayers(String roomId) => throw UnimplementedError();
-  
+  Stream<Map<String, Player>> watchRoomPlayers(String roomId) =>
+      throw UnimplementedError();
+
   @override
-  Future<void> updateGameState(String roomId, GameState gameState) => throw UnimplementedError();
+  Future<void> updateGameState(String roomId, GameState gameState) =>
+      throw UnimplementedError();
 }
 
 void main() {
@@ -113,9 +118,11 @@ void main() {
         await service.syncPlayerMove(roomId, playerId, direction);
 
         // Assert
-        final expectedKey1 = 'rooms/$roomId/gameState/snakes/$playerId/direction';
-        final expectedKey2 = 'rooms/$roomId/gameState/snakes/$playerId/lastUpdate';
-        
+        final expectedKey1 =
+            'rooms/$roomId/gameState/snakes/$playerId/direction';
+        final expectedKey2 =
+            'rooms/$roomId/gameState/snakes/$playerId/lastUpdate';
+
         expect(testDatabaseService._data[expectedKey1], equals('up'));
         expect(testDatabaseService._data[expectedKey2], isA<int>());
       });
@@ -141,9 +148,13 @@ void main() {
 
         // Assert
         final expectedFoodKey = 'rooms/$roomId/gameState/food/position';
-        final expectedScoreKey = 'rooms/$roomId/gameState/snakes/$playerId/score';
-        
-        expect(testDatabaseService._data[expectedFoodKey], equals(newFoodPosition.toJson()));
+        final expectedScoreKey =
+            'rooms/$roomId/gameState/snakes/$playerId/score';
+
+        expect(
+          testDatabaseService._data[expectedFoodKey],
+          equals(newFoodPosition.toJson()),
+        );
         expect(testDatabaseService._data[expectedScoreKey], equals(newScore));
       });
     });
@@ -158,9 +169,11 @@ void main() {
         await service.syncPlayerDeath(roomId, playerId);
 
         // Assert
-        final expectedAliveKey = 'rooms/$roomId/gameState/snakes/$playerId/alive';
-        final expectedDeathTimeKey = 'rooms/$roomId/gameState/snakes/$playerId/deathTime';
-        
+        final expectedAliveKey =
+            'rooms/$roomId/gameState/snakes/$playerId/alive';
+        final expectedDeathTimeKey =
+            'rooms/$roomId/gameState/snakes/$playerId/deathTime';
+
         expect(testDatabaseService._data[expectedAliveKey], equals(false));
         expect(testDatabaseService._data[expectedDeathTimeKey], isA<int>());
       });
@@ -187,13 +200,19 @@ void main() {
         );
 
         // Assert
-        final expectedPositionsKey = 'rooms/$roomId/gameState/snakes/$playerId/positions';
-        final expectedDirectionKey = 'rooms/$roomId/gameState/snakes/$playerId/direction';
-        final expectedAliveKey = 'rooms/$roomId/gameState/snakes/$playerId/alive';
-        final expectedScoreKey = 'rooms/$roomId/gameState/snakes/$playerId/score';
-        
-        expect(testDatabaseService._data[expectedPositionsKey],
-               equals(positions.map((p) => p.toJson()).toList()));
+        final expectedPositionsKey =
+            'rooms/$roomId/gameState/snakes/$playerId/positions';
+        final expectedDirectionKey =
+            'rooms/$roomId/gameState/snakes/$playerId/direction';
+        final expectedAliveKey =
+            'rooms/$roomId/gameState/snakes/$playerId/alive';
+        final expectedScoreKey =
+            'rooms/$roomId/gameState/snakes/$playerId/score';
+
+        expect(
+          testDatabaseService._data[expectedPositionsKey],
+          equals(positions.map((p) => p.toJson()).toList()),
+        );
         expect(testDatabaseService._data[expectedDirectionKey], equals('down'));
         expect(testDatabaseService._data[expectedAliveKey], equals(alive));
         expect(testDatabaseService._data[expectedScoreKey], equals(score));
@@ -213,7 +232,7 @@ void main() {
         final expectedEndedAtKey = 'rooms/$roomId/gameState/endedAt';
         final expectedWinnerKey = 'rooms/$roomId/gameState/winner';
         final expectedStatusKey = 'rooms/$roomId/status';
-        
+
         expect(testDatabaseService._data[expectedEndedAtKey], isA<String>());
         expect(testDatabaseService._data[expectedWinnerKey], equals(winnerId));
         expect(testDatabaseService._data[expectedStatusKey], equals('ended'));
@@ -243,7 +262,7 @@ void main() {
         // Assert
         final expectedStartedAtKey = 'rooms/$roomId/gameState/startedAt';
         final expectedStatusKey = 'rooms/$roomId/status';
-        
+
         expect(testDatabaseService._data[expectedStartedAtKey], isA<String>());
         expect(testDatabaseService._data[expectedStatusKey], equals('active'));
       });
@@ -254,7 +273,7 @@ void main() {
         // Arrange
         const roomId = 'room1';
         final events = <GameState>[];
-        
+
         // Act
         final stream = service.watchGameState(roomId);
         final subscription = stream.listen(events.add);

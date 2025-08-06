@@ -126,7 +126,10 @@ void main() {
           );
         }
 
-        expect(() => engine.initializeGame(tooManyPlayers), throwsArgumentError);
+        expect(
+          () => engine.initializeGame(tooManyPlayers),
+          throwsArgumentError,
+        );
       });
     });
 
@@ -164,11 +167,17 @@ void main() {
         final gameState = engine.getGameStateSnapshot();
         final snakes = gameState['snakes'] as Map<String, dynamic>;
         final player1Snake = snakes['player1'] as Map<String, dynamic>;
-        expect(player1Snake['direction'], equals('right')); // Should remain right
+        expect(
+          player1Snake['direction'],
+          equals('right'),
+        ); // Should remain right
       });
 
       test('should ignore direction change for non-existent player', () {
-        final result = engine.updatePlayerDirection('non_existent', Direction.up);
+        final result = engine.updatePlayerDirection(
+          'non_existent',
+          Direction.up,
+        );
         expect(result, isFalse);
       });
     });

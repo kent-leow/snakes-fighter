@@ -14,28 +14,29 @@ import '../controllers/game_state_manager.dart';
 class OptimizedGameRenderer {
   final Canvas _canvas;
   final Size _canvasSize;
-  
+
   // Pre-allocated paints for different game elements
   final Paint _foodPaint = Paint()..style = PaintingStyle.fill;
   final Paint _backgroundPaint = Paint()..style = PaintingStyle.fill;
   final Map<PlayerColor, Paint> _playerPaints = {};
-  
+
   // Reusable drawing objects to minimize allocations
   final Path _reusablePath = Path();
-  
+
   // Object pools for reduced garbage collection
   final Queue<Rect> _rectPool = Queue<Rect>();
-  
+
   // Performance optimizations
   static const int _maxPoolSize = 100;
   late final double _cellWidth;
   late final double _cellHeight;
-  
+
   OptimizedGameRenderer({
     required Canvas canvas,
     required Size canvasSize,
     required Size gridSize,
-  }) : _canvas = canvas, _canvasSize = canvasSize {
+  }) : _canvas = canvas,
+       _canvasSize = canvasSize {
     _cellWidth = canvasSize.width / gridSize.width;
     _cellHeight = canvasSize.height / gridSize.height;
     _initializePaints();
@@ -50,22 +51,22 @@ class OptimizedGameRenderer {
   }) {
     // Clear canvas with background
     _renderBackground();
-    
+
     // Render grid if enabled
     if (showGrid) {
       _renderGrid();
     }
-    
+
     // Render food
     if (food != null && food.isActive) {
       _renderFood(food);
     }
-    
+
     // Render all snakes efficiently
     for (final entry in snakes.entries) {
       final playerId = entry.key;
       final snake = entry.value;
-      
+
       _renderSnake(snake, _getPlayerColor(playerId));
     }
   }
@@ -73,30 +74,30 @@ class OptimizedGameRenderer {
   /// Renders a single snake with optimized drawing.
   void _renderSnake(Snake snake, PlayerColor playerColor) {
     final paint = _playerPaints[playerColor]!;
-    
+
     // Use path for efficient multi-segment rendering
     _reusablePath.reset();
-    
+
     bool isFirst = true;
     final body = snake.body;
     for (int i = 0; i < body.length; i++) {
       final position = body[i];
       final isHead = i == 0;
-      
+
       final rect = _getRectFromPool(
         position.x * _cellWidth,
         position.y * _cellHeight,
         _cellWidth,
         _cellHeight,
       );
-      
+
       if (isFirst) {
         _reusablePath.addRect(rect);
         isFirst = false;
       } else {
         _reusablePath.addRect(rect);
       }
-      
+
       // Render head differently if needed
       if (isHead) {
         // Add slight highlight for head
@@ -105,10 +106,10 @@ class OptimizedGameRenderer {
           ..style = PaintingStyle.fill;
         _canvas.drawRect(rect, headPaint);
       }
-      
+
       _returnRectToPool(rect);
     }
-    
+
     // Draw the entire snake path at once
     _canvas.drawPath(_reusablePath, paint);
   }
@@ -121,17 +122,17 @@ class OptimizedGameRenderer {
       _cellWidth,
       _cellHeight,
     );
-    
+
     // Main food body
     _canvas.drawRect(rect, _foodPaint);
-    
+
     // Add subtle border for visibility
     final borderPaint = Paint()
       ..color = Colors.red.darker
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
     _canvas.drawRect(rect, borderPaint);
-    
+
     _returnRectToPool(rect);
   }
 
@@ -153,20 +154,12 @@ class OptimizedGameRenderer {
 
     // Draw vertical lines
     for (double x = 0; x <= _canvasSize.width; x += _cellWidth) {
-      _canvas.drawLine(
-        Offset(x, 0),
-        Offset(x, _canvasSize.height),
-        gridPaint,
-      );
+      _canvas.drawLine(Offset(x, 0), Offset(x, _canvasSize.height), gridPaint);
     }
 
     // Draw horizontal lines
     for (double y = 0; y <= _canvasSize.height; y += _cellHeight) {
-      _canvas.drawLine(
-        Offset(0, y),
-        Offset(_canvasSize.width, y),
-        gridPaint,
-      );
+      _canvas.drawLine(Offset(0, y), Offset(_canvasSize.width, y), gridPaint);
     }
   }
 
@@ -174,7 +167,7 @@ class OptimizedGameRenderer {
   void _initializePaints() {
     // Initialize food paint
     _foodPaint.color = Colors.red;
-    
+
     // Initialize player paints for each color
     for (final color in PlayerColor.values) {
       _playerPaints[color] = Paint()

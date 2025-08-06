@@ -61,38 +61,49 @@ void main() {
       test('filters events by type', () async {
         // Arrange
         const roomId = 'filter-test';
-        
-        final moveEventStream = broadcaster.getFilteredEventStream<PlayerMoveEvent>(roomId);
-        final foodEventStream = broadcaster.getFilteredEventStream<FoodConsumedEvent>(roomId);
-        
+
+        final moveEventStream = broadcaster
+            .getFilteredEventStream<PlayerMoveEvent>(roomId);
+        final foodEventStream = broadcaster
+            .getFilteredEventStream<FoodConsumedEvent>(roomId);
+
         final moveEvents = <PlayerMoveEvent>[];
         final foodEvents = <FoodConsumedEvent>[];
-        
+
         final moveSubscription = moveEventStream.listen(moveEvents.add);
         final foodSubscription = foodEventStream.listen(foodEvents.add);
 
         // Act: Broadcast mixed events
-        broadcaster.broadcastEvent(roomId, PlayerMoveEvent(
-          playerId: 'player1',
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          direction: Direction.up,
-          newHeadPosition: const Position(5, 4),
-        ));
+        broadcaster.broadcastEvent(
+          roomId,
+          PlayerMoveEvent(
+            playerId: 'player1',
+            timestamp: DateTime.now().millisecondsSinceEpoch,
+            direction: Direction.up,
+            newHeadPosition: const Position(5, 4),
+          ),
+        );
 
-        broadcaster.broadcastEvent(roomId, FoodConsumedEvent(
-          playerId: 'player1',
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          foodPosition: const Position(5, 3),
-          newFoodPosition: const Position(8, 8),
-          newScore: 5,
-        ));
+        broadcaster.broadcastEvent(
+          roomId,
+          FoodConsumedEvent(
+            playerId: 'player1',
+            timestamp: DateTime.now().millisecondsSinceEpoch,
+            foodPosition: const Position(5, 3),
+            newFoodPosition: const Position(8, 8),
+            newScore: 5,
+          ),
+        );
 
-        broadcaster.broadcastEvent(roomId, PlayerDeathEvent(
-          playerId: 'player2',
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          cause: 'collision',
-          finalScore: 0,
-        ));
+        broadcaster.broadcastEvent(
+          roomId,
+          PlayerDeathEvent(
+            playerId: 'player2',
+            timestamp: DateTime.now().millisecondsSinceEpoch,
+            cause: 'collision',
+            finalScore: 0,
+          ),
+        );
 
         await Future.delayed(Duration.zero);
 
@@ -140,9 +151,18 @@ void main() {
         ];
 
         // Broadcast in non-chronological order
-        broadcaster.broadcastEvent(roomId, events[0]); // timestamp: baseTime + 100
-        broadcaster.broadcastEvent(roomId, events[1]); // timestamp: baseTime + 50
-        broadcaster.broadcastEvent(roomId, events[2]); // timestamp: baseTime + 200
+        broadcaster.broadcastEvent(
+          roomId,
+          events[0],
+        ); // timestamp: baseTime + 100
+        broadcaster.broadcastEvent(
+          roomId,
+          events[1],
+        ); // timestamp: baseTime + 50
+        broadcaster.broadcastEvent(
+          roomId,
+          events[2],
+        ); // timestamp: baseTime + 200
 
         await Future.delayed(Duration.zero);
 
@@ -167,7 +187,7 @@ void main() {
       test('optimizes updates using delta calculations', () async {
         // Arrange
         const roomId = 'delta-test-room';
-        
+
         final initialState = GameState(
           startedAt: DateTime.now(),
           food: const Food(position: Position(5, 5)),
@@ -197,8 +217,11 @@ void main() {
 
         // Assert: First delta should be complete, second should be minimal
         expect(firstDelta.keys.length, greaterThan(3)); // Complete state
-        expect(secondDelta.keys.length, lessThan(firstDelta.keys.length)); // Delta only
-        
+        expect(
+          secondDelta.keys.length,
+          lessThan(firstDelta.keys.length),
+        ); // Delta only
+
         expect(secondDelta, containsPair('food', anything));
         expect(secondDelta, containsPair('snakes/player1', anything));
       });
@@ -207,7 +230,7 @@ void main() {
         // Arrange
         const roomId = 'snake-delta-test';
         const playerId = 'player1';
-        
+
         const initialSnake = Snake(
           positions: [Position(1, 1)],
           direction: Direction.right,
@@ -227,23 +250,50 @@ void main() {
         );
 
         // Act: Calculate position deltas
-        final initialDelta = deltaService.calculateSnakePositionDelta(roomId, playerId, initialSnake);
-        
-        // Mock the initial state for comparison
-        deltaService.calculateDelta(roomId, GameState(
-          startedAt: DateTime.now(),
-          food: const Food(position: Position(5, 5)),
-          snakes: {playerId: initialSnake},
-        ));
+        final initialDelta = deltaService.calculateSnakePositionDelta(
+          roomId,
+          playerId,
+          initialSnake,
+        );
 
-        final moveDelta = deltaService.calculateSnakePositionDelta(roomId, playerId, movedSnake);
-        final growthDelta = deltaService.calculateSnakePositionDelta(roomId, playerId, grownSnake);
+        // Mock the initial state for comparison
+        deltaService.calculateDelta(
+          roomId,
+          GameState(
+            startedAt: DateTime.now(),
+            food: const Food(position: Position(5, 5)),
+            snakes: {playerId: initialSnake},
+          ),
+        );
+
+        final moveDelta = deltaService.calculateSnakePositionDelta(
+          roomId,
+          playerId,
+          movedSnake,
+        );
+        final growthDelta = deltaService.calculateSnakePositionDelta(
+          roomId,
+          playerId,
+          grownSnake,
+        );
 
         // Assert
-        expect(initialDelta, containsPair('snakes/$playerId', anything)); // Complete snake data
-        expect(moveDelta, containsPair('snakes/$playerId/head', anything)); // Just head position
-        expect(growthDelta, containsPair('snakes/$playerId/positions', anything)); // Full positions due to growth
-        expect(growthDelta, containsPair('snakes/$playerId/score', anything)); // Score change
+        expect(
+          initialDelta,
+          containsPair('snakes/$playerId', anything),
+        ); // Complete snake data
+        expect(
+          moveDelta,
+          containsPair('snakes/$playerId/head', anything),
+        ); // Just head position
+        expect(
+          growthDelta,
+          containsPair('snakes/$playerId/positions', anything),
+        ); // Full positions due to growth
+        expect(
+          growthDelta,
+          containsPair('snakes/$playerId/score', anything),
+        ); // Score change
       });
 
       test('calculates reasonable delta sizes', () {
@@ -254,16 +304,24 @@ void main() {
         };
 
         final largeDelta = {
-          'food': {'position': {'x': 5, 'y': 5}, 'value': 1},
+          'food': {
+            'position': {'x': 5, 'y': 5},
+            'value': 1,
+          },
           'snakes': {
             'player1': {
-              'positions': [{'x': 1, 'y': 1}, {'x': 1, 'y': 2}],
+              'positions': [
+                {'x': 1, 'y': 1},
+                {'x': 1, 'y': 2},
+              ],
               'direction': 'right',
               'alive': true,
               'score': 10,
             },
             'player2': {
-              'positions': [{'x': 5, 'y': 5}],
+              'positions': [
+                {'x': 5, 'y': 5},
+              ],
               'direction': 'up',
               'alive': false,
               'score': 0,

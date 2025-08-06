@@ -9,10 +9,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AppButton(
-              text: 'Test Button',
-              onPressed: () {},
-            ),
+            body: AppButton(text: 'Test Button', onPressed: () {}),
           ),
         ),
       );
@@ -51,10 +48,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: AppTextField(
-              labelText: 'Test Field',
-              hintText: 'Enter text',
-            ),
+            body: AppTextField(labelText: 'Test Field', hintText: 'Enter text'),
           ),
         ),
       );
@@ -66,11 +60,7 @@ void main() {
 
     testWidgets('AppTextField email factory works', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: AppTextField.email(),
-          ),
-        ),
+        const MaterialApp(home: Scaffold(body: AppTextField.email())),
       );
 
       expect(find.text('Email'), findsOneWidget);
@@ -80,11 +70,7 @@ void main() {
 
     testWidgets('AppTextField password factory works', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: AppTextField.password(),
-          ),
-        ),
+        const MaterialApp(home: Scaffold(body: AppTextField.password())),
       );
 
       expect(find.text('Password'), findsOneWidget);
@@ -95,11 +81,7 @@ void main() {
     testWidgets('AppCard renders with correct styling', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: AppCard(
-              child: Text('Card Content'),
-            ),
-          ),
+          home: Scaffold(body: AppCard(child: Text('Card Content'))),
         ),
       );
 
@@ -130,11 +112,7 @@ void main() {
     testWidgets('AppBadge renders correctly', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: AppBadge(
-              text: 'Badge',
-            ),
-          ),
+          home: Scaffold(body: AppBadge(text: 'Badge')),
         ),
       );
 
@@ -145,11 +123,7 @@ void main() {
     testWidgets('AppLoadingIndicator renders correctly', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: AppLoadingIndicator(
-              message: 'Loading...',
-            ),
-          ),
+          home: Scaffold(body: AppLoadingIndicator(message: 'Loading...')),
         ),
       );
 
@@ -179,26 +153,32 @@ void main() {
       // Test color schemes
       expect(DesignTokens.lightColorScheme, isA<ColorScheme>());
       expect(DesignTokens.darkColorScheme, isA<ColorScheme>());
-      
+
       // Test spacing tokens
       expect(DesignTokens.spacing8, equals(8.0));
       expect(DesignTokens.spacing16, equals(16.0));
       expect(DesignTokens.spacing24, equals(24.0));
-      
+
       // Test animation tokens
-      expect(DesignTokens.fastAnimation, equals(const Duration(milliseconds: 150)));
-      expect(DesignTokens.normalAnimation, equals(const Duration(milliseconds: 300)));
-      
+      expect(
+        DesignTokens.fastAnimation,
+        equals(const Duration(milliseconds: 150)),
+      );
+      expect(
+        DesignTokens.normalAnimation,
+        equals(const Duration(milliseconds: 300)),
+      );
+
       // Test border radius tokens
       expect(DesignTokens.radiusSmall, equals(8.0));
       expect(DesignTokens.radiusMedium, equals(12.0));
       expect(DesignTokens.radiusLarge, equals(16.0));
-      
+
       // Test elevation tokens
       expect(DesignTokens.elevation0, equals(0.0));
       expect(DesignTokens.elevation1, equals(1.0));
       expect(DesignTokens.elevation2, equals(3.0));
-      
+
       // Test icon sizes
       expect(DesignTokens.iconSmall, equals(20.0));
       expect(DesignTokens.iconMedium, equals(24.0));

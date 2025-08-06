@@ -12,7 +12,8 @@ part of 'player.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Player _$PlayerFromJson(Map<String, dynamic> json) {
   return _Player.fromJson(json);
@@ -41,13 +42,14 @@ abstract class $PlayerCopyWith<$Res> {
   factory $PlayerCopyWith(Player value, $Res Function(Player) then) =
       _$PlayerCopyWithImpl<$Res, Player>;
   @useResult
-  $Res call(
-      {String uid,
-      String displayName,
-      PlayerColor color,
-      DateTime joinedAt,
-      bool isReady,
-      bool isConnected});
+  $Res call({
+    String uid,
+    String displayName,
+    PlayerColor color,
+    DateTime joinedAt,
+    bool isReady,
+    bool isConnected,
+  });
 }
 
 /// @nodoc
@@ -72,49 +74,54 @@ class _$PlayerCopyWithImpl<$Res, $Val extends Player>
     Object? isReady = null,
     Object? isConnected = null,
   }) {
-    return _then(_value.copyWith(
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
-      displayName: null == displayName
-          ? _value.displayName
-          : displayName // ignore: cast_nullable_to_non_nullable
-              as String,
-      color: null == color
-          ? _value.color
-          : color // ignore: cast_nullable_to_non_nullable
-              as PlayerColor,
-      joinedAt: null == joinedAt
-          ? _value.joinedAt
-          : joinedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      isReady: null == isReady
-          ? _value.isReady
-          : isReady // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isConnected: null == isConnected
-          ? _value.isConnected
-          : isConnected // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            uid: null == uid
+                ? _value.uid
+                : uid // ignore: cast_nullable_to_non_nullable
+                      as String,
+            displayName: null == displayName
+                ? _value.displayName
+                : displayName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            color: null == color
+                ? _value.color
+                : color // ignore: cast_nullable_to_non_nullable
+                      as PlayerColor,
+            joinedAt: null == joinedAt
+                ? _value.joinedAt
+                : joinedAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            isReady: null == isReady
+                ? _value.isReady
+                : isReady // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isConnected: null == isConnected
+                ? _value.isConnected
+                : isConnected // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$PlayerImplCopyWith<$Res> implements $PlayerCopyWith<$Res> {
   factory _$$PlayerImplCopyWith(
-          _$PlayerImpl value, $Res Function(_$PlayerImpl) then) =
-      __$$PlayerImplCopyWithImpl<$Res>;
+    _$PlayerImpl value,
+    $Res Function(_$PlayerImpl) then,
+  ) = __$$PlayerImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String uid,
-      String displayName,
-      PlayerColor color,
-      DateTime joinedAt,
-      bool isReady,
-      bool isConnected});
+  $Res call({
+    String uid,
+    String displayName,
+    PlayerColor color,
+    DateTime joinedAt,
+    bool isReady,
+    bool isConnected,
+  });
 }
 
 /// @nodoc
@@ -122,8 +129,9 @@ class __$$PlayerImplCopyWithImpl<$Res>
     extends _$PlayerCopyWithImpl<$Res, _$PlayerImpl>
     implements _$$PlayerImplCopyWith<$Res> {
   __$$PlayerImplCopyWithImpl(
-      _$PlayerImpl _value, $Res Function(_$PlayerImpl) _then)
-      : super(_value, _then);
+    _$PlayerImpl _value,
+    $Res Function(_$PlayerImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of Player
   /// with the given fields replaced by the non-null parameter values.
@@ -137,45 +145,48 @@ class __$$PlayerImplCopyWithImpl<$Res>
     Object? isReady = null,
     Object? isConnected = null,
   }) {
-    return _then(_$PlayerImpl(
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
-      displayName: null == displayName
-          ? _value.displayName
-          : displayName // ignore: cast_nullable_to_non_nullable
-              as String,
-      color: null == color
-          ? _value.color
-          : color // ignore: cast_nullable_to_non_nullable
-              as PlayerColor,
-      joinedAt: null == joinedAt
-          ? _value.joinedAt
-          : joinedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      isReady: null == isReady
-          ? _value.isReady
-          : isReady // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isConnected: null == isConnected
-          ? _value.isConnected
-          : isConnected // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$PlayerImpl(
+        uid: null == uid
+            ? _value.uid
+            : uid // ignore: cast_nullable_to_non_nullable
+                  as String,
+        displayName: null == displayName
+            ? _value.displayName
+            : displayName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        color: null == color
+            ? _value.color
+            : color // ignore: cast_nullable_to_non_nullable
+                  as PlayerColor,
+        joinedAt: null == joinedAt
+            ? _value.joinedAt
+            : joinedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        isReady: null == isReady
+            ? _value.isReady
+            : isReady // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isConnected: null == isConnected
+            ? _value.isConnected
+            : isConnected // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$PlayerImpl implements _Player {
-  const _$PlayerImpl(
-      {required this.uid,
-      required this.displayName,
-      required this.color,
-      required this.joinedAt,
-      this.isReady = false,
-      this.isConnected = true});
+  const _$PlayerImpl({
+    required this.uid,
+    required this.displayName,
+    required this.color,
+    required this.joinedAt,
+    this.isReady = false,
+    this.isConnected = true,
+  });
 
   factory _$PlayerImpl.fromJson(Map<String, dynamic> json) =>
       _$$PlayerImplFromJson(json);
@@ -219,7 +230,14 @@ class _$PlayerImpl implements _Player {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, uid, displayName, color, joinedAt, isReady, isConnected);
+    runtimeType,
+    uid,
+    displayName,
+    color,
+    joinedAt,
+    isReady,
+    isConnected,
+  );
 
   /// Create a copy of Player
   /// with the given fields replaced by the non-null parameter values.
@@ -231,20 +249,19 @@ class _$PlayerImpl implements _Player {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PlayerImplToJson(
-      this,
-    );
+    return _$$PlayerImplToJson(this);
   }
 }
 
 abstract class _Player implements Player {
-  const factory _Player(
-      {required final String uid,
-      required final String displayName,
-      required final PlayerColor color,
-      required final DateTime joinedAt,
-      final bool isReady,
-      final bool isConnected}) = _$PlayerImpl;
+  const factory _Player({
+    required final String uid,
+    required final String displayName,
+    required final PlayerColor color,
+    required final DateTime joinedAt,
+    final bool isReady,
+    final bool isConnected,
+  }) = _$PlayerImpl;
 
   factory _Player.fromJson(Map<String, dynamic> json) = _$PlayerImpl.fromJson;
 

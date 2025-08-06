@@ -21,11 +21,11 @@ Map<String, dynamic> _$$UserStatsImplToJson(_$UserStatsImpl instance) =>
     };
 
 _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
-      uid: json['uid'] as String,
-      displayName: json['displayName'] as String,
-      isAnonymous: json['isAnonymous'] as bool? ?? false,
-      stats: UserStats.fromJson(json['stats'] as Map<String, dynamic>),
-    );
+  uid: json['uid'] as String,
+  displayName: json['displayName'] as String,
+  isAnonymous: json['isAnonymous'] as bool? ?? false,
+  stats: UserStats.fromJson(json['stats'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
     <String, dynamic>{

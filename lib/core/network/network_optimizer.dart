@@ -14,7 +14,9 @@ class NetworkOptimizer {
   NetworkOptimizer._internal();
 
   // Batching configuration
-  static const Duration _batchInterval = Duration(milliseconds: 50); // 20fps batch rate
+  static const Duration _batchInterval = Duration(
+    milliseconds: 50,
+  ); // 20fps batch rate
   static const int _maxBatchSize = 100;
   static const int _maxQueueSize = 1000;
 
@@ -23,15 +25,15 @@ class NetworkOptimizer {
   final List<int> _payloadSizeHistory = [];
   Timer? _batchTimer;
   Timer? _metricsTimer;
-  
+
   // Batching queues
   final Queue<NetworkMessage> _outgoingQueue = Queue<NetworkMessage>();
   final Map<String, List<NetworkMessage>> _roomBatches = {};
-  
+
   // Compression settings
   bool _compressionEnabled = true;
   int _compressionThreshold = 100; // bytes
-  
+
   // Network metrics
   double _averageLatency = 0.0;
   double _averagePayloadSize = 0.0;
@@ -52,7 +54,7 @@ class NetworkOptimizer {
       _outgoingQueue.removeFirst();
       debugPrint('Network queue full, dropping oldest message');
     }
-    
+
     _outgoingQueue.add(message);
   }
 
@@ -65,12 +67,12 @@ class NetworkOptimizer {
   /// Records network latency for performance tracking.
   void recordLatency(Duration latency) {
     _latencyHistory.add(latency);
-    
+
     // Keep only recent samples
     if (_latencyHistory.length > 100) {
       _latencyHistory.removeAt(0);
     }
-    
+
     _updateAverageLatency();
   }
 
@@ -93,8 +95,10 @@ class NetworkOptimizer {
   void optimizeSettings() {
     // Adjust compression threshold based on payload sizes
     if (_payloadSizeHistory.isNotEmpty) {
-      final avgSize = _payloadSizeHistory.reduce((a, b) => a + b) / _payloadSizeHistory.length;
-      
+      final avgSize =
+          _payloadSizeHistory.reduce((a, b) => a + b) /
+          _payloadSizeHistory.length;
+
       if (avgSize < 50) {
         // Small payloads, disable compression
         _compressionEnabled = false;
@@ -104,7 +108,7 @@ class NetworkOptimizer {
         _compressionThreshold = 50;
       }
     }
-    
+
     // Adjust batch interval based on latency
     if (_averageLatency > 100) {
       // High latency, reduce batch frequency to avoid timeout issues
@@ -165,8 +169,9 @@ class NetworkOptimizer {
     // Group messages by room
     _roomBatches.clear();
     final messagesToProcess = <NetworkMessage>[];
-    
-    while (_outgoingQueue.isNotEmpty && messagesToProcess.length < _maxBatchSize) {
+
+    while (_outgoingQueue.isNotEmpty &&
+        messagesToProcess.length < _maxBatchSize) {
       messagesToProcess.add(_outgoingQueue.removeFirst());
     }
 
@@ -178,22 +183,24 @@ class NetworkOptimizer {
     for (final entry in _roomBatches.entries) {
       final roomId = entry.key;
       final messages = entry.value;
-      
+
       _processBatchForRoom(roomId, messages);
     }
   }
 
-  Future<void> _processBatchForRoom(String roomId, List<NetworkMessage> messages) async {
+  Future<void> _processBatchForRoom(
+    String roomId,
+    List<NetworkMessage> messages,
+  ) async {
     try {
       final payload = await _preparePayload(messages);
       await _transmitPayload(payload, roomId);
-      
+
       _totalMessagesSent += messages.length;
       _totalBytesTransmitted += payload.length;
-      
     } catch (error) {
       debugPrint('Error processing batch for room $roomId: $error');
-      
+
       // Re-queue messages on failure
       for (final message in messages) {
         if (_outgoingQueue.length < _maxQueueSize) {
@@ -207,9 +214,9 @@ class NetworkOptimizer {
     // Serialize messages to JSON
     final jsonData = messages.map((m) => m.toJson()).toList();
     final jsonString = jsonEncode(jsonData);
-    
+
     List<int> payload = utf8.encode(jsonString);
-    
+
     // Apply compression if enabled and payload is large enough
     if (_compressionEnabled && payload.length > _compressionThreshold) {
       try {
@@ -221,12 +228,12 @@ class NetworkOptimizer {
         // Fall back to uncompressed
       }
     }
-    
+
     _payloadSizeHistory.add(payload.length);
     if (_payloadSizeHistory.length > 100) {
       _payloadSizeHistory.removeAt(0);
     }
-    
+
     return payload;
   }
 
@@ -239,10 +246,12 @@ class NetworkOptimizer {
   Future<void> _transmitPayload(List<int> payload, String roomId) async {
     // Simulate network transmission
     final startTime = DateTime.now();
-    
+
     // In a real implementation, this would send to Firebase or other backend
-    await Future.delayed(Duration(milliseconds: (10 + (payload.length / 100)).round()));
-    
+    await Future.delayed(
+      Duration(milliseconds: (10 + (payload.length / 100)).round()),
+    );
+
     final endTime = DateTime.now();
     final latency = endTime.difference(startTime);
     recordLatency(latency);
@@ -250,22 +259,29 @@ class NetworkOptimizer {
 
   void _updateAverageLatency() {
     if (_latencyHistory.isNotEmpty) {
-      final totalMs = _latencyHistory.map((d) => d.inMicroseconds).reduce((a, b) => a + b);
-      _averageLatency = totalMs / _latencyHistory.length / 1000.0; // Convert to milliseconds
+      final totalMs = _latencyHistory
+          .map((d) => d.inMicroseconds)
+          .reduce((a, b) => a + b);
+      _averageLatency =
+          totalMs / _latencyHistory.length / 1000.0; // Convert to milliseconds
     }
   }
 
   void _collectMetrics() {
     if (_payloadSizeHistory.isNotEmpty) {
-      _averagePayloadSize = _payloadSizeHistory.reduce((a, b) => a + b) / _payloadSizeHistory.length;
+      _averagePayloadSize =
+          _payloadSizeHistory.reduce((a, b) => a + b) /
+          _payloadSizeHistory.length;
     }
-    
+
     if (kDebugMode) {
       final metrics = getNetworkMetrics();
-      debugPrint('Network metrics: ${metrics['averageLatency']}ms latency, '
-                '${metrics['averagePayloadSize']} bytes avg payload');
+      debugPrint(
+        'Network metrics: ${metrics['averageLatency']}ms latency, '
+        '${metrics['averagePayloadSize']} bytes avg payload',
+      );
     }
-    
+
     // Auto-optimize settings periodically
     optimizeSettings();
   }
@@ -319,32 +335,44 @@ class NetworkMessage {
 class NetworkProfiler {
   final Map<String, List<Duration>> _operationLatencies = {};
   final Map<String, int> _operationCounts = {};
-  
+
   /// Records latency for a specific operation type.
   void recordOperation(String operationType, Duration latency) {
     _operationLatencies.putIfAbsent(operationType, () => []).add(latency);
-    _operationCounts[operationType] = (_operationCounts[operationType] ?? 0) + 1;
-    
+    _operationCounts[operationType] =
+        (_operationCounts[operationType] ?? 0) + 1;
+
     // Keep only recent samples
     final latencies = _operationLatencies[operationType]!;
     if (latencies.length > 50) {
       latencies.removeAt(0);
     }
   }
-  
+
   /// Gets performance profile for all operations.
   Map<String, dynamic> getProfile() {
     final profile = <String, dynamic>{};
-    
+
     for (final operationType in _operationLatencies.keys) {
       final latencies = _operationLatencies[operationType]!;
       final count = _operationCounts[operationType] ?? 0;
-      
+
       if (latencies.isNotEmpty) {
-        final avgLatency = latencies.map((d) => d.inMicroseconds).reduce((a, b) => a + b) / latencies.length / 1000.0;
-        final minLatency = latencies.map((d) => d.inMicroseconds).reduce((a, b) => a < b ? a : b) / 1000.0;
-        final maxLatency = latencies.map((d) => d.inMicroseconds).reduce((a, b) => a > b ? a : b) / 1000.0;
-        
+        final avgLatency =
+            latencies.map((d) => d.inMicroseconds).reduce((a, b) => a + b) /
+            latencies.length /
+            1000.0;
+        final minLatency =
+            latencies
+                .map((d) => d.inMicroseconds)
+                .reduce((a, b) => a < b ? a : b) /
+            1000.0;
+        final maxLatency =
+            latencies
+                .map((d) => d.inMicroseconds)
+                .reduce((a, b) => a > b ? a : b) /
+            1000.0;
+
         profile[operationType] = {
           'count': count,
           'averageLatency': avgLatency,
@@ -353,10 +381,10 @@ class NetworkProfiler {
         };
       }
     }
-    
+
     return profile;
   }
-  
+
   /// Clears all profiling data.
   void clear() {
     _operationLatencies.clear();

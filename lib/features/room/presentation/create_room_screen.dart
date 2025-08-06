@@ -27,10 +27,7 @@ class CreateRoomScreen extends ConsumerWidget {
     });
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create Room'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Create Room'), centerTitle: true),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -39,10 +36,7 @@ class CreateRoomScreen extends ConsumerWidget {
             // Title
             const Text(
               'Create a New Game Room',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),
@@ -50,10 +44,7 @@ class CreateRoomScreen extends ConsumerWidget {
             // Description
             const Text(
               'Set up your game room and invite friends to join!',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 48),
@@ -81,7 +72,9 @@ class CreateRoomScreen extends ConsumerWidget {
                         height: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.white,
+                          ),
                         ),
                       )
                     : const Text(
@@ -107,10 +100,7 @@ class CreateRoomScreen extends ConsumerWidget {
                 ),
                 child: Text(
                   roomCreationState.error!,
-                  style: TextStyle(
-                    color: Colors.red.shade700,
-                    fontSize: 14,
-                  ),
+                  style: TextStyle(color: Colors.red.shade700, fontSize: 14),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -149,10 +139,7 @@ class CreateRoomScreen extends ConsumerWidget {
                     const SizedBox(height: 8),
                     const Text(
                       'Share this code with your friends!',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                   ],
                 ),

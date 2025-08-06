@@ -23,10 +23,7 @@ class MaxPlayersSelector extends ConsumerWidget {
         children: [
           const Text(
             'Maximum Players',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 16),
           Row(
@@ -66,12 +63,12 @@ class _PlayerCountOption extends StatelessWidget {
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: isSelected 
-              ? Theme.of(context).primaryColor 
+          color: isSelected
+              ? Theme.of(context).primaryColor
               : Colors.grey.shade100,
           border: Border.all(
-            color: isSelected 
-                ? Theme.of(context).primaryColor 
+            color: isSelected
+                ? Theme.of(context).primaryColor
                 : Colors.grey.shade300,
           ),
           borderRadius: BorderRadius.circular(8),

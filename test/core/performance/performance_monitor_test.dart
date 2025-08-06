@@ -21,7 +21,7 @@ void main() {
 
       test('should start monitoring', () {
         monitor.startMonitoring();
-        
+
         expect(monitor.isMonitoring, isTrue);
         expect(monitor.monitoringDuration, isNotNull);
       });
@@ -29,7 +29,7 @@ void main() {
       test('should stop monitoring', () {
         monitor.startMonitoring();
         monitor.stopMonitoring();
-        
+
         expect(monitor.isMonitoring, isFalse);
       });
     });
@@ -42,25 +42,25 @@ void main() {
       test('should record frame times', () {
         const frameTime = Duration(milliseconds: 16);
         monitor.recordFrameTime(frameTime);
-        
+
         expect(monitor.getCurrentFps(), greaterThan(0));
       });
 
       test('should record memory usage', () {
         monitor.recordMemoryUsage(50.0);
-        
+
         expect(monitor.getCurrentMemoryUsage(), equals(50.0));
       });
 
       test('should record network latency', () {
         monitor.recordNetworkLatency(100.0);
-        
+
         expect(monitor.getCurrentNetworkLatency(), equals(100.0));
       });
 
       test('should record custom metrics', () {
         monitor.recordCustomMetric('test_metric', 42.0);
-        
+
         final metric = monitor.getMetric('test_metric');
         expect(metric, isNotNull);
         expect(metric!.currentValue, equals(42.0));
@@ -79,7 +79,7 @@ void main() {
         }
         monitor.recordMemoryUsage(50.0); // Under 100MB
         monitor.recordNetworkLatency(50.0); // Under 200ms
-        
+
         expect(monitor.meetsPerformanceRequirements(), isTrue);
       });
 
@@ -90,7 +90,7 @@ void main() {
         }
         monitor.recordMemoryUsage(50.0);
         monitor.recordNetworkLatency(50.0);
-        
+
         expect(monitor.meetsPerformanceRequirements(), isFalse);
       });
 
@@ -100,7 +100,7 @@ void main() {
         }
         monitor.recordMemoryUsage(150.0); // Over 100MB limit
         monitor.recordNetworkLatency(50.0);
-        
+
         expect(monitor.meetsPerformanceRequirements(), isFalse);
       });
 
@@ -110,7 +110,7 @@ void main() {
         }
         monitor.recordMemoryUsage(50.0);
         monitor.recordNetworkLatency(300.0); // Over 200ms limit
-        
+
         expect(monitor.meetsPerformanceRequirements(), isFalse);
       });
     });
@@ -124,14 +124,14 @@ void main() {
         for (int i = 0; i < 10; i++) {
           monitor.recordFrameTime(const Duration(milliseconds: 50));
         }
-        
+
         final warnings = monitor.getPerformanceWarnings();
         expect(warnings.any((w) => w.contains('FPS below')), isTrue);
       });
 
       test('should warn about high memory usage', () {
         monitor.recordMemoryUsage(150.0);
-        
+
         final warnings = monitor.getPerformanceWarnings();
         expect(warnings.any((w) => w.contains('Memory usage above')), isTrue);
       });
@@ -142,7 +142,7 @@ void main() {
           monitor.recordFrameTime(const Duration(milliseconds: 16));
         }
         monitor.recordFrameTime(const Duration(milliseconds: 100)); // Spike
-        
+
         final warnings = monitor.getPerformanceWarnings();
         expect(warnings.any((w) => w.contains('Frame time spike')), isTrue);
       });

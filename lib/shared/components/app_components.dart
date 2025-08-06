@@ -33,8 +33,8 @@ class AppCard extends StatelessWidget {
     this.color,
     this.borderRadius,
     this.onTap,
-  })  : variant = AppCardVariant.outlined,
-        elevation = null;
+  }) : variant = AppCardVariant.outlined,
+       elevation = null;
 
   /// Factory for filled card
   const AppCard.filled({
@@ -45,34 +45,36 @@ class AppCard extends StatelessWidget {
     this.color,
     this.borderRadius,
     this.onTap,
-  })  : variant = AppCardVariant.filled,
-        elevation = null;
+  }) : variant = AppCardVariant.filled,
+       elevation = null;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    
-    final effectivePadding = padding ?? const EdgeInsets.all(DesignTokens.spacing16);
+
+    final effectivePadding =
+        padding ?? const EdgeInsets.all(DesignTokens.spacing16);
     final effectiveMargin = margin ?? EdgeInsets.zero;
-    final effectiveBorderRadius = borderRadius ?? BorderRadius.circular(DesignTokens.radiusMedium);
-    
+    final effectiveBorderRadius =
+        borderRadius ?? BorderRadius.circular(DesignTokens.radiusMedium);
+
     final (cardColor, cardElevation, border) = switch (variant) {
       AppCardVariant.elevated => (
-          color ?? colorScheme.surface,
-          elevation ?? DesignTokens.elevation1,
-          null,
-        ),
+        color ?? colorScheme.surface,
+        elevation ?? DesignTokens.elevation1,
+        null,
+      ),
       AppCardVariant.outlined => (
-          color ?? colorScheme.surface,
-          0.0,
-          Border.all(color: colorScheme.outline),
-        ),
+        color ?? colorScheme.surface,
+        0.0,
+        Border.all(color: colorScheme.outline),
+      ),
       AppCardVariant.filled => (
-          color ?? colorScheme.surfaceContainerHighest,
-          0.0,
-          null,
-        ),
+        color ?? colorScheme.surfaceContainerHighest,
+        0.0,
+        null,
+      ),
     };
 
     Widget card = Container(
@@ -91,10 +93,7 @@ class AppCard extends StatelessWidget {
               ]
             : null,
       ),
-      child: Padding(
-        padding: effectivePadding,
-        child: child,
-      ),
+      child: Padding(padding: effectivePadding, child: child),
     );
 
     if (onTap != null) {
@@ -110,11 +109,7 @@ class AppCard extends StatelessWidget {
 }
 
 /// Card variant enumeration
-enum AppCardVariant {
-  elevated,
-  outlined,
-  filled,
-}
+enum AppCardVariant { elevated, outlined, filled }
 
 /// Loading indicator component
 class AppLoadingIndicator extends StatelessWidget {
@@ -130,24 +125,18 @@ class AppLoadingIndicator extends StatelessWidget {
   });
 
   /// Factory for small loading indicator
-  const AppLoadingIndicator.small({
-    super.key,
-    this.message,
-    this.color,
-  }) : size = AppLoadingSize.small;
+  const AppLoadingIndicator.small({super.key, this.message, this.color})
+    : size = AppLoadingSize.small;
 
   /// Factory for large loading indicator
-  const AppLoadingIndicator.large({
-    super.key,
-    this.message,
-    this.color,
-  }) : size = AppLoadingSize.large;
+  const AppLoadingIndicator.large({super.key, this.message, this.color})
+    : size = AppLoadingSize.large;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    
+
     final indicatorSize = switch (size) {
       AppLoadingSize.small => 16.0,
       AppLoadingSize.medium => 24.0,
@@ -159,9 +148,7 @@ class AppLoadingIndicator extends StatelessWidget {
       height: indicatorSize,
       child: CircularProgressIndicator(
         strokeWidth: size == AppLoadingSize.small ? 2.0 : 3.0,
-        valueColor: AlwaysStoppedAnimation<Color>(
-          color ?? colorScheme.primary,
-        ),
+        valueColor: AlwaysStoppedAnimation<Color>(color ?? colorScheme.primary),
       ),
     );
 
@@ -187,11 +174,7 @@ class AppLoadingIndicator extends StatelessWidget {
 }
 
 /// Loading size enumeration
-enum AppLoadingSize {
-  small,
-  medium,
-  large,
-}
+enum AppLoadingSize { small, medium, large }
 
 /// Badge component for status indicators
 class AppBadge extends StatelessWidget {
@@ -216,8 +199,8 @@ class AppBadge extends StatelessWidget {
     required this.text,
     this.size = AppBadgeSize.medium,
     this.variant = AppBadgeVariant.filled,
-  })  : backgroundColor = null,
-        textColor = null;
+  }) : backgroundColor = null,
+       textColor = null;
 
   /// Factory for error badge
   const AppBadge.error({
@@ -225,8 +208,8 @@ class AppBadge extends StatelessWidget {
     required this.text,
     this.size = AppBadgeSize.medium,
     this.variant = AppBadgeVariant.filled,
-  })  : backgroundColor = null,
-        textColor = null;
+  }) : backgroundColor = null,
+       textColor = null;
 
   /// Factory for warning badge
   const AppBadge.warning({
@@ -234,38 +217,38 @@ class AppBadge extends StatelessWidget {
     required this.text,
     this.size = AppBadgeSize.medium,
     this.variant = AppBadgeVariant.filled,
-  })  : backgroundColor = null,
-        textColor = null;
+  }) : backgroundColor = null,
+       textColor = null;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    
+
     final (effectiveBackgroundColor, effectiveTextColor) = switch (variant) {
       AppBadgeVariant.filled => (
-          backgroundColor ?? colorScheme.primary,
-          textColor ?? colorScheme.onPrimary,
-        ),
+        backgroundColor ?? colorScheme.primary,
+        textColor ?? colorScheme.onPrimary,
+      ),
       AppBadgeVariant.outlined => (
-          Colors.transparent,
-          textColor ?? colorScheme.primary,
-        ),
+        Colors.transparent,
+        textColor ?? colorScheme.primary,
+      ),
     };
 
     final padding = switch (size) {
       AppBadgeSize.small => const EdgeInsets.symmetric(
-          horizontal: DesignTokens.spacing8,
-          vertical: DesignTokens.spacing2,
-        ),
+        horizontal: DesignTokens.spacing8,
+        vertical: DesignTokens.spacing2,
+      ),
       AppBadgeSize.medium => const EdgeInsets.symmetric(
-          horizontal: DesignTokens.spacing12,
-          vertical: DesignTokens.spacing4,
-        ),
+        horizontal: DesignTokens.spacing12,
+        vertical: DesignTokens.spacing4,
+      ),
       AppBadgeSize.large => const EdgeInsets.symmetric(
-          horizontal: DesignTokens.spacing16,
-          vertical: DesignTokens.spacing8,
-        ),
+        horizontal: DesignTokens.spacing16,
+        vertical: DesignTokens.spacing8,
+      ),
     };
 
     final textStyle = switch (size) {
@@ -295,14 +278,7 @@ class AppBadge extends StatelessWidget {
 }
 
 /// Badge size enumeration
-enum AppBadgeSize {
-  small,
-  medium,
-  large,
-}
+enum AppBadgeSize { small, medium, large }
 
 /// Badge variant enumeration
-enum AppBadgeVariant {
-  filled,
-  outlined,
-}
+enum AppBadgeVariant { filled, outlined }

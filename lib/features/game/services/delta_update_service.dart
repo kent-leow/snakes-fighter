@@ -1,7 +1,7 @@
 import '../../../core/models/models.dart';
 
 /// Service for calculating and applying delta updates to game state.
-/// 
+///
 /// Optimizes network bandwidth by only sending changed data instead of
 /// complete game state updates. Tracks last known states and calculates
 /// minimal diffs for efficient synchronization.
@@ -12,13 +12,13 @@ class DeltaUpdateService {
   final Map<String, GameState> _lastKnownStates = {};
 
   /// Calculates the delta (difference) between current and last known state.
-  /// 
+  ///
   /// Returns a map containing only the fields that have changed since the
   /// last update. If no previous state exists, returns the complete state.
-  /// 
+  ///
   /// [roomId] The room identifier for tracking state
   /// [newState] The current game state to compare
-  /// 
+  ///
   /// Returns a map of changed fields suitable for batch database updates
   Map<String, dynamic> calculateDelta(String roomId, GameState newState) {
     final lastState = _lastKnownStates[roomId];
@@ -90,9 +90,9 @@ class DeltaUpdateService {
   /// Compares two snakes for equality.
   bool _snakesEqual(Snake snake1, Snake snake2) {
     return snake1.direction == snake2.direction &&
-           snake1.alive == snake2.alive &&
-           snake1.score == snake2.score &&
-           _positionsEqual(snake1.positions, snake2.positions);
+        snake1.alive == snake2.alive &&
+        snake1.score == snake2.score &&
+        _positionsEqual(snake1.positions, snake2.positions);
   }
 
   /// Compares two food objects for equality.
@@ -115,7 +115,7 @@ class DeltaUpdateService {
   }
 
   /// Calculates optimized snake position update.
-  /// 
+  ///
   /// For performance, only sends essential snake data: head position,
   /// direction, alive status, and score. Full position arrays are only
   /// sent when necessary (snake growth, respawn, etc.).
@@ -129,9 +129,7 @@ class DeltaUpdateService {
 
     if (lastSnake == null) {
       // First time or snake respawn - send complete data
-      return {
-        'snakes/$playerId': newSnake.toJson(),
-      };
+      return {'snakes/$playerId': newSnake.toJson()};
     }
 
     final delta = <String, dynamic>{};
@@ -159,20 +157,22 @@ class DeltaUpdateService {
     // Send full positions only if snake grew/shrank significantly
     if (lastSnake.positions.length != newSnake.positions.length ||
         _shouldSendFullPositions(lastSnake, newSnake)) {
-      delta['snakes/$playerId/positions'] =
-          newSnake.positions.map((p) => p.toJson()).toList();
+      delta['snakes/$playerId/positions'] = newSnake.positions
+          .map((p) => p.toJson())
+          .toList();
     }
 
     return delta;
   }
 
   /// Determines if full position array should be sent.
-  /// 
+  ///
   /// Returns true if the snake has grown, been reset, or if there's
   /// a significant discrepancy in positions that requires full sync.
   bool _shouldSendFullPositions(Snake lastSnake, Snake newSnake) {
     // If lengths differ significantly, send full positions
-    final lengthDiff = (newSnake.positions.length - lastSnake.positions.length).abs();
+    final lengthDiff = (newSnake.positions.length - lastSnake.positions.length)
+        .abs();
     if (lengthDiff > 1) return true;
 
     // If snake died and respawned, send full positions
@@ -183,9 +183,9 @@ class DeltaUpdateService {
       // Check if body positions match (excluding head)
       final newBody = newSnake.body;
       final lastBody = lastSnake.body;
-      
+
       if (newBody.length != lastBody.length) return true;
-      
+
       // Check if any body position changed unexpectedly
       for (int i = 0; i < newBody.length && i < lastBody.length; i++) {
         if (newBody[i] != lastBody[i]) return true;
@@ -196,18 +196,18 @@ class DeltaUpdateService {
   }
 
   /// Calculates the size of a delta update in bytes (approximate).
-  /// 
+  ///
   /// Useful for monitoring bandwidth usage and optimization.
   /// Returns approximate JSON size in bytes.
   int calculateDeltaSize(Map<String, dynamic> delta) {
     // Rough estimation: JSON overhead + key/value sizes
     int size = 10; // Base JSON object overhead
-    
+
     for (final entry in delta.entries) {
       size += entry.key.length + 5; // Key + quotes + colon + comma
       size += _estimateValueSize(entry.value);
     }
-    
+
     return size;
   }
 
@@ -237,7 +237,7 @@ class DeltaUpdateService {
   }
 
   /// Clears the cached state for a room.
-  /// 
+  ///
   /// Should be called when a room is reset or deleted to prevent
   /// memory leaks and stale state comparisons.
   void clearRoomState(String roomId) {
@@ -245,14 +245,14 @@ class DeltaUpdateService {
   }
 
   /// Clears all cached states.
-  /// 
+  ///
   /// Should be called when the service is being disposed.
   void clearAllStates() {
     _lastKnownStates.clear();
   }
 
   /// Gets statistics about cached states.
-  /// 
+  ///
   /// Returns information about memory usage and cached room count.
   Map<String, dynamic> getStats() {
     return {

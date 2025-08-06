@@ -3,16 +3,18 @@ import 'package:snakes_fight/features/game/controllers/game_loop.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  
+
   group('GameLoop', () {
     late GameLoop gameLoop;
     late List<Duration> tickTimes;
 
     setUp(() {
       tickTimes = [];
-      gameLoop = GameLoop(onTick: (elapsed) {
-        tickTimes.add(elapsed);
-      });
+      gameLoop = GameLoop(
+        onTick: (elapsed) {
+          tickTimes.add(elapsed);
+        },
+      );
     });
 
     tearDown(() {
@@ -53,7 +55,7 @@ void main() {
       test('should not start if already running', () {
         gameLoop.start();
         final wasRunning = gameLoop.isRunning;
-        
+
         gameLoop.start(); // Try to start again
 
         expect(wasRunning, isTrue);
@@ -100,23 +102,25 @@ void main() {
       test('should execute tick callback', () async {
         gameLoop.start();
         expect(gameLoop.isRunning, isTrue);
-        
+
         // In test environment, ticker doesn't auto-run, but we can verify setup
         gameLoop.stop();
         expect(gameLoop.isRunning, isFalse);
       });
 
       test('should handle tick callback errors gracefully', () async {
-        final errorGameLoop = GameLoop(onTick: (elapsed) {
-          throw Exception('Test error');
-        });
+        final errorGameLoop = GameLoop(
+          onTick: (elapsed) {
+            throw Exception('Test error');
+          },
+        );
 
         errorGameLoop.start();
         expect(errorGameLoop.isRunning, isTrue);
-        
+
         errorGameLoop.stop();
         expect(errorGameLoop.isRunning, isFalse);
-        
+
         errorGameLoop.dispose();
       });
     });
@@ -224,9 +228,11 @@ void main() {
     group('timing accuracy', () {
       test('should provide monotonic elapsed time', () async {
         final elapsedTimes = <Duration>[];
-        final timingGameLoop = GameLoop(onTick: (elapsed) {
-          elapsedTimes.add(elapsed);
-        });
+        final timingGameLoop = GameLoop(
+          onTick: (elapsed) {
+            elapsedTimes.add(elapsed);
+          },
+        );
 
         timingGameLoop.start();
         await Future.delayed(const Duration(milliseconds: 100));
@@ -252,13 +258,15 @@ void main() {
 
     group('error handling', () {
       test('should continue after tick errors', () async {
-        final errorGameLoop = GameLoop(onTick: (elapsed) {
-          throw Exception('Intermittent error');
-        });
+        final errorGameLoop = GameLoop(
+          onTick: (elapsed) {
+            throw Exception('Intermittent error');
+          },
+        );
 
         errorGameLoop.start();
         expect(errorGameLoop.isRunning, isTrue);
-        
+
         errorGameLoop.stop();
         expect(errorGameLoop.isRunning, isFalse);
 
@@ -267,7 +275,7 @@ void main() {
 
       test('should handle disposal during operation', () async {
         gameLoop.start();
-        
+
         // Dispose while running
         gameLoop.dispose();
 
@@ -286,11 +294,11 @@ void main() {
 
       test('should update toString based on state', () async {
         final stoppedStr = gameLoop.toString();
-        
+
         gameLoop.start();
         await Future.delayed(const Duration(milliseconds: 50));
         final runningStr = gameLoop.toString();
-        
+
         gameLoop.stop();
 
         expect(stoppedStr, isNot(equals(runningStr)));

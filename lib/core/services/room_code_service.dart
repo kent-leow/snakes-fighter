@@ -24,7 +24,7 @@ class RoomCodeService {
   final Random _random = Random.secure();
 
   /// Generates a unique room code.
-  /// 
+  ///
   /// Throws [RoomCodeException] if unable to generate unique code after max attempts.
   Future<String> generateUniqueRoomCode() async {
     int attempts = 0;

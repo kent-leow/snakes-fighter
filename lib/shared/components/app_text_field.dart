@@ -73,14 +73,14 @@ class AppTextField extends StatefulWidget {
     this.textInputAction = TextInputAction.next,
     this.focusNode,
     this.autofocus = false,
-  })  : keyboardType = TextInputType.emailAddress,
-        obscureText = false,
-        maxLines = 1,
-        maxLength = null,
-        inputFormatters = null,
-        prefixText = null,
-        suffixText = null,
-        textCapitalization = TextCapitalization.none;
+  }) : keyboardType = TextInputType.emailAddress,
+       obscureText = false,
+       maxLines = 1,
+       maxLength = null,
+       inputFormatters = null,
+       prefixText = null,
+       suffixText = null,
+       textCapitalization = TextCapitalization.none;
 
   /// Factory for password input
   const AppTextField.password({
@@ -100,14 +100,14 @@ class AppTextField extends StatefulWidget {
     this.textInputAction = TextInputAction.done,
     this.focusNode,
     this.autofocus = false,
-  })  : keyboardType = TextInputType.visiblePassword,
-        obscureText = true,
-        maxLines = 1,
-        maxLength = null,
-        inputFormatters = null,
-        prefixText = null,
-        suffixText = null,
-        textCapitalization = TextCapitalization.none;
+  }) : keyboardType = TextInputType.visiblePassword,
+       obscureText = true,
+       maxLines = 1,
+       maxLength = null,
+       inputFormatters = null,
+       prefixText = null,
+       suffixText = null,
+       textCapitalization = TextCapitalization.none;
 
   /// Factory for search input
   const AppTextField.search({
@@ -127,14 +127,14 @@ class AppTextField extends StatefulWidget {
     this.textInputAction = TextInputAction.search,
     this.focusNode,
     this.autofocus = false,
-  })  : keyboardType = TextInputType.text,
-        obscureText = false,
-        maxLines = 1,
-        maxLength = null,
-        inputFormatters = null,
-        prefixText = null,
-        suffixText = null,
-        textCapitalization = TextCapitalization.none;
+  }) : keyboardType = TextInputType.text,
+       obscureText = false,
+       maxLines = 1,
+       maxLength = null,
+       inputFormatters = null,
+       prefixText = null,
+       suffixText = null,
+       textCapitalization = TextCapitalization.none;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -174,7 +174,9 @@ class _AppTextFieldState extends State<AppTextField> {
           autofocus: widget.autofocus,
           textCapitalization: widget.textCapitalization,
           style: theme.textTheme.bodyLarge?.copyWith(
-            color: widget.enabled ? colorScheme.onSurface : colorScheme.onSurface.withValues(alpha: 0.38),
+            color: widget.enabled
+                ? colorScheme.onSurface
+                : colorScheme.onSurface.withValues(alpha: 0.38),
           ),
           decoration: InputDecoration(
             labelText: widget.labelText,
@@ -185,7 +187,9 @@ class _AppTextFieldState extends State<AppTextField> {
             prefixText: widget.prefixText,
             suffixText: widget.suffixText,
             filled: true,
-            fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.12),
+            fillColor: colorScheme.surfaceContainerHighest.withValues(
+              alpha: 0.12,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
               borderSide: BorderSide(color: colorScheme.outline),
@@ -208,7 +212,9 @@ class _AppTextFieldState extends State<AppTextField> {
             ),
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
-              borderSide: BorderSide(color: colorScheme.onSurface.withValues(alpha: 0.12)),
+              borderSide: BorderSide(
+                color: colorScheme.onSurface.withValues(alpha: 0.12),
+              ),
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: DesignTokens.spacing16,

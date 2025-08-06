@@ -7,17 +7,17 @@ part of 'room.dart';
 // **************************************************************************
 
 _$RoomImpl _$$RoomImplFromJson(Map<String, dynamic> json) => _$RoomImpl(
-      id: json['id'] as String,
-      roomCode: json['roomCode'] as String,
-      hostId: json['hostId'] as String,
-      status: $enumDecode(_$RoomStatusEnumMap, json['status']),
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      maxPlayers: (json['maxPlayers'] as num?)?.toInt() ?? 4,
-      players: json['players'] == null
-          ? const {}
-          : _playersFromJson(json['players'] as Map<String, dynamic>),
-      gameState: _gameStateFromJson(json['gameState'] as Map<String, dynamic>?),
-    );
+  id: json['id'] as String,
+  roomCode: json['roomCode'] as String,
+  hostId: json['hostId'] as String,
+  status: $enumDecode(_$RoomStatusEnumMap, json['status']),
+  createdAt: DateTime.parse(json['createdAt'] as String),
+  maxPlayers: (json['maxPlayers'] as num?)?.toInt() ?? 4,
+  players: json['players'] == null
+      ? const {}
+      : _playersFromJson(json['players'] as Map<String, dynamic>),
+  gameState: _gameStateFromJson(json['gameState'] as Map<String, dynamic>?),
+);
 
 Map<String, dynamic> _$$RoomImplToJson(_$RoomImpl instance) =>
     <String, dynamic>{

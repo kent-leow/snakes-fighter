@@ -113,7 +113,8 @@ class GameController extends ChangeNotifier {
   double get currentFps => _performanceMonitor.getCurrentFps();
 
   /// Gets the average frame time in milliseconds from the game loop.
-  double get averageFrameTime => _gameLoop.averageFrameTime.inMilliseconds.toDouble();
+  double get averageFrameTime =>
+      _gameLoop.averageFrameTime.inMilliseconds.toDouble();
 
   // Public API - Game Control
 

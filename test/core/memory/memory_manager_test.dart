@@ -26,9 +26,9 @@ void main() {
     group('object pooling', () {
       test('should create objects when pool is empty', () {
         final position = memoryManager.getObject<Position>();
-        
+
         expect(position, isA<Position>());
-        
+
         final stats = memoryManager.getMemoryStats();
         expect(stats['allocation_count'], equals(1));
         expect(stats['pool_hit_count'], equals(0));
@@ -39,14 +39,14 @@ void main() {
         memoryManager.dispose();
         memoryManager = MemoryManager();
         memoryManager.initialize();
-        
+
         // Create and return an object
         final position1 = memoryManager.getObject<Position>();
         memoryManager.returnObject(position1);
-        
+
         // Get another object (should come from pool)
         memoryManager.getObject<Position>();
-        
+
         final stats = memoryManager.getMemoryStats();
         expect(stats['allocation_count'], equals(1));
         expect(stats['pool_hit_count'], equals(1));
@@ -54,23 +54,23 @@ void main() {
 
       test('should calculate hit rate correctly', () {
         memoryManager.initialize();
-        
+
         // Create several objects
         final pos1 = memoryManager.getObject<Position>();
         final pos2 = memoryManager.getObject<Position>();
         memoryManager.getObject<Position>();
-        
+
         // Return some to pool
         memoryManager.returnObject(pos1);
         memoryManager.returnObject(pos2);
-        
+
         // Get from pool (these should be hits)
         memoryManager.getObject<Position>();
         memoryManager.getObject<Position>();
-        
+
         final stats = memoryManager.getMemoryStats();
         final hitRate = stats['hit_rate'] as double;
-        
+
         expect(hitRate, greaterThan(0.0));
         expect(hitRate, lessThanOrEqualTo(1.0));
       });
@@ -82,12 +82,12 @@ void main() {
         memoryManager.dispose();
         memoryManager = MemoryManager();
         memoryManager.initialize();
-        
+
         memoryManager.getObject<Position>();
         memoryManager.getObject<Position>();
-        
+
         final stats = memoryManager.getMemoryStats();
-        
+
         expect(stats, containsPair('allocation_count', 2));
         expect(stats, containsPair('pool_hit_count', 0));
         expect(stats, containsPair('hit_rate', 0.0));
@@ -104,7 +104,7 @@ void main() {
           final pos = memoryManager.getObject<Position>();
           memoryManager.returnObject(pos);
         }
-        
+
         expect(() => memoryManager.optimizeMemory(), returnsNormally);
       });
     });
@@ -128,10 +128,10 @@ void main() {
 
     test('should store and retrieve objects', () {
       const testPosition = Position(1, 2);
-      
+
       pool.returnToPool(testPosition);
       final retrieved = pool.get();
-      
+
       expect(retrieved, isNotNull);
       expect(pool.size, equals(0));
     });
@@ -141,7 +141,7 @@ void main() {
       for (int i = 0; i < 10; i++) {
         pool.returnToPool(Position(i, i));
       }
-      
+
       expect(pool.size, equals(5)); // Should be capped at maxSize
     });
 
@@ -150,18 +150,18 @@ void main() {
       for (int i = 0; i < 5; i++) {
         pool.returnToPool(Position(i, i));
       }
-      
+
       pool.trim();
-      
+
       expect(pool.size, equals(2)); // Should be half of maxSize (5/2 = 2)
     });
 
     test('should clear pool', () {
       pool.returnToPool(const Position(1, 1));
       pool.returnToPool(const Position(2, 2));
-      
+
       pool.clear();
-      
+
       expect(pool.size, equals(0));
     });
   });

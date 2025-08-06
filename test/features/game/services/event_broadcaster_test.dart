@@ -70,7 +70,8 @@ void main() {
       test('does not broadcast to non-existent room', () {
         // This should not throw an error
         expect(
-          () => broadcaster.broadcastEvent('nonExistentRoom', 
+          () => broadcaster.broadcastEvent(
+            'nonExistentRoom',
             PlayerMoveEvent(
               playerId: 'player1',
               timestamp: DateTime.now().millisecondsSinceEpoch,
@@ -139,7 +140,9 @@ void main() {
           newScore: 10,
         );
 
-        final moveStream = broadcaster.getFilteredEventStream<PlayerMoveEvent>(roomId);
+        final moveStream = broadcaster.getFilteredEventStream<PlayerMoveEvent>(
+          roomId,
+        );
         final receivedMoveEvents = <PlayerMoveEvent>[];
         final subscription = moveStream.listen(receivedMoveEvents.add);
 
@@ -206,14 +209,18 @@ void main() {
         broadcaster.disposeAll();
 
         // Assert - should not throw errors
-        expect(() => broadcaster.broadcastEvent('room1', 
-          PlayerMoveEvent(
-            playerId: 'player1',
-            timestamp: DateTime.now().millisecondsSinceEpoch,
-            direction: Direction.up,
-            newHeadPosition: const Position(1, 0),
+        expect(
+          () => broadcaster.broadcastEvent(
+            'room1',
+            PlayerMoveEvent(
+              playerId: 'player1',
+              timestamp: DateTime.now().millisecondsSinceEpoch,
+              direction: Direction.up,
+              newHeadPosition: const Position(1, 0),
+            ),
           ),
-        ), returnsNormally);
+          returnsNormally,
+        );
       });
     });
   });

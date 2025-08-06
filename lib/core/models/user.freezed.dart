@@ -12,7 +12,8 @@ part of 'user.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 UserStats _$UserStatsFromJson(Map<String, dynamic> json) {
   return _UserStats.fromJson(json);
@@ -61,20 +62,23 @@ class _$UserStatsCopyWithImpl<$Res, $Val extends UserStats>
     Object? gamesWon = null,
     Object? lastActive = null,
   }) {
-    return _then(_value.copyWith(
-      gamesPlayed: null == gamesPlayed
-          ? _value.gamesPlayed
-          : gamesPlayed // ignore: cast_nullable_to_non_nullable
-              as int,
-      gamesWon: null == gamesWon
-          ? _value.gamesWon
-          : gamesWon // ignore: cast_nullable_to_non_nullable
-              as int,
-      lastActive: null == lastActive
-          ? _value.lastActive
-          : lastActive // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            gamesPlayed: null == gamesPlayed
+                ? _value.gamesPlayed
+                : gamesPlayed // ignore: cast_nullable_to_non_nullable
+                      as int,
+            gamesWon: null == gamesWon
+                ? _value.gamesWon
+                : gamesWon // ignore: cast_nullable_to_non_nullable
+                      as int,
+            lastActive: null == lastActive
+                ? _value.lastActive
+                : lastActive // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -82,8 +86,9 @@ class _$UserStatsCopyWithImpl<$Res, $Val extends UserStats>
 abstract class _$$UserStatsImplCopyWith<$Res>
     implements $UserStatsCopyWith<$Res> {
   factory _$$UserStatsImplCopyWith(
-          _$UserStatsImpl value, $Res Function(_$UserStatsImpl) then) =
-      __$$UserStatsImplCopyWithImpl<$Res>;
+    _$UserStatsImpl value,
+    $Res Function(_$UserStatsImpl) then,
+  ) = __$$UserStatsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int gamesPlayed, int gamesWon, DateTime lastActive});
@@ -94,8 +99,9 @@ class __$$UserStatsImplCopyWithImpl<$Res>
     extends _$UserStatsCopyWithImpl<$Res, _$UserStatsImpl>
     implements _$$UserStatsImplCopyWith<$Res> {
   __$$UserStatsImplCopyWithImpl(
-      _$UserStatsImpl _value, $Res Function(_$UserStatsImpl) _then)
-      : super(_value, _then);
+    _$UserStatsImpl _value,
+    $Res Function(_$UserStatsImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of UserStats
   /// with the given fields replaced by the non-null parameter values.
@@ -106,28 +112,33 @@ class __$$UserStatsImplCopyWithImpl<$Res>
     Object? gamesWon = null,
     Object? lastActive = null,
   }) {
-    return _then(_$UserStatsImpl(
-      gamesPlayed: null == gamesPlayed
-          ? _value.gamesPlayed
-          : gamesPlayed // ignore: cast_nullable_to_non_nullable
-              as int,
-      gamesWon: null == gamesWon
-          ? _value.gamesWon
-          : gamesWon // ignore: cast_nullable_to_non_nullable
-              as int,
-      lastActive: null == lastActive
-          ? _value.lastActive
-          : lastActive // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ));
+    return _then(
+      _$UserStatsImpl(
+        gamesPlayed: null == gamesPlayed
+            ? _value.gamesPlayed
+            : gamesPlayed // ignore: cast_nullable_to_non_nullable
+                  as int,
+        gamesWon: null == gamesWon
+            ? _value.gamesWon
+            : gamesWon // ignore: cast_nullable_to_non_nullable
+                  as int,
+        lastActive: null == lastActive
+            ? _value.lastActive
+            : lastActive // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$UserStatsImpl implements _UserStats {
-  const _$UserStatsImpl(
-      {this.gamesPlayed = 0, this.gamesWon = 0, required this.lastActive});
+  const _$UserStatsImpl({
+    this.gamesPlayed = 0,
+    this.gamesWon = 0,
+    required this.lastActive,
+  });
 
   factory _$UserStatsImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserStatsImplFromJson(json);
@@ -174,17 +185,16 @@ class _$UserStatsImpl implements _UserStats {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UserStatsImplToJson(
-      this,
-    );
+    return _$$UserStatsImplToJson(this);
   }
 }
 
 abstract class _UserStats implements UserStats {
-  const factory _UserStats(
-      {final int gamesPlayed,
-      final int gamesWon,
-      required final DateTime lastActive}) = _$UserStatsImpl;
+  const factory _UserStats({
+    final int gamesPlayed,
+    final int gamesWon,
+    required final DateTime lastActive,
+  }) = _$UserStatsImpl;
 
   factory _UserStats.fromJson(Map<String, dynamic> json) =
       _$UserStatsImpl.fromJson;
@@ -229,8 +239,12 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call(
-      {String uid, String displayName, bool isAnonymous, UserStats stats});
+  $Res call({
+    String uid,
+    String displayName,
+    bool isAnonymous,
+    UserStats stats,
+  });
 
   $UserStatsCopyWith<$Res> get stats;
 }
@@ -255,24 +269,27 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? isAnonymous = null,
     Object? stats = null,
   }) {
-    return _then(_value.copyWith(
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
-      displayName: null == displayName
-          ? _value.displayName
-          : displayName // ignore: cast_nullable_to_non_nullable
-              as String,
-      isAnonymous: null == isAnonymous
-          ? _value.isAnonymous
-          : isAnonymous // ignore: cast_nullable_to_non_nullable
-              as bool,
-      stats: null == stats
-          ? _value.stats
-          : stats // ignore: cast_nullable_to_non_nullable
-              as UserStats,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            uid: null == uid
+                ? _value.uid
+                : uid // ignore: cast_nullable_to_non_nullable
+                      as String,
+            displayName: null == displayName
+                ? _value.displayName
+                : displayName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            isAnonymous: null == isAnonymous
+                ? _value.isAnonymous
+                : isAnonymous // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            stats: null == stats
+                ? _value.stats
+                : stats // ignore: cast_nullable_to_non_nullable
+                      as UserStats,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of User
@@ -289,12 +306,17 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
 /// @nodoc
 abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$$UserImplCopyWith(
-          _$UserImpl value, $Res Function(_$UserImpl) then) =
-      __$$UserImplCopyWithImpl<$Res>;
+    _$UserImpl value,
+    $Res Function(_$UserImpl) then,
+  ) = __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String uid, String displayName, bool isAnonymous, UserStats stats});
+  $Res call({
+    String uid,
+    String displayName,
+    bool isAnonymous,
+    UserStats stats,
+  });
 
   @override
   $UserStatsCopyWith<$Res> get stats;
@@ -305,7 +327,7 @@ class __$$UserImplCopyWithImpl<$Res>
     extends _$UserCopyWithImpl<$Res, _$UserImpl>
     implements _$$UserImplCopyWith<$Res> {
   __$$UserImplCopyWithImpl(_$UserImpl _value, $Res Function(_$UserImpl) _then)
-      : super(_value, _then);
+    : super(_value, _then);
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -317,35 +339,38 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? isAnonymous = null,
     Object? stats = null,
   }) {
-    return _then(_$UserImpl(
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
-      displayName: null == displayName
-          ? _value.displayName
-          : displayName // ignore: cast_nullable_to_non_nullable
-              as String,
-      isAnonymous: null == isAnonymous
-          ? _value.isAnonymous
-          : isAnonymous // ignore: cast_nullable_to_non_nullable
-              as bool,
-      stats: null == stats
-          ? _value.stats
-          : stats // ignore: cast_nullable_to_non_nullable
-              as UserStats,
-    ));
+    return _then(
+      _$UserImpl(
+        uid: null == uid
+            ? _value.uid
+            : uid // ignore: cast_nullable_to_non_nullable
+                  as String,
+        displayName: null == displayName
+            ? _value.displayName
+            : displayName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        isAnonymous: null == isAnonymous
+            ? _value.isAnonymous
+            : isAnonymous // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        stats: null == stats
+            ? _value.stats
+            : stats // ignore: cast_nullable_to_non_nullable
+                  as UserStats,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$UserImpl implements _User {
-  const _$UserImpl(
-      {required this.uid,
-      required this.displayName,
-      this.isAnonymous = false,
-      required this.stats});
+  const _$UserImpl({
+    required this.uid,
+    required this.displayName,
+    this.isAnonymous = false,
+    required this.stats,
+  });
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -393,18 +418,17 @@ class _$UserImpl implements _User {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UserImplToJson(
-      this,
-    );
+    return _$$UserImplToJson(this);
   }
 }
 
 abstract class _User implements User {
-  const factory _User(
-      {required final String uid,
-      required final String displayName,
-      final bool isAnonymous,
-      required final UserStats stats}) = _$UserImpl;
+  const factory _User({
+    required final String uid,
+    required final String displayName,
+    final bool isAnonymous,
+    required final UserStats stats,
+  }) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 

@@ -10,7 +10,7 @@ class GameStatusWidget extends StatelessWidget {
   final GameState gameState;
   final TextStyle? textStyle;
   final Duration animationDuration;
-  
+
   const GameStatusWidget({
     super.key,
     required this.gameState,
@@ -25,16 +25,13 @@ class GameStatusWidget extends StatelessWidget {
       transitionBuilder: (child, animation) {
         return FadeTransition(
           opacity: animation,
-          child: ScaleTransition(
-            scale: animation,
-            child: child,
-          ),
+          child: ScaleTransition(scale: animation, child: child),
         );
       },
       child: _buildStatusContent(context),
     );
   }
-  
+
   /// Builds the content based on current game state.
   Widget _buildStatusContent(BuildContext context) {
     switch (gameState) {
@@ -45,10 +42,10 @@ class GameStatusWidget extends StatelessWidget {
           icon: Icons.play_arrow,
           color: Theme.of(context).colorScheme.primary,
         );
-        
+
       case GameState.playing:
         return const SizedBox.shrink(); // No message during gameplay
-        
+
       case GameState.paused:
         return _buildStatusMessage(
           context,
@@ -57,10 +54,10 @@ class GameStatusWidget extends StatelessWidget {
           icon: Icons.pause,
           color: Theme.of(context).colorScheme.secondary,
         );
-        
+
       case GameState.gameOver:
         return _buildGameOverMessage(context);
-        
+
       case GameState.restarting:
         return _buildStatusMessage(
           context,
@@ -71,7 +68,7 @@ class GameStatusWidget extends StatelessWidget {
         );
     }
   }
-  
+
   /// Builds a standard status message with optional icon and subtitle.
   Widget _buildStatusMessage(
     BuildContext context,
@@ -83,7 +80,7 @@ class GameStatusWidget extends StatelessWidget {
   }) {
     final theme = Theme.of(context);
     final primaryColor = color ?? theme.colorScheme.onSurface;
-    
+
     return Container(
       key: ValueKey(message), // For AnimatedSwitcher
       padding: const EdgeInsets.all(24),
@@ -112,24 +109,22 @@ class GameStatusWidget extends StatelessWidget {
                       strokeWidth: 3,
                     ),
                   )
-                : Icon(
-                    icon,
-                    size: 48,
-                    color: primaryColor,
-                  ),
+                : Icon(icon, size: 48, color: primaryColor),
             const SizedBox(height: 16),
           ],
-          
+
           // Main message
           Text(
             message,
-            style: textStyle ?? theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: primaryColor,
-              letterSpacing: 1.2,
-            ),
+            style:
+                textStyle ??
+                theme.textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: primaryColor,
+                  letterSpacing: 1.2,
+                ),
           ),
-          
+
           // Subtitle
           if (subtitle != null) ...[
             const SizedBox(height: 8),
@@ -145,7 +140,7 @@ class GameStatusWidget extends StatelessWidget {
       ),
     );
   }
-  
+
   /// Builds the game over message with additional information.
   Widget _buildGameOverMessage(BuildContext context) {
     return _buildStatusMessage(
@@ -162,7 +157,7 @@ class GameStatusWidget extends StatelessWidget {
 class CompactGameStatusWidget extends StatelessWidget {
   final GameState gameState;
   final double size;
-  
+
   const CompactGameStatusWidget({
     super.key,
     required this.gameState,
@@ -176,11 +171,11 @@ class CompactGameStatusWidget extends StatelessWidget {
       child: _buildStatusIcon(context),
     );
   }
-  
+
   Widget _buildStatusIcon(BuildContext context) {
     IconData icon;
     Color color;
-    
+
     switch (gameState) {
       case GameState.menu:
         icon = Icons.play_arrow;
@@ -207,13 +202,8 @@ class CompactGameStatusWidget extends StatelessWidget {
           ),
         );
     }
-    
-    return Icon(
-      icon,
-      size: size,
-      color: color,
-      key: ValueKey(gameState),
-    );
+
+    return Icon(icon, size: size, color: color, key: ValueKey(gameState));
   }
 }
 
@@ -221,7 +211,7 @@ class CompactGameStatusWidget extends StatelessWidget {
 class GameStatusBar extends StatelessWidget {
   final GameState gameState;
   final EdgeInsets padding;
-  
+
   const GameStatusBar({
     super.key,
     required this.gameState,
@@ -232,11 +222,11 @@ class GameStatusBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final statusText = _getStatusText();
     final statusColor = _getStatusColor(context);
-    
+
     if (statusText.isEmpty) {
       return const SizedBox.shrink();
     }
-    
+
     return Container(
       padding: padding,
       decoration: BoxDecoration(
@@ -260,7 +250,7 @@ class GameStatusBar extends StatelessWidget {
       ),
     );
   }
-  
+
   String _getStatusText() {
     switch (gameState) {
       case GameState.menu:
@@ -275,7 +265,7 @@ class GameStatusBar extends StatelessWidget {
         return 'Restarting';
     }
   }
-  
+
   Color _getStatusColor(BuildContext context) {
     switch (gameState) {
       case GameState.menu:

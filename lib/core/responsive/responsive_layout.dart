@@ -32,7 +32,7 @@ class ResponsiveBreakpoints {
   /// Get current device type as enum
   static DeviceType getDeviceType(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    
+
     if (width < mobile) return DeviceType.mobile;
     if (width < desktop) return DeviceType.tablet;
     if (width < largeDesktop) return DeviceType.desktop;
@@ -42,7 +42,7 @@ class ResponsiveBreakpoints {
   /// Get screen size category
   static ScreenSize getScreenSize(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    
+
     if (width < mobile) return ScreenSize.compact;
     if (width < desktop) return ScreenSize.medium;
     return ScreenSize.expanded;
@@ -50,17 +50,12 @@ class ResponsiveBreakpoints {
 }
 
 /// Device type enumeration
-enum DeviceType {
-  mobile,
-  tablet,
-  desktop,
-  largeDesktop,
-}
+enum DeviceType { mobile, tablet, desktop, largeDesktop }
 
 /// Screen size categories based on Material Design 3
 enum ScreenSize {
-  compact,  // < 600dp
-  medium,   // 600dp - 900dp
+  compact, // < 600dp
+  medium, // 600dp - 900dp
   expanded, // > 900dp
 }
 
@@ -86,15 +81,15 @@ class ResponsiveLayout extends StatelessWidget {
         if (constraints.maxWidth >= ResponsiveBreakpoints.largeDesktop) {
           return largeDesktop ?? desktop ?? tablet ?? mobile;
         }
-        
+
         if (constraints.maxWidth >= ResponsiveBreakpoints.desktop) {
           return desktop ?? tablet ?? mobile;
         }
-        
+
         if (constraints.maxWidth >= ResponsiveBreakpoints.mobile) {
           return tablet ?? mobile;
         }
-        
+
         return mobile;
       },
     );
@@ -120,15 +115,15 @@ class ResponsiveValue<T> {
     if (ResponsiveBreakpoints.isLargeDesktop(context)) {
       return largeDesktop ?? desktop ?? tablet ?? mobile;
     }
-    
+
     if (ResponsiveBreakpoints.isDesktop(context)) {
       return desktop ?? tablet ?? mobile;
     }
-    
+
     if (ResponsiveBreakpoints.isTablet(context)) {
       return tablet ?? mobile;
     }
-    
+
     return mobile;
   }
 }
@@ -137,25 +132,25 @@ class ResponsiveValue<T> {
 extension ResponsiveExtension on BuildContext {
   /// Check if current screen is mobile
   bool get isMobile => ResponsiveBreakpoints.isMobile(this);
-  
+
   /// Check if current screen is tablet
   bool get isTablet => ResponsiveBreakpoints.isTablet(this);
-  
+
   /// Check if current screen is desktop
   bool get isDesktop => ResponsiveBreakpoints.isDesktop(this);
-  
+
   /// Check if current screen is large desktop
   bool get isLargeDesktop => ResponsiveBreakpoints.isLargeDesktop(this);
-  
+
   /// Get current device type
   DeviceType get deviceType => ResponsiveBreakpoints.getDeviceType(this);
-  
+
   /// Get current screen size category
   ScreenSize get screenSize => ResponsiveBreakpoints.getScreenSize(this);
-  
+
   /// Get screen width
   double get screenWidth => MediaQuery.of(this).size.width;
-  
+
   /// Get screen height
   double get screenHeight => MediaQuery.of(this).size.height;
 }
@@ -183,7 +178,7 @@ class ResponsiveGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final columnCount = columns.getValue(context);
     final itemsPerRow = (children.length / columnCount).ceil();
-    
+
     return Column(
       crossAxisAlignment: crossAxisAlignment,
       mainAxisAlignment: mainAxisAlignment,
@@ -191,7 +186,7 @@ class ResponsiveGrid extends StatelessWidget {
         final startIndex = rowIndex * columnCount;
         final endIndex = (startIndex + columnCount).clamp(0, children.length);
         final rowChildren = children.sublist(startIndex, endIndex);
-        
+
         return Padding(
           padding: EdgeInsets.only(
             bottom: rowIndex < itemsPerRow - 1 ? runSpacing : 0,
@@ -230,9 +225,6 @@ class ResponsivePadding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: padding.getValue(context),
-      child: child,
-    );
+    return Padding(padding: padding.getValue(context), child: child);
   }
 }

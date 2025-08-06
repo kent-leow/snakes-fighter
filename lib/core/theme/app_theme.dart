@@ -78,7 +78,8 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: DesignTokens.lightColorScheme.surfaceContainerHighest.withValues(alpha: 0.12),
+        fillColor: DesignTokens.lightColorScheme.surfaceContainerHighest
+            .withValues(alpha: 0.12),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
           borderSide: BorderSide(color: DesignTokens.lightColorScheme.outline),
@@ -89,7 +90,10 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
-          borderSide: BorderSide(color: DesignTokens.lightColorScheme.primary, width: 2),
+          borderSide: BorderSide(
+            color: DesignTokens.lightColorScheme.primary,
+            width: 2,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
@@ -97,7 +101,10 @@ class AppTheme {
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
-          borderSide: BorderSide(color: DesignTokens.lightColorScheme.error, width: 2),
+          borderSide: BorderSide(
+            color: DesignTokens.lightColorScheme.error,
+            width: 2,
+          ),
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: DesignTokens.spacing16,
@@ -192,7 +199,8 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: DesignTokens.darkColorScheme.surfaceContainerHighest.withValues(alpha: 0.12),
+        fillColor: DesignTokens.darkColorScheme.surfaceContainerHighest
+            .withValues(alpha: 0.12),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
           borderSide: BorderSide(color: DesignTokens.darkColorScheme.outline),
@@ -203,7 +211,10 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
-          borderSide: BorderSide(color: DesignTokens.darkColorScheme.primary, width: 2),
+          borderSide: BorderSide(
+            color: DesignTokens.darkColorScheme.primary,
+            width: 2,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
@@ -211,7 +222,10 @@ class AppTheme {
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
-          borderSide: BorderSide(color: DesignTokens.darkColorScheme.error, width: 2),
+          borderSide: BorderSide(
+            color: DesignTokens.darkColorScheme.error,
+            width: 2,
+          ),
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: DesignTokens.spacing16,

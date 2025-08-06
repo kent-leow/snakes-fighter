@@ -38,7 +38,10 @@ void main() {
 
         expect(results.length, equals(1));
         expect(results.first.playerId, equals('player1'));
-        expect(results.first.collisionType, equals(MultiplayerCollisionType.wall));
+        expect(
+          results.first.collisionType,
+          equals(MultiplayerCollisionType.wall),
+        );
         expect(results.first.isDead, isTrue);
       });
 
@@ -63,7 +66,10 @@ void main() {
         final results = detector.checkAllCollisions(snakes, moveResults);
 
         expect(results.length, equals(1));
-        expect(results.first.collisionType, equals(MultiplayerCollisionType.wall));
+        expect(
+          results.first.collisionType,
+          equals(MultiplayerCollisionType.wall),
+        );
       });
     });
 
@@ -96,7 +102,10 @@ void main() {
         final results = detector.checkAllCollisions(snakes, moveResults);
 
         expect(results.length, equals(1));
-        expect(results.first.collisionType, equals(MultiplayerCollisionType.self));
+        expect(
+          results.first.collisionType,
+          equals(MultiplayerCollisionType.self),
+        );
         expect(results.first.isDead, isTrue);
       });
 
@@ -114,7 +123,11 @@ void main() {
         final moveResults = <String, SnakeMoveResult>{
           'player1': SnakeMoveResult.success(
             newHeadPosition: const Position(6, 5),
-            updatedPositions: const [Position(6, 5), Position(5, 5), Position(4, 5)],
+            updatedPositions: const [
+              Position(6, 5),
+              Position(5, 5),
+              Position(4, 5),
+            ],
           ),
         };
 
@@ -150,7 +163,11 @@ void main() {
           ),
           'player2': SnakeMoveResult.success(
             newHeadPosition: const Position(6, 7),
-            updatedPositions: const [Position(6, 7), Position(6, 6), Position(6, 5)],
+            updatedPositions: const [
+              Position(6, 7),
+              Position(6, 6),
+              Position(6, 5),
+            ],
           ),
         };
 
@@ -158,7 +175,10 @@ void main() {
 
         expect(results.length, equals(1));
         expect(results.first.playerId, equals('player1'));
-        expect(results.first.collisionType, equals(MultiplayerCollisionType.otherSnake));
+        expect(
+          results.first.collisionType,
+          equals(MultiplayerCollisionType.otherSnake),
+        );
         expect(results.first.otherPlayerId, equals('player2'));
         expect(results.first.isDead, isTrue);
       });
@@ -196,7 +216,12 @@ void main() {
 
         // Both players should have head-to-head collision
         expect(results.length, equals(2));
-        expect(results.every((r) => r.collisionType == MultiplayerCollisionType.headToHead), isTrue);
+        expect(
+          results.every(
+            (r) => r.collisionType == MultiplayerCollisionType.headToHead,
+          ),
+          isTrue,
+        );
         expect(results.every((r) => r.isDead), isTrue);
       });
     });

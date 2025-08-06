@@ -27,7 +27,7 @@ void main() {
     group('widget creation', () {
       testWidgets('should create GameCanvas widget', (tester) async {
         const gameSize = Size(400, 400);
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -45,7 +45,7 @@ void main() {
 
       testWidgets('should apply correct size', (tester) async {
         const gameSize = Size(300, 300);
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -71,7 +71,7 @@ void main() {
       testWidgets('should apply background color', (tester) async {
         const gameSize = Size(400, 400);
         const backgroundColor = Colors.blue;
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -98,7 +98,7 @@ void main() {
     group('animation controller', () {
       testWidgets('should start animation controller', (tester) async {
         const gameSize = Size(400, 400);
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -122,7 +122,7 @@ void main() {
 
       testWidgets('should dispose animation controller', (tester) async {
         const gameSize = Size(400, 400);
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -136,11 +136,7 @@ void main() {
 
         // Remove the widget
         await tester.pumpWidget(
-          const MaterialApp(
-            home: Scaffold(
-              body: SizedBox(),
-            ),
-          ),
+          const MaterialApp(home: Scaffold(body: SizedBox())),
         );
 
         // Should not throw any errors during disposal
@@ -151,7 +147,7 @@ void main() {
     group('game state updates', () {
       testWidgets('should rebuild when game state changes', (tester) async {
         const gameSize = Size(400, 400);
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -182,9 +178,11 @@ void main() {
     });
 
     group('painter creation', () {
-      testWidgets('should create GameCanvasPainter with correct properties', (tester) async {
+      testWidgets('should create GameCanvasPainter with correct properties', (
+        tester,
+      ) async {
         const gameSize = Size(400, 400);
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -202,9 +200,9 @@ void main() {
           of: find.byType(GameCanvas),
           matching: find.byType(CustomPaint),
         );
-        
+
         expect(customPaintFinder, findsOneWidget);
-        
+
         final customPaint = tester.widget<CustomPaint>(customPaintFinder);
         final painter = customPaint.painter as GameCanvasPainter;
 
@@ -218,9 +216,9 @@ void main() {
     group('responsive behavior', () {
       testWidgets('should handle different screen sizes', (tester) async {
         await tester.binding.setSurfaceSize(const Size(800, 600));
-        
+
         const gameSize = Size(600, 450);
-        
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -260,7 +258,7 @@ void main() {
     group('shouldRepaint', () {
       test('should repaint when snake changes', () {
         final initialSnake = gameController.snake.copy();
-        
+
         final painter1 = GameCanvasPainter(
           snake: initialSnake,
           food: gameController.currentFood,

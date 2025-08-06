@@ -7,28 +7,28 @@ import 'package:flutter/material.dart';
 class ResponsiveGameContainer extends StatelessWidget {
   /// The child widget to make responsive (typically the game canvas).
   final Widget child;
-  
+
   /// The target aspect ratio for the game (width / height).
   final double targetAspectRatio;
-  
+
   /// The maximum width for the game container.
   final double? maxWidth;
-  
+
   /// The maximum height for the game container.
   final double? maxHeight;
-  
+
   /// The minimum width for the game container.
   final double minWidth;
-  
+
   /// The minimum height for the game container.
   final double minHeight;
-  
+
   /// Padding around the game container.
   final EdgeInsets padding;
-  
+
   /// Background color for the container.
   final Color backgroundColor;
-  
+
   /// Whether to center the game container.
   final bool centerContent;
 
@@ -65,9 +65,9 @@ class ResponsiveGameContainer extends StatelessWidget {
       constraints.maxWidth - padding.horizontal,
       constraints.maxHeight - padding.vertical,
     );
-    
+
     final gameSize = _calculateOptimalGameSize(availableSize);
-    
+
     return Container(
       padding: padding,
       child: SizedBox(
@@ -83,10 +83,10 @@ class ResponsiveGameContainer extends StatelessWidget {
     // Start with available size
     double width = availableSize.width;
     double height = availableSize.height;
-    
+
     // Apply aspect ratio constraints
     final currentAspectRatio = width / height;
-    
+
     if (currentAspectRatio > targetAspectRatio) {
       // Too wide, constrain by height
       width = height * targetAspectRatio;
@@ -94,11 +94,11 @@ class ResponsiveGameContainer extends StatelessWidget {
       // Too tall, constrain by width
       height = width / targetAspectRatio;
     }
-    
+
     // Apply size constraints
     width = _clampWidth(width);
     height = _clampHeight(height);
-    
+
     // Ensure aspect ratio is maintained after clamping
     final finalAspectRatio = width / height;
     if (finalAspectRatio != targetAspectRatio) {
@@ -108,7 +108,7 @@ class ResponsiveGameContainer extends StatelessWidget {
         height = width / targetAspectRatio;
       }
     }
-    
+
     return Size(width, height);
   }
 
@@ -180,7 +180,7 @@ class SquareGameContainer extends ResponsiveGameContainer {
 class AdaptiveGameContainer extends StatelessWidget {
   /// The child widget to make responsive.
   final Widget child;
-  
+
   /// Background color for the container.
   final Color backgroundColor;
 
@@ -197,7 +197,7 @@ class AdaptiveGameContainer extends StatelessWidget {
         final screenSize = MediaQuery.of(context).size;
         final isTablet = screenSize.shortestSide >= 600;
         final isLandscape = screenSize.width > screenSize.height;
-        
+
         // Choose container based on device and orientation
         if (isTablet) {
           return SquareGameContainer(
@@ -233,17 +233,18 @@ class GameLayoutUtils {
   }) {
     final availableWidth = screenSize.width - padding.horizontal;
     final availableHeight = screenSize.height - padding.vertical;
-    
+
     final cellWidth = availableWidth / gridWidth;
     final cellHeight = availableHeight / gridHeight;
-    
+
     final cellSize = [cellWidth, cellHeight].reduce((a, b) => a < b ? a : b);
-    
+
     return cellSize.clamp(minCellSize, maxCellSize);
   }
 
   /// Determines if the current screen is suitable for the game.
-  static bool isScreenSuitable(Size screenSize, {
+  static bool isScreenSuitable(
+    Size screenSize, {
     double minWidth = 200.0,
     double minHeight = 200.0,
   }) {
@@ -257,18 +258,18 @@ class GameLayoutUtils {
   ) {
     final maxWidth = screenSize.width * 0.9;
     final maxHeight = screenSize.height * 0.8;
-    
+
     double width = maxWidth;
     double height = maxHeight;
-    
+
     final currentAspectRatio = width / height;
-    
+
     if (currentAspectRatio > targetAspectRatio) {
       width = height * targetAspectRatio;
     } else {
       height = width / targetAspectRatio;
     }
-    
+
     return Size(width, height);
   }
 }

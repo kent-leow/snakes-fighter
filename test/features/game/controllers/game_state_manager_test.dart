@@ -22,7 +22,10 @@ void main() {
 
       test('should track state entry time', () {
         expect(stateManager.timeInCurrentState, isA<Duration>());
-        expect(stateManager.timeInCurrentState.inMilliseconds, greaterThanOrEqualTo(0));
+        expect(
+          stateManager.timeInCurrentState.inMilliseconds,
+          greaterThanOrEqualTo(0),
+        );
       });
     });
 

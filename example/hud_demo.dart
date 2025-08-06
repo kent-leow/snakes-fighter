@@ -6,7 +6,7 @@ import 'package:snakes_fight/features/game/widgets/game_canvas.dart';
 import 'package:snakes_fight/features/game/widgets/game_hud.dart';
 
 /// Example app demonstrating the HUD system integrated with the game.
-/// 
+///
 /// This demonstrates all the implemented HUD features:
 /// - Real-time score display
 /// - Game status indicators
@@ -23,10 +23,7 @@ class HUDDemoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Snake Game HUD Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        useMaterial3: true,
-      ),
+      theme: ThemeData(primarySwatch: Colors.green, useMaterial3: true),
       home: const GameScreenWithHUD(),
     );
   }
@@ -46,7 +43,7 @@ class _GameScreenWithHUDState extends State<GameScreenWithHUD> {
   @override
   void initState() {
     super.initState();
-    
+
     // Initialize game system
     gridSystem = GridSystem(
       gridWidth: 20,
@@ -55,9 +52,9 @@ class _GameScreenWithHUDState extends State<GameScreenWithHUD> {
       screenWidth: 400.0,
       screenHeight: 600.0,
     );
-    
+
     gameController = GameController(gridSystem: gridSystem);
-    
+
     // Set up initial high score for demonstration
     gameController.scoreManager.updateHighScore(150);
   }
@@ -93,7 +90,7 @@ class _GameScreenWithHUDState extends State<GameScreenWithHUD> {
                     ),
                   ),
                 ),
-                
+
                 // Game HUD overlay
                 GameHUD(
                   scoreManager: gameController.scoreManager,
@@ -102,7 +99,7 @@ class _GameScreenWithHUDState extends State<GameScreenWithHUD> {
                   onResume: () => gameController.resumeGame(),
                   onRestart: () => gameController.resetGame(),
                 ),
-                
+
                 // Demo controls at the bottom
                 Positioned(
                   bottom: 16,
@@ -117,7 +114,7 @@ class _GameScreenWithHUDState extends State<GameScreenWithHUD> {
       ),
     );
   }
-  
+
   /// Builds demo controls for testing HUD features.
   Widget _buildDemoControls() {
     return Container(
@@ -131,10 +128,7 @@ class _GameScreenWithHUDState extends State<GameScreenWithHUD> {
         children: [
           const Text(
             'Demo Controls',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
           Wrap(
@@ -163,23 +157,23 @@ class _GameScreenWithHUDState extends State<GameScreenWithHUD> {
       ),
     );
   }
-  
+
   void _startGame() {
     if (gameController.currentState == GameState.menu) {
       gameController.startGame();
     }
   }
-  
+
   void _addDemoScore() {
     gameController.scoreManager.addPoints(10);
   }
-  
+
   void _simulateFoodEaten() {
     gameController.scoreManager.addFoodPoints(
       snakeLength: gameController.snake.length,
     );
   }
-  
+
   void _gameOver() {
     if (gameController.isPlaying || gameController.isPaused) {
       gameController.stopGame();

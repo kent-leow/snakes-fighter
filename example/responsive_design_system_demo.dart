@@ -94,9 +94,7 @@ class _TabletLayout extends StatelessWidget {
               ),
             ),
             const SizedBox(width: DesignTokens.spacing24),
-            Expanded(
-              child: _buildCardSection(),
-            ),
+            Expanded(child: _buildCardSection()),
           ],
         ),
       ],
@@ -157,10 +155,7 @@ Widget _buildButtonSection() {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          'Buttons',
-          style: DesignTokens.textTheme.titleLarge,
-        ),
+        Text('Buttons', style: DesignTokens.textTheme.titleLarge),
         const SizedBox(height: DesignTokens.spacing16),
         AppButton.primary(
           text: 'Primary Button',
@@ -168,20 +163,11 @@ Widget _buildButtonSection() {
           onPressed: () {},
         ),
         const SizedBox(height: DesignTokens.spacing8),
-        AppButton.secondary(
-          text: 'Secondary Button',
-          onPressed: () {},
-        ),
+        AppButton.secondary(text: 'Secondary Button', onPressed: () {}),
         const SizedBox(height: DesignTokens.spacing8),
-        AppButton.outline(
-          text: 'Outline Button',
-          onPressed: () {},
-        ),
+        AppButton.outline(text: 'Outline Button', onPressed: () {}),
         const SizedBox(height: DesignTokens.spacing8),
-        AppButton.text(
-          text: 'Text Button',
-          onPressed: () {},
-        ),
+        AppButton.text(text: 'Text Button', onPressed: () {}),
         const SizedBox(height: DesignTokens.spacing16),
         Row(
           children: [
@@ -202,18 +188,13 @@ Widget _buildFormSection() {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          'Form Components',
-          style: DesignTokens.textTheme.titleLarge,
-        ),
+        Text('Form Components', style: DesignTokens.textTheme.titleLarge),
         const SizedBox(height: DesignTokens.spacing16),
         const AppTextField.email(),
         const SizedBox(height: DesignTokens.spacing16),
         const AppTextField.password(),
         const SizedBox(height: DesignTokens.spacing16),
-        const AppTextField.search(
-          hintText: 'Search for anything...',
-        ),
+        const AppTextField.search(hintText: 'Search for anything...'),
         const SizedBox(height: DesignTokens.spacing16),
         const AppTextArea(
           labelText: 'Message',
@@ -230,10 +211,7 @@ Widget _buildCardSection() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
-      Text(
-        'Cards & Components',
-        style: DesignTokens.textTheme.titleLarge,
-      ),
+      Text('Cards & Components', style: DesignTokens.textTheme.titleLarge),
       const SizedBox(height: DesignTokens.spacing16),
       const AppCard(
         child: Column(
@@ -267,10 +245,7 @@ Widget _buildCardSection() {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Filled Card',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+            Text('Filled Card', style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(height: DesignTokens.spacing8),
             Text('This is a filled card with background color.'),
           ],

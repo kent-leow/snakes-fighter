@@ -70,28 +70,28 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final buttonConfig = _getButtonConfig(theme, style, size);
-    
+
     Widget button = switch (style) {
       AppButtonStyle.primary => ElevatedButton(
-          onPressed: isLoading ? null : onPressed,
-          style: buttonConfig.buttonStyle,
-          child: _buildButtonContent(buttonConfig),
-        ),
+        onPressed: isLoading ? null : onPressed,
+        style: buttonConfig.buttonStyle,
+        child: _buildButtonContent(buttonConfig),
+      ),
       AppButtonStyle.secondary => FilledButton.tonal(
-          onPressed: isLoading ? null : onPressed,
-          style: buttonConfig.buttonStyle,
-          child: _buildButtonContent(buttonConfig),
-        ),
+        onPressed: isLoading ? null : onPressed,
+        style: buttonConfig.buttonStyle,
+        child: _buildButtonContent(buttonConfig),
+      ),
       AppButtonStyle.outline => OutlinedButton(
-          onPressed: isLoading ? null : onPressed,
-          style: buttonConfig.buttonStyle,
-          child: _buildButtonContent(buttonConfig),
-        ),
+        onPressed: isLoading ? null : onPressed,
+        style: buttonConfig.buttonStyle,
+        child: _buildButtonContent(buttonConfig),
+      ),
       AppButtonStyle.text => TextButton(
-          onPressed: isLoading ? null : onPressed,
-          style: buttonConfig.buttonStyle,
-          child: _buildButtonContent(buttonConfig),
-        ),
+        onPressed: isLoading ? null : onPressed,
+        style: buttonConfig.buttonStyle,
+        child: _buildButtonContent(buttonConfig),
+      ),
     };
 
     if (isExpanded) {
@@ -142,22 +142,13 @@ class AppButton extends StatelessWidget {
     final sizeConfig = _getSizeConfig(size);
 
     final (backgroundColor, foregroundColor) = switch (style) {
-      AppButtonStyle.primary => (
-          colorScheme.primary,
-          colorScheme.onPrimary,
-        ),
+      AppButtonStyle.primary => (colorScheme.primary, colorScheme.onPrimary),
       AppButtonStyle.secondary => (
-          colorScheme.secondaryContainer,
-          colorScheme.onSecondaryContainer,
-        ),
-      AppButtonStyle.outline => (
-          Colors.transparent,
-          colorScheme.primary,
-        ),
-      AppButtonStyle.text => (
-          Colors.transparent,
-          colorScheme.primary,
-        ),
+        colorScheme.secondaryContainer,
+        colorScheme.onSecondaryContainer,
+      ),
+      AppButtonStyle.outline => (Colors.transparent, colorScheme.primary),
+      AppButtonStyle.text => (Colors.transparent, colorScheme.primary),
     };
 
     return _ButtonConfig(
@@ -172,7 +163,8 @@ class AppButton extends StatelessWidget {
           ),
         ),
         elevation: WidgetStateProperty.resolveWith((states) {
-          if (style == AppButtonStyle.primary && !states.contains(WidgetState.disabled)) {
+          if (style == AppButtonStyle.primary &&
+              !states.contains(WidgetState.disabled)) {
             return DesignTokens.elevation1;
           }
           return DesignTokens.elevation0;
@@ -187,50 +179,41 @@ class AppButton extends StatelessWidget {
   _SizeConfig _getSizeConfig(AppButtonSize size) {
     return switch (size) {
       AppButtonSize.small => _SizeConfig(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DesignTokens.spacing16,
-            vertical: DesignTokens.spacing8,
-          ),
-          minimumSize: const Size(64, 32),
-          borderRadius: DesignTokens.radiusSmall,
-          iconSize: DesignTokens.iconSmall,
+        padding: const EdgeInsets.symmetric(
+          horizontal: DesignTokens.spacing16,
+          vertical: DesignTokens.spacing8,
         ),
+        minimumSize: const Size(64, 32),
+        borderRadius: DesignTokens.radiusSmall,
+        iconSize: DesignTokens.iconSmall,
+      ),
       AppButtonSize.medium => _SizeConfig(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DesignTokens.spacing24,
-            vertical: DesignTokens.spacing12,
-          ),
-          minimumSize: const Size(80, 40),
-          borderRadius: DesignTokens.radiusMedium,
-          iconSize: DesignTokens.iconMedium,
+        padding: const EdgeInsets.symmetric(
+          horizontal: DesignTokens.spacing24,
+          vertical: DesignTokens.spacing12,
         ),
+        minimumSize: const Size(80, 40),
+        borderRadius: DesignTokens.radiusMedium,
+        iconSize: DesignTokens.iconMedium,
+      ),
       AppButtonSize.large => _SizeConfig(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DesignTokens.spacing32,
-            vertical: DesignTokens.spacing16,
-          ),
-          minimumSize: const Size(96, 48),
-          borderRadius: DesignTokens.radiusLarge,
-          iconSize: DesignTokens.iconLarge,
+        padding: const EdgeInsets.symmetric(
+          horizontal: DesignTokens.spacing32,
+          vertical: DesignTokens.spacing16,
         ),
+        minimumSize: const Size(96, 48),
+        borderRadius: DesignTokens.radiusLarge,
+        iconSize: DesignTokens.iconLarge,
+      ),
     };
   }
 }
 
 /// Button style enumeration
-enum AppButtonStyle {
-  primary,
-  secondary,
-  outline,
-  text,
-}
+enum AppButtonStyle { primary, secondary, outline, text }
 
 /// Button size enumeration
-enum AppButtonSize {
-  small,
-  medium,
-  large,
-}
+enum AppButtonSize { small, medium, large }
 
 /// Internal button configuration
 class _ButtonConfig {

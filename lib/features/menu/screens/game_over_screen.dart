@@ -9,7 +9,7 @@ class GameOverScreen extends StatelessWidget {
   final int highScore;
   final VoidCallback onRestart;
   final VoidCallback onMainMenu;
-  
+
   const GameOverScreen({
     super.key,
     required this.finalScore,
@@ -21,17 +21,14 @@ class GameOverScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isNewHighScore = finalScore > 0 && finalScore >= highScore;
-    
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Colors.red.shade800,
-              Colors.red.shade600,
-            ],
+            colors: [Colors.red.shade800, Colors.red.shade600],
           ),
         ),
         child: SafeArea(
@@ -39,9 +36,11 @@ class GameOverScreen extends StatelessWidget {
             padding: const EdgeInsets.all(32),
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height - 
-                  MediaQuery.of(context).padding.top - 
-                  MediaQuery.of(context).padding.bottom - 64,
+                minHeight:
+                    MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).padding.top -
+                    MediaQuery.of(context).padding.bottom -
+                    64,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -59,7 +58,7 @@ class GameOverScreen extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildGameOverTitle(BuildContext context, bool isNewHighScore) {
     return Column(
       children: [
@@ -96,13 +95,11 @@ class GameOverScreen extends StatelessWidget {
       ],
     );
   }
-  
+
   Widget _buildScoreDisplay(BuildContext context, bool isNewHighScore) {
     return Card(
       elevation: 8,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Container(
         padding: const EdgeInsets.all(24),
         width: double.infinity,
@@ -130,7 +127,7 @@ class GameOverScreen extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildScoreItem(
     BuildContext context,
     String label,
@@ -155,14 +152,14 @@ class GameOverScreen extends StatelessWidget {
             color: isHighlighted
                 ? Colors.yellow.shade700
                 : isSecondary
-                    ? Colors.grey.shade600
-                    : Colors.green.shade700,
+                ? Colors.grey.shade600
+                : Colors.green.shade700,
           ),
         ),
       ],
     );
   }
-  
+
   Widget _buildActionButtons() {
     return Column(
       children: [
@@ -174,10 +171,7 @@ class GameOverScreen extends StatelessWidget {
             icon: const Icon(Icons.refresh),
             label: const Text(
               'PLAY AGAIN',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green.shade600,
@@ -199,10 +193,7 @@ class GameOverScreen extends StatelessWidget {
             icon: const Icon(Icons.home),
             label: const Text(
               'MAIN MENU',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.white,

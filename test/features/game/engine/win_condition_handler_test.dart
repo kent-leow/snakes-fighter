@@ -177,7 +177,8 @@ void main() {
           ),
         };
 
-        final startTime = DateTime.now().millisecondsSinceEpoch - 61000; // 61 seconds ago
+        final startTime =
+            DateTime.now().millisecondsSinceEpoch - 61000; // 61 seconds ago
         final result = handler.evaluateGameEndWithCriteria(
           snakes,
           maxGameDurationMs: 60000, // 60 seconds
@@ -185,7 +186,10 @@ void main() {
         );
 
         expect(result.isGameEnded, isTrue);
-        expect(result.winner, equals('player2')); // Higher score wins on timeout
+        expect(
+          result.winner,
+          equals('player2'),
+        ); // Higher score wins on timeout
         expect(result.endReason, equals(GameEndReason.timeout));
       });
     });
@@ -252,8 +256,14 @@ void main() {
           ),
         };
 
-        expect(handler.hasPlayerWon('player1', snakes, targetScore: 20), isTrue);
-        expect(handler.hasPlayerWon('player1', snakes, targetScore: 30), isFalse);
+        expect(
+          handler.hasPlayerWon('player1', snakes, targetScore: 20),
+          isTrue,
+        );
+        expect(
+          handler.hasPlayerWon('player1', snakes, targetScore: 30),
+          isFalse,
+        );
       });
 
       test('hasPlayerWon should detect length victory', () {
@@ -273,8 +283,14 @@ void main() {
           ),
         };
 
-        expect(handler.hasPlayerWon('player1', snakes, targetLength: 4), isTrue);
-        expect(handler.hasPlayerWon('player1', snakes, targetLength: 6), isFalse);
+        expect(
+          handler.hasPlayerWon('player1', snakes, targetLength: 4),
+          isTrue,
+        );
+        expect(
+          handler.hasPlayerWon('player1', snakes, targetLength: 6),
+          isFalse,
+        );
       });
 
       test('hasPlayerWon should return false for dead players', () {
@@ -288,7 +304,10 @@ void main() {
           ),
         };
 
-        expect(handler.hasPlayerWon('player1', snakes, targetScore: 50), isFalse);
+        expect(
+          handler.hasPlayerWon('player1', snakes, targetScore: 50),
+          isFalse,
+        );
       });
     });
   });

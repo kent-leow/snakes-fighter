@@ -35,7 +35,10 @@ void main() {
         // Assert
         expect(delta, containsPair('food', gameState.food.toJson()));
         expect(delta, containsPair('snakes', anything));
-        expect(delta, containsPair('startedAt', gameState.startedAt.toIso8601String()));
+        expect(
+          delta,
+          containsPair('startedAt', gameState.startedAt.toIso8601String()),
+        );
       });
 
       test('returns only changed fields for subsequent updates', () {
@@ -57,7 +60,7 @@ void main() {
 
         // Act - First update (complete)
         service.calculateDelta('room1', initialState);
-        
+
         // Second update (delta only)
         final delta = service.calculateDelta('room1', updatedState);
 
@@ -146,7 +149,11 @@ void main() {
         );
 
         // Act
-        final delta = service.calculateSnakePositionDelta('room1', 'player1', snake);
+        final delta = service.calculateSnakePositionDelta(
+          'room1',
+          'player1',
+          snake,
+        );
 
         // Assert
         expect(delta, containsPair('snakes/player1', snake.toJson()));
@@ -174,12 +181,25 @@ void main() {
 
         // Act
         service.calculateDelta('room1', initialState); // Set initial state
-        final delta = service.calculateSnakePositionDelta('room1', 'player1', updatedSnake);
+        final delta = service.calculateSnakePositionDelta(
+          'room1',
+          'player1',
+          updatedSnake,
+        );
 
         // Assert
-        expect(delta, containsPair('snakes/player1/head', const Position(2, 1).toJson()));
-        expect(delta, isNot(containsPair('snakes/player1/direction', anything))); // Unchanged
-        expect(delta, isNot(containsPair('snakes/player1/score', anything))); // Unchanged
+        expect(
+          delta,
+          containsPair('snakes/player1/head', const Position(2, 1).toJson()),
+        );
+        expect(
+          delta,
+          isNot(containsPair('snakes/player1/direction', anything)),
+        ); // Unchanged
+        expect(
+          delta,
+          isNot(containsPair('snakes/player1/score', anything)),
+        ); // Unchanged
       });
 
       test('includes direction when it changes', () {
@@ -202,7 +222,11 @@ void main() {
 
         // Act
         service.calculateDelta('room1', initialState);
-        final delta = service.calculateSnakePositionDelta('room1', 'player1', updatedSnake);
+        final delta = service.calculateSnakePositionDelta(
+          'room1',
+          'player1',
+          updatedSnake,
+        );
 
         // Assert
         expect(delta, containsPair('snakes/player1/direction', 'up'));
@@ -230,7 +254,11 @@ void main() {
 
         // Act
         service.calculateDelta('room1', initialState);
-        final delta = service.calculateSnakePositionDelta('room1', 'player1', updatedSnake);
+        final delta = service.calculateSnakePositionDelta(
+          'room1',
+          'player1',
+          updatedSnake,
+        );
 
         // Assert
         expect(delta, containsPair('snakes/player1/score', 5));
@@ -256,11 +284,20 @@ void main() {
 
         // Act
         service.calculateDelta('room1', initialState);
-        final delta = service.calculateSnakePositionDelta('room1', 'player1', updatedSnake);
+        final delta = service.calculateSnakePositionDelta(
+          'room1',
+          'player1',
+          updatedSnake,
+        );
 
         // Assert
-        expect(delta, containsPair('snakes/player1/positions', 
-          updatedSnake.positions.map((p) => p.toJson()).toList()));
+        expect(
+          delta,
+          containsPair(
+            'snakes/player1/positions',
+            updatedSnake.positions.map((p) => p.toJson()).toList(),
+          ),
+        );
       });
     });
 
@@ -268,7 +305,10 @@ void main() {
       test('estimates delta size correctly', () {
         // Arrange
         final delta = {
-          'food': {'position': {'x': 5, 'y': 5}, 'value': 1},
+          'food': {
+            'position': {'x': 5, 'y': 5},
+            'value': 1,
+          },
           'snakes/player1/score': 10,
           'winner': 'player1',
         };

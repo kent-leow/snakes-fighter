@@ -24,23 +24,13 @@ import 'package:snakes_fight/core/services/database_service.dart' as _i4;
 // ignore_for_file: subtype_of_sealed_class
 
 class _FakeRoom_0 extends _i1.SmartFake implements _i2.Room {
-  _FakeRoom_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeRoom_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeFuture_1<T1> extends _i1.SmartFake implements _i3.Future<T1> {
-  _FakeFuture_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeFuture_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [DatabaseService].
@@ -52,189 +42,134 @@ class MockDatabaseService extends _i1.Mock implements _i4.DatabaseService {
   }
 
   @override
-  _i3.Future<_i2.Room> createRoom(_i2.Room? room) => (super.noSuchMethod(
-        Invocation.method(
-          #createRoom,
-          [room],
-        ),
-        returnValue: _i3.Future<_i2.Room>.value(_FakeRoom_0(
-          this,
-          Invocation.method(
-            #createRoom,
-            [room],
-          ),
-        )),
-      ) as _i3.Future<_i2.Room>);
-
-  @override
-  _i3.Future<_i2.Room?> getRoomById(String? roomId) => (super.noSuchMethod(
-        Invocation.method(
-          #getRoomById,
-          [roomId],
-        ),
-        returnValue: _i3.Future<_i2.Room?>.value(),
-      ) as _i3.Future<_i2.Room?>);
-
-  @override
-  _i3.Future<_i2.Room?> getRoomByCode(String? roomCode) => (super.noSuchMethod(
-        Invocation.method(
-          #getRoomByCode,
-          [roomCode],
-        ),
-        returnValue: _i3.Future<_i2.Room?>.value(),
-      ) as _i3.Future<_i2.Room?>);
-
-  @override
-  _i3.Future<void> updateRoom(_i2.Room? room) => (super.noSuchMethod(
-        Invocation.method(
-          #updateRoom,
-          [room],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
-
-  @override
-  _i3.Future<void> deleteRoom(String? roomId) => (super.noSuchMethod(
-        Invocation.method(
-          #deleteRoom,
-          [roomId],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
-
-  @override
-  _i3.Stream<_i2.Room?> watchRoom(String? roomId) => (super.noSuchMethod(
-        Invocation.method(
-          #watchRoom,
-          [roomId],
-        ),
-        returnValue: _i3.Stream<_i2.Room?>.empty(),
-      ) as _i3.Stream<_i2.Room?>);
-
-  @override
-  _i3.Future<void> addPlayerToRoom(
-    String? roomId,
-    _i2.Player? player,
-  ) =>
+  _i3.Future<_i2.Room> createRoom(_i2.Room? room) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #addPlayerToRoom,
-          [
-            roomId,
-            player,
-          ],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#createRoom, [room]),
+            returnValue: _i3.Future<_i2.Room>.value(
+              _FakeRoom_0(this, Invocation.method(#createRoom, [room])),
+            ),
+          )
+          as _i3.Future<_i2.Room>);
 
   @override
-  _i3.Future<void> removePlayerFromRoom(
-    String? roomId,
-    String? playerId,
-  ) =>
+  _i3.Future<_i2.Room?> getRoomById(String? roomId) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #removePlayerFromRoom,
-          [
-            roomId,
-            playerId,
-          ],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#getRoomById, [roomId]),
+            returnValue: _i3.Future<_i2.Room?>.value(),
+          )
+          as _i3.Future<_i2.Room?>);
 
   @override
-  _i3.Future<void> updatePlayer(
-    String? roomId,
-    _i2.Player? player,
-  ) =>
+  _i3.Future<_i2.Room?> getRoomByCode(String? roomCode) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #updatePlayer,
-          [
-            roomId,
-            player,
-          ],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#getRoomByCode, [roomCode]),
+            returnValue: _i3.Future<_i2.Room?>.value(),
+          )
+          as _i3.Future<_i2.Room?>);
+
+  @override
+  _i3.Future<void> updateRoom(_i2.Room? room) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateRoom, [room]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+
+  @override
+  _i3.Future<void> deleteRoom(String? roomId) =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteRoom, [roomId]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+
+  @override
+  _i3.Stream<_i2.Room?> watchRoom(String? roomId) =>
+      (super.noSuchMethod(
+            Invocation.method(#watchRoom, [roomId]),
+            returnValue: _i3.Stream<_i2.Room?>.empty(),
+          )
+          as _i3.Stream<_i2.Room?>);
+
+  @override
+  _i3.Future<void> addPlayerToRoom(String? roomId, _i2.Player? player) =>
+      (super.noSuchMethod(
+            Invocation.method(#addPlayerToRoom, [roomId, player]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+
+  @override
+  _i3.Future<void> removePlayerFromRoom(String? roomId, String? playerId) =>
+      (super.noSuchMethod(
+            Invocation.method(#removePlayerFromRoom, [roomId, playerId]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+
+  @override
+  _i3.Future<void> updatePlayer(String? roomId, _i2.Player? player) =>
+      (super.noSuchMethod(
+            Invocation.method(#updatePlayer, [roomId, player]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
   _i3.Stream<Map<String, _i2.Player>> watchRoomPlayers(String? roomId) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #watchRoomPlayers,
-          [roomId],
-        ),
-        returnValue: _i3.Stream<Map<String, _i2.Player>>.empty(),
-      ) as _i3.Stream<Map<String, _i2.Player>>);
+            Invocation.method(#watchRoomPlayers, [roomId]),
+            returnValue: _i3.Stream<Map<String, _i2.Player>>.empty(),
+          )
+          as _i3.Stream<Map<String, _i2.Player>>);
 
   @override
-  _i3.Future<void> updateGameState(
-    String? roomId,
-    _i2.GameState? gameState,
-  ) =>
+  _i3.Future<void> updateGameState(String? roomId, _i2.GameState? gameState) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #updateGameState,
-          [
-            roomId,
-            gameState,
-          ],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#updateGameState, [roomId, gameState]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
   _i3.Stream<_i2.GameState?> watchGameState(String? roomId) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #watchGameState,
-          [roomId],
-        ),
-        returnValue: _i3.Stream<_i2.GameState?>.empty(),
-      ) as _i3.Stream<_i2.GameState?>);
+            Invocation.method(#watchGameState, [roomId]),
+            returnValue: _i3.Stream<_i2.GameState?>.empty(),
+          )
+          as _i3.Stream<_i2.GameState?>);
 
   @override
   _i3.Future<T> runAtomicOperation<T>(_i3.Future<T> Function()? operation) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #runAtomicOperation,
-          [operation],
-        ),
-        returnValue: _i5.ifNotNull(
-              _i5.dummyValueOrNull<T>(
-                this,
-                Invocation.method(
-                  #runAtomicOperation,
-                  [operation],
+            Invocation.method(#runAtomicOperation, [operation]),
+            returnValue:
+                _i5.ifNotNull(
+                  _i5.dummyValueOrNull<T>(
+                    this,
+                    Invocation.method(#runAtomicOperation, [operation]),
+                  ),
+                  (T v) => _i3.Future<T>.value(v),
+                ) ??
+                _FakeFuture_1<T>(
+                  this,
+                  Invocation.method(#runAtomicOperation, [operation]),
                 ),
-              ),
-              (T v) => _i3.Future<T>.value(v),
-            ) ??
-            _FakeFuture_1<T>(
-              this,
-              Invocation.method(
-                #runAtomicOperation,
-                [operation],
-              ),
-            ),
-      ) as _i3.Future<T>);
+          )
+          as _i3.Future<T>);
 
   @override
   _i3.Future<void> batchUpdate(Map<String, dynamic>? updates) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #batchUpdate,
-          [updates],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#batchUpdate, [updates]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 }

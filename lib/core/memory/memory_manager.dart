@@ -29,7 +29,7 @@ class MemoryManager {
   /// Initializes the memory manager with object pools.
   void initialize() {
     if (_isInitialized) return;
-    
+
     // Initialize object pools for frequently used objects
     _objectPools[Position] = ObjectPool<Position>(
       createFn: () => const Position(0, 0),
@@ -38,10 +38,10 @@ class MemoryManager {
       },
       maxSize: 1000,
     );
-    
+
     // Start periodic garbage collection optimization
     _startGCOptimization();
-    
+
     _isInitialized = true;
     debugPrint('MemoryManager initialized with ${_objectPools.length} pools');
   }
@@ -72,8 +72,8 @@ class MemoryManager {
     final totalPooledObjects = _objectPools.values
         .map((pool) => pool.size)
         .fold(0, (sum, size) => sum + size);
-    
-    final hitRate = _poolHitCount + _allocationCount > 0 
+
+    final hitRate = _poolHitCount + _allocationCount > 0
         ? _poolHitCount / (_poolHitCount + _allocationCount)
         : 0.0;
 
@@ -100,12 +100,12 @@ class MemoryManager {
   void dispose() {
     _gcTimer?.cancel();
     _gcTimer = null;
-    
+
     for (final pool in _objectPools.values) {
       pool.clear();
     }
     _objectPools.clear();
-    
+
     _isInitialized = false;
     debugPrint('MemoryManager disposed');
   }
@@ -138,7 +138,7 @@ class MemoryManager {
     final stats = getMemoryStats();
     final hitRate = stats['hit_rate'] as double;
     debugPrint('Memory pool hit rate: ${(hitRate * 100).toStringAsFixed(1)}%');
-    
+
     if (kDebugMode) {
       debugPrint('Memory stats: $stats');
     }
@@ -198,18 +198,18 @@ extension MemoryOptimizedList<T> on List<T> {
   void addWithMemoryManagement(T element) {
     add(element);
   }
-  
+
   /// Removes an element and returns it to memory pool if possible.
   T removeWithMemoryManagement(int index) {
     final element = removeAt(index);
-    
+
     // Try to return to memory pool
     try {
       MemoryManager().returnObject(element);
     } catch (e) {
       // Object type not supported by pool, ignore
     }
-    
+
     return element;
   }
 }
@@ -218,12 +218,12 @@ extension MemoryOptimizedList<T> on List<T> {
 mixin Poolable<T> {
   /// Resets the object to a reusable state.
   void reset();
-  
+
   /// Gets a new instance from the pool or creates one.
   static T getFromPool<T>() {
     return MemoryManager().getObject<T>();
   }
-  
+
   /// Returns this object to the pool for reuse.
   void returnToPool() {
     MemoryManager().returnObject(this);

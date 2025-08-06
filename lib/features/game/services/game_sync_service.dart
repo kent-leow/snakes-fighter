@@ -4,7 +4,7 @@ import '../../../core/models/models.dart';
 import '../../../core/services/database_service.dart';
 
 /// Service for real-time game state synchronization.
-/// 
+///
 /// Handles synchronization of game state changes across all players
 /// using Firebase Realtime Database. Provides methods for syncing
 /// player movements, food consumption, deaths, and other game events.
@@ -16,7 +16,7 @@ class GameSyncService {
   final Map<String, StreamSubscription> _subscriptions = {};
 
   /// Watches game state changes for a room.
-  /// 
+  ///
   /// Returns a stream of game state updates that filters out null values.
   Stream<GameState> watchGameState(String roomId) {
     return _databaseService
@@ -26,7 +26,7 @@ class GameSyncService {
   }
 
   /// Synchronizes a player's movement.
-  /// 
+  ///
   /// Updates the player's snake direction and last update timestamp
   /// in the database. This triggers real-time updates for all players
   /// watching the game state.
@@ -46,7 +46,7 @@ class GameSyncService {
   }
 
   /// Synchronizes food consumption event.
-  /// 
+  ///
   /// Updates the food position, increments player score, and handles
   /// snake growth in a single atomic operation.
   Future<void> syncFoodConsumption(
@@ -65,15 +65,12 @@ class GameSyncService {
   }
 
   /// Synchronizes a player's death.
-  /// 
+  ///
   /// Marks the player's snake as not alive and records the death time.
-  Future<void> syncPlayerDeath(
-    String roomId,
-    String playerId,
-  ) async {
+  Future<void> syncPlayerDeath(String roomId, String playerId) async {
     final updates = <String, dynamic>{
       'rooms/$roomId/gameState/snakes/$playerId/alive': false,
-      'rooms/$roomId/gameState/snakes/$playerId/deathTime': 
+      'rooms/$roomId/gameState/snakes/$playerId/deathTime':
           DateTime.now().millisecondsSinceEpoch,
     };
 
@@ -81,7 +78,7 @@ class GameSyncService {
   }
 
   /// Synchronizes complete snake positions.
-  /// 
+  ///
   /// Updates all positions for a snake, typically used when the snake
   /// moves or grows. Uses optimized batch updates for performance.
   Future<void> syncSnakePositions(
@@ -93,8 +90,9 @@ class GameSyncService {
     int score,
   ) async {
     final updates = <String, dynamic>{
-      'rooms/$roomId/gameState/snakes/$playerId/positions': 
-          positions.map((p) => p.toJson()).toList(),
+      'rooms/$roomId/gameState/snakes/$playerId/positions': positions
+          .map((p) => p.toJson())
+          .toList(),
       'rooms/$roomId/gameState/snakes/$playerId/direction': direction.name,
       'rooms/$roomId/gameState/snakes/$playerId/alive': alive,
       'rooms/$roomId/gameState/snakes/$playerId/score': score,
@@ -104,12 +102,9 @@ class GameSyncService {
   }
 
   /// Synchronizes game end state.
-  /// 
+  ///
   /// Marks the game as ended, sets the winner, and records end time.
-  Future<void> syncGameEnd(
-    String roomId,
-    String? winnerId,
-  ) async {
+  Future<void> syncGameEnd(String roomId, String? winnerId) async {
     final updates = <String, dynamic>{
       'rooms/$roomId/gameState/endedAt': DateTime.now().toIso8601String(),
       'rooms/$roomId/gameState/winner': winnerId,
@@ -120,7 +115,7 @@ class GameSyncService {
   }
 
   /// Synchronizes game start.
-  /// 
+  ///
   /// Marks the game as active and sets the start time.
   Future<void> syncGameStart(String roomId) async {
     final updates = <String, dynamic>{
@@ -132,7 +127,7 @@ class GameSyncService {
   }
 
   /// Performs atomic game state update.
-  /// 
+  ///
   /// Wraps multiple updates in a single atomic operation to ensure
   /// consistency across related changes.
   Future<void> atomicUpdate(
@@ -143,7 +138,7 @@ class GameSyncService {
   }
 
   /// Disposes of all active subscriptions.
-  /// 
+  ///
   /// Should be called when the service is no longer needed to prevent
   /// memory leaks from active database listeners.
   void dispose() {

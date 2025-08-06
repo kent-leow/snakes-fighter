@@ -12,7 +12,8 @@ part of 'game_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Food _$FoodFromJson(Map<String, dynamic> json) {
   return _Food.fromJson(json);
@@ -38,10 +39,11 @@ abstract class $FoodCopyWith<$Res> {
   factory $FoodCopyWith(Food value, $Res Function(Food) then) =
       _$FoodCopyWithImpl<$Res, Food>;
   @useResult
-  $Res call(
-      {@JsonKey(fromJson: _positionFromJson, toJson: _positionToJson)
-      Position position,
-      int value});
+  $Res call({
+    @JsonKey(fromJson: _positionFromJson, toJson: _positionToJson)
+    Position position,
+    int value,
+  });
 }
 
 /// @nodoc
@@ -58,34 +60,36 @@ class _$FoodCopyWithImpl<$Res, $Val extends Food>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? position = null,
-    Object? value = null,
-  }) {
-    return _then(_value.copyWith(
-      position: null == position
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
-              as Position,
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? position = null, Object? value = null}) {
+    return _then(
+      _value.copyWith(
+            position: null == position
+                ? _value.position
+                : position // ignore: cast_nullable_to_non_nullable
+                      as Position,
+            value: null == value
+                ? _value.value
+                : value // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$FoodImplCopyWith<$Res> implements $FoodCopyWith<$Res> {
   factory _$$FoodImplCopyWith(
-          _$FoodImpl value, $Res Function(_$FoodImpl) then) =
-      __$$FoodImplCopyWithImpl<$Res>;
+    _$FoodImpl value,
+    $Res Function(_$FoodImpl) then,
+  ) = __$$FoodImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(fromJson: _positionFromJson, toJson: _positionToJson)
-      Position position,
-      int value});
+  $Res call({
+    @JsonKey(fromJson: _positionFromJson, toJson: _positionToJson)
+    Position position,
+    int value,
+  });
 }
 
 /// @nodoc
@@ -93,36 +97,36 @@ class __$$FoodImplCopyWithImpl<$Res>
     extends _$FoodCopyWithImpl<$Res, _$FoodImpl>
     implements _$$FoodImplCopyWith<$Res> {
   __$$FoodImplCopyWithImpl(_$FoodImpl _value, $Res Function(_$FoodImpl) _then)
-      : super(_value, _then);
+    : super(_value, _then);
 
   /// Create a copy of Food
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? position = null,
-    Object? value = null,
-  }) {
-    return _then(_$FoodImpl(
-      position: null == position
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
-              as Position,
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? position = null, Object? value = null}) {
+    return _then(
+      _$FoodImpl(
+        position: null == position
+            ? _value.position
+            : position // ignore: cast_nullable_to_non_nullable
+                  as Position,
+        value: null == value
+            ? _value.value
+            : value // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$FoodImpl implements _Food {
-  const _$FoodImpl(
-      {@JsonKey(fromJson: _positionFromJson, toJson: _positionToJson)
-      required this.position,
-      this.value = 1});
+  const _$FoodImpl({
+    @JsonKey(fromJson: _positionFromJson, toJson: _positionToJson)
+    required this.position,
+    this.value = 1,
+  });
 
   factory _$FoodImpl.fromJson(Map<String, dynamic> json) =>
       _$$FoodImplFromJson(json);
@@ -163,17 +167,16 @@ class _$FoodImpl implements _Food {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$FoodImplToJson(
-      this,
-    );
+    return _$$FoodImplToJson(this);
   }
 }
 
 abstract class _Food implements Food {
-  const factory _Food(
-      {@JsonKey(fromJson: _positionFromJson, toJson: _positionToJson)
-      required final Position position,
-      final int value}) = _$FoodImpl;
+  const factory _Food({
+    @JsonKey(fromJson: _positionFromJson, toJson: _positionToJson)
+    required final Position position,
+    final int value,
+  }) = _$FoodImpl;
 
   factory _Food.fromJson(Map<String, dynamic> json) = _$FoodImpl.fromJson;
 
@@ -217,12 +220,13 @@ abstract class $SnakeCopyWith<$Res> {
   factory $SnakeCopyWith(Snake value, $Res Function(Snake) then) =
       _$SnakeCopyWithImpl<$Res, Snake>;
   @useResult
-  $Res call(
-      {@JsonKey(fromJson: _positionsFromJson, toJson: _positionsToJson)
-      List<Position> positions,
-      Direction direction,
-      bool alive,
-      int score});
+  $Res call({
+    @JsonKey(fromJson: _positionsFromJson, toJson: _positionsToJson)
+    List<Position> positions,
+    Direction direction,
+    bool alive,
+    int score,
+  });
 }
 
 /// @nodoc
@@ -245,40 +249,45 @@ class _$SnakeCopyWithImpl<$Res, $Val extends Snake>
     Object? alive = null,
     Object? score = null,
   }) {
-    return _then(_value.copyWith(
-      positions: null == positions
-          ? _value.positions
-          : positions // ignore: cast_nullable_to_non_nullable
-              as List<Position>,
-      direction: null == direction
-          ? _value.direction
-          : direction // ignore: cast_nullable_to_non_nullable
-              as Direction,
-      alive: null == alive
-          ? _value.alive
-          : alive // ignore: cast_nullable_to_non_nullable
-              as bool,
-      score: null == score
-          ? _value.score
-          : score // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            positions: null == positions
+                ? _value.positions
+                : positions // ignore: cast_nullable_to_non_nullable
+                      as List<Position>,
+            direction: null == direction
+                ? _value.direction
+                : direction // ignore: cast_nullable_to_non_nullable
+                      as Direction,
+            alive: null == alive
+                ? _value.alive
+                : alive // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            score: null == score
+                ? _value.score
+                : score // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$SnakeImplCopyWith<$Res> implements $SnakeCopyWith<$Res> {
   factory _$$SnakeImplCopyWith(
-          _$SnakeImpl value, $Res Function(_$SnakeImpl) then) =
-      __$$SnakeImplCopyWithImpl<$Res>;
+    _$SnakeImpl value,
+    $Res Function(_$SnakeImpl) then,
+  ) = __$$SnakeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(fromJson: _positionsFromJson, toJson: _positionsToJson)
-      List<Position> positions,
-      Direction direction,
-      bool alive,
-      int score});
+  $Res call({
+    @JsonKey(fromJson: _positionsFromJson, toJson: _positionsToJson)
+    List<Position> positions,
+    Direction direction,
+    bool alive,
+    int score,
+  });
 }
 
 /// @nodoc
@@ -286,8 +295,9 @@ class __$$SnakeImplCopyWithImpl<$Res>
     extends _$SnakeCopyWithImpl<$Res, _$SnakeImpl>
     implements _$$SnakeImplCopyWith<$Res> {
   __$$SnakeImplCopyWithImpl(
-      _$SnakeImpl _value, $Res Function(_$SnakeImpl) _then)
-      : super(_value, _then);
+    _$SnakeImpl _value,
+    $Res Function(_$SnakeImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of Snake
   /// with the given fields replaced by the non-null parameter values.
@@ -299,37 +309,39 @@ class __$$SnakeImplCopyWithImpl<$Res>
     Object? alive = null,
     Object? score = null,
   }) {
-    return _then(_$SnakeImpl(
-      positions: null == positions
-          ? _value._positions
-          : positions // ignore: cast_nullable_to_non_nullable
-              as List<Position>,
-      direction: null == direction
-          ? _value.direction
-          : direction // ignore: cast_nullable_to_non_nullable
-              as Direction,
-      alive: null == alive
-          ? _value.alive
-          : alive // ignore: cast_nullable_to_non_nullable
-              as bool,
-      score: null == score
-          ? _value.score
-          : score // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+    return _then(
+      _$SnakeImpl(
+        positions: null == positions
+            ? _value._positions
+            : positions // ignore: cast_nullable_to_non_nullable
+                  as List<Position>,
+        direction: null == direction
+            ? _value.direction
+            : direction // ignore: cast_nullable_to_non_nullable
+                  as Direction,
+        alive: null == alive
+            ? _value.alive
+            : alive // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        score: null == score
+            ? _value.score
+            : score // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$SnakeImpl implements _Snake {
-  const _$SnakeImpl(
-      {@JsonKey(fromJson: _positionsFromJson, toJson: _positionsToJson)
-      required final List<Position> positions,
-      required this.direction,
-      this.alive = true,
-      this.score = 0})
-      : _positions = positions;
+  const _$SnakeImpl({
+    @JsonKey(fromJson: _positionsFromJson, toJson: _positionsToJson)
+    required final List<Position> positions,
+    required this.direction,
+    this.alive = true,
+    this.score = 0,
+  }) : _positions = positions;
 
   factory _$SnakeImpl.fromJson(Map<String, dynamic> json) =>
       _$$SnakeImplFromJson(json);
@@ -362,8 +374,10 @@ class _$SnakeImpl implements _Snake {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SnakeImpl &&
-            const DeepCollectionEquality()
-                .equals(other._positions, _positions) &&
+            const DeepCollectionEquality().equals(
+              other._positions,
+              _positions,
+            ) &&
             (identical(other.direction, direction) ||
                 other.direction == direction) &&
             (identical(other.alive, alive) || other.alive == alive) &&
@@ -372,8 +386,13 @@ class _$SnakeImpl implements _Snake {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_positions), direction, alive, score);
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(_positions),
+    direction,
+    alive,
+    score,
+  );
 
   /// Create a copy of Snake
   /// with the given fields replaced by the non-null parameter values.
@@ -385,19 +404,18 @@ class _$SnakeImpl implements _Snake {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SnakeImplToJson(
-      this,
-    );
+    return _$$SnakeImplToJson(this);
   }
 }
 
 abstract class _Snake implements Snake {
-  const factory _Snake(
-      {@JsonKey(fromJson: _positionsFromJson, toJson: _positionsToJson)
-      required final List<Position> positions,
-      required final Direction direction,
-      final bool alive,
-      final int score}) = _$SnakeImpl;
+  const factory _Snake({
+    @JsonKey(fromJson: _positionsFromJson, toJson: _positionsToJson)
+    required final List<Position> positions,
+    required final Direction direction,
+    final bool alive,
+    final int score,
+  }) = _$SnakeImpl;
 
   factory _Snake.fromJson(Map<String, dynamic> json) = _$SnakeImpl.fromJson;
 
@@ -448,13 +466,14 @@ abstract class $GameStateCopyWith<$Res> {
   factory $GameStateCopyWith(GameState value, $Res Function(GameState) then) =
       _$GameStateCopyWithImpl<$Res, GameState>;
   @useResult
-  $Res call(
-      {DateTime startedAt,
-      @JsonKey(fromJson: _foodFromJson, toJson: _foodToJson) Food food,
-      @JsonKey(fromJson: _snakesFromJson, toJson: _snakesToJson)
-      Map<String, Snake> snakes,
-      String? winner,
-      DateTime? endedAt});
+  $Res call({
+    DateTime startedAt,
+    @JsonKey(fromJson: _foodFromJson, toJson: _foodToJson) Food food,
+    @JsonKey(fromJson: _snakesFromJson, toJson: _snakesToJson)
+    Map<String, Snake> snakes,
+    String? winner,
+    DateTime? endedAt,
+  });
 
   $FoodCopyWith<$Res> get food;
 }
@@ -480,28 +499,31 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
     Object? winner = freezed,
     Object? endedAt = freezed,
   }) {
-    return _then(_value.copyWith(
-      startedAt: null == startedAt
-          ? _value.startedAt
-          : startedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      food: null == food
-          ? _value.food
-          : food // ignore: cast_nullable_to_non_nullable
-              as Food,
-      snakes: null == snakes
-          ? _value.snakes
-          : snakes // ignore: cast_nullable_to_non_nullable
-              as Map<String, Snake>,
-      winner: freezed == winner
-          ? _value.winner
-          : winner // ignore: cast_nullable_to_non_nullable
-              as String?,
-      endedAt: freezed == endedAt
-          ? _value.endedAt
-          : endedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            startedAt: null == startedAt
+                ? _value.startedAt
+                : startedAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            food: null == food
+                ? _value.food
+                : food // ignore: cast_nullable_to_non_nullable
+                      as Food,
+            snakes: null == snakes
+                ? _value.snakes
+                : snakes // ignore: cast_nullable_to_non_nullable
+                      as Map<String, Snake>,
+            winner: freezed == winner
+                ? _value.winner
+                : winner // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            endedAt: freezed == endedAt
+                ? _value.endedAt
+                : endedAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of GameState
@@ -519,17 +541,19 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
 abstract class _$$GameStateImplCopyWith<$Res>
     implements $GameStateCopyWith<$Res> {
   factory _$$GameStateImplCopyWith(
-          _$GameStateImpl value, $Res Function(_$GameStateImpl) then) =
-      __$$GameStateImplCopyWithImpl<$Res>;
+    _$GameStateImpl value,
+    $Res Function(_$GameStateImpl) then,
+  ) = __$$GameStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {DateTime startedAt,
-      @JsonKey(fromJson: _foodFromJson, toJson: _foodToJson) Food food,
-      @JsonKey(fromJson: _snakesFromJson, toJson: _snakesToJson)
-      Map<String, Snake> snakes,
-      String? winner,
-      DateTime? endedAt});
+  $Res call({
+    DateTime startedAt,
+    @JsonKey(fromJson: _foodFromJson, toJson: _foodToJson) Food food,
+    @JsonKey(fromJson: _snakesFromJson, toJson: _snakesToJson)
+    Map<String, Snake> snakes,
+    String? winner,
+    DateTime? endedAt,
+  });
 
   @override
   $FoodCopyWith<$Res> get food;
@@ -540,8 +564,9 @@ class __$$GameStateImplCopyWithImpl<$Res>
     extends _$GameStateCopyWithImpl<$Res, _$GameStateImpl>
     implements _$$GameStateImplCopyWith<$Res> {
   __$$GameStateImplCopyWithImpl(
-      _$GameStateImpl _value, $Res Function(_$GameStateImpl) _then)
-      : super(_value, _then);
+    _$GameStateImpl _value,
+    $Res Function(_$GameStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
@@ -554,42 +579,44 @@ class __$$GameStateImplCopyWithImpl<$Res>
     Object? winner = freezed,
     Object? endedAt = freezed,
   }) {
-    return _then(_$GameStateImpl(
-      startedAt: null == startedAt
-          ? _value.startedAt
-          : startedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      food: null == food
-          ? _value.food
-          : food // ignore: cast_nullable_to_non_nullable
-              as Food,
-      snakes: null == snakes
-          ? _value._snakes
-          : snakes // ignore: cast_nullable_to_non_nullable
-              as Map<String, Snake>,
-      winner: freezed == winner
-          ? _value.winner
-          : winner // ignore: cast_nullable_to_non_nullable
-              as String?,
-      endedAt: freezed == endedAt
-          ? _value.endedAt
-          : endedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ));
+    return _then(
+      _$GameStateImpl(
+        startedAt: null == startedAt
+            ? _value.startedAt
+            : startedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        food: null == food
+            ? _value.food
+            : food // ignore: cast_nullable_to_non_nullable
+                  as Food,
+        snakes: null == snakes
+            ? _value._snakes
+            : snakes // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Snake>,
+        winner: freezed == winner
+            ? _value.winner
+            : winner // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        endedAt: freezed == endedAt
+            ? _value.endedAt
+            : endedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$GameStateImpl implements _GameState {
-  const _$GameStateImpl(
-      {required this.startedAt,
-      @JsonKey(fromJson: _foodFromJson, toJson: _foodToJson) required this.food,
-      @JsonKey(fromJson: _snakesFromJson, toJson: _snakesToJson)
-      required final Map<String, Snake> snakes,
-      this.winner,
-      this.endedAt})
-      : _snakes = snakes;
+  const _$GameStateImpl({
+    required this.startedAt,
+    @JsonKey(fromJson: _foodFromJson, toJson: _foodToJson) required this.food,
+    @JsonKey(fromJson: _snakesFromJson, toJson: _snakesToJson)
+    required final Map<String, Snake> snakes,
+    this.winner,
+    this.endedAt,
+  }) : _snakes = snakes;
 
   factory _$GameStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$GameStateImplFromJson(json);
@@ -633,8 +660,14 @@ class _$GameStateImpl implements _GameState {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, startedAt, food,
-      const DeepCollectionEquality().hash(_snakes), winner, endedAt);
+  int get hashCode => Object.hash(
+    runtimeType,
+    startedAt,
+    food,
+    const DeepCollectionEquality().hash(_snakes),
+    winner,
+    endedAt,
+  );
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
@@ -646,21 +679,20 @@ class _$GameStateImpl implements _GameState {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GameStateImplToJson(
-      this,
-    );
+    return _$$GameStateImplToJson(this);
   }
 }
 
 abstract class _GameState implements GameState {
-  const factory _GameState(
-      {required final DateTime startedAt,
-      @JsonKey(fromJson: _foodFromJson, toJson: _foodToJson)
-      required final Food food,
-      @JsonKey(fromJson: _snakesFromJson, toJson: _snakesToJson)
-      required final Map<String, Snake> snakes,
-      final String? winner,
-      final DateTime? endedAt}) = _$GameStateImpl;
+  const factory _GameState({
+    required final DateTime startedAt,
+    @JsonKey(fromJson: _foodFromJson, toJson: _foodToJson)
+    required final Food food,
+    @JsonKey(fromJson: _snakesFromJson, toJson: _snakesToJson)
+    required final Map<String, Snake> snakes,
+    final String? winner,
+    final DateTime? endedAt,
+  }) = _$GameStateImpl;
 
   factory _GameState.fromJson(Map<String, dynamic> json) =
       _$GameStateImpl.fromJson;

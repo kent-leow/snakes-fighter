@@ -7,13 +7,13 @@ part of 'player.dart';
 // **************************************************************************
 
 _$PlayerImpl _$$PlayerImplFromJson(Map<String, dynamic> json) => _$PlayerImpl(
-      uid: json['uid'] as String,
-      displayName: json['displayName'] as String,
-      color: $enumDecode(_$PlayerColorEnumMap, json['color']),
-      joinedAt: DateTime.parse(json['joinedAt'] as String),
-      isReady: json['isReady'] as bool? ?? false,
-      isConnected: json['isConnected'] as bool? ?? true,
-    );
+  uid: json['uid'] as String,
+  displayName: json['displayName'] as String,
+  color: $enumDecode(_$PlayerColorEnumMap, json['color']),
+  joinedAt: DateTime.parse(json['joinedAt'] as String),
+  isReady: json['isReady'] as bool? ?? false,
+  isConnected: json['isConnected'] as bool? ?? true,
+);
 
 Map<String, dynamic> _$$PlayerImplToJson(_$PlayerImpl instance) =>
     <String, dynamic>{

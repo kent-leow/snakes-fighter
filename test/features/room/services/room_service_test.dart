@@ -15,10 +15,11 @@ import 'room_service_test.mocks.dart';
 class MockFirebaseUser extends Mock implements firebase_auth.User {
   @override
   String get uid => 'test-uid';
-  
+
   @override
   String? get displayName => 'Test User';
 }
+
 void main() {
   group('RoomService', () {
     late RoomService roomService;
@@ -30,7 +31,7 @@ void main() {
       mockDatabaseService = MockDatabaseService();
       mockAuthService = MockAuthService();
       mockRoomCodeService = MockRoomCodeService();
-      
+
       roomService = RoomService(
         mockDatabaseService,
         mockAuthService,
@@ -39,46 +40,53 @@ void main() {
     });
 
     group('createRoom', () {
-      test('should create room successfully with default max players', () async {
-        // Arrange
-        final mockUser = MockFirebaseUser();
-        const roomCode = 'ABC123';
-        
-        when(mockAuthService.currentUser).thenReturn(mockUser);
-        when(mockRoomCodeService.generateUniqueRoomCode())
-            .thenAnswer((_) async => roomCode);
-        when(mockDatabaseService.createRoom(any))
-            .thenAnswer((invocation) async => invocation.positionalArguments[0] as Room);
+      test(
+        'should create room successfully with default max players',
+        () async {
+          // Arrange
+          final mockUser = MockFirebaseUser();
+          const roomCode = 'ABC123';
 
-        // Act
-        final result = await roomService.createRoom();
+          when(mockAuthService.currentUser).thenReturn(mockUser);
+          when(
+            mockRoomCodeService.generateUniqueRoomCode(),
+          ).thenAnswer((_) async => roomCode);
+          when(mockDatabaseService.createRoom(any)).thenAnswer(
+            (invocation) async => invocation.positionalArguments[0] as Room,
+          );
 
-        // Assert
-        expect(result.roomCode, equals(roomCode));
-        expect(result.hostId, equals('test-uid'));
-        expect(result.maxPlayers, equals(4));
-        expect(result.status, equals(RoomStatus.waiting));
-        expect(result.players.length, equals(1));
-        expect(result.players['test-uid']?.displayName, equals('Test User'));
-        expect(result.players['test-uid']?.isConnected, isTrue);
-        expect(result.players['test-uid']?.isReady, isFalse);
+          // Act
+          final result = await roomService.createRoom();
 
-        verify(mockAuthService.currentUser).called(1);
-        verify(mockRoomCodeService.generateUniqueRoomCode()).called(1);
-        verify(mockDatabaseService.createRoom(any)).called(1);
-      });
+          // Assert
+          expect(result.roomCode, equals(roomCode));
+          expect(result.hostId, equals('test-uid'));
+          expect(result.maxPlayers, equals(4));
+          expect(result.status, equals(RoomStatus.waiting));
+          expect(result.players.length, equals(1));
+          expect(result.players['test-uid']?.displayName, equals('Test User'));
+          expect(result.players['test-uid']?.isConnected, isTrue);
+          expect(result.players['test-uid']?.isReady, isFalse);
+
+          verify(mockAuthService.currentUser).called(1);
+          verify(mockRoomCodeService.generateUniqueRoomCode()).called(1);
+          verify(mockDatabaseService.createRoom(any)).called(1);
+        },
+      );
 
       test('should create room successfully with custom max players', () async {
         // Arrange
         final mockUser = MockFirebaseUser();
         const roomCode = 'ABC123';
         const maxPlayers = 6;
-        
+
         when(mockAuthService.currentUser).thenReturn(mockUser);
-        when(mockRoomCodeService.generateUniqueRoomCode())
-            .thenAnswer((_) async => roomCode);
-        when(mockDatabaseService.createRoom(any))
-            .thenAnswer((invocation) async => invocation.positionalArguments[0] as Room);
+        when(
+          mockRoomCodeService.generateUniqueRoomCode(),
+        ).thenAnswer((_) async => roomCode);
+        when(mockDatabaseService.createRoom(any)).thenAnswer(
+          (invocation) async => invocation.positionalArguments[0] as Room,
+        );
 
         // Act
         final result = await roomService.createRoom(maxPlayers: maxPlayers);
@@ -94,11 +102,13 @@ void main() {
         // Act & Assert
         expect(
           () => roomService.createRoom(),
-          throwsA(isA<RoomException>().having(
-            (e) => e.message,
-            'message',
-            'User must be authenticated to create room',
-          )),
+          throwsA(
+            isA<RoomException>().having(
+              (e) => e.message,
+              'message',
+              'User must be authenticated to create room',
+            ),
+          ),
         );
 
         verify(mockAuthService.currentUser).called(1);
@@ -114,11 +124,13 @@ void main() {
         // Act & Assert
         expect(
           () => roomService.createRoom(maxPlayers: 1),
-          throwsA(isA<RoomException>().having(
-            (e) => e.message,
-            'message',
-            'Max players must be between 2 and 8',
-          )),
+          throwsA(
+            isA<RoomException>().having(
+              (e) => e.message,
+              'message',
+              'Max players must be between 2 and 8',
+            ),
+          ),
         );
 
         verify(mockAuthService.currentUser).called(1);
@@ -134,11 +146,13 @@ void main() {
         // Act & Assert
         expect(
           () => roomService.createRoom(maxPlayers: 9),
-          throwsA(isA<RoomException>().having(
-            (e) => e.message,
-            'message',
-            'Max players must be between 2 and 8',
-          )),
+          throwsA(
+            isA<RoomException>().having(
+              (e) => e.message,
+              'message',
+              'Max players must be between 2 and 8',
+            ),
+          ),
         );
 
         verify(mockAuthService.currentUser).called(1);
@@ -146,44 +160,52 @@ void main() {
         verifyNever(mockDatabaseService.createRoom(any));
       });
 
-      test('should throw RoomException if room code generation fails', () async {
-        // Arrange
-        final mockUser = MockFirebaseUser();
-        
-        when(mockAuthService.currentUser).thenReturn(mockUser);
-        when(mockRoomCodeService.generateUniqueRoomCode())
-            .thenThrow(const RoomCodeException('Failed to generate unique code'));
+      test(
+        'should throw RoomException if room code generation fails',
+        () async {
+          // Arrange
+          final mockUser = MockFirebaseUser();
 
-        // Act & Assert
-        await expectLater(
-          roomService.createRoom(),
-          throwsA(isA<RoomException>()),
-        );
+          when(mockAuthService.currentUser).thenReturn(mockUser);
+          when(mockRoomCodeService.generateUniqueRoomCode()).thenThrow(
+            const RoomCodeException('Failed to generate unique code'),
+          );
 
-        verify(mockAuthService.currentUser).called(1);
-        verify(mockRoomCodeService.generateUniqueRoomCode()).called(1);
-        verifyNever(mockDatabaseService.createRoom(any));
-      });
+          // Act & Assert
+          await expectLater(
+            roomService.createRoom(),
+            throwsA(isA<RoomException>()),
+          );
+
+          verify(mockAuthService.currentUser).called(1);
+          verify(mockRoomCodeService.generateUniqueRoomCode()).called(1);
+          verifyNever(mockDatabaseService.createRoom(any));
+        },
+      );
 
       test('should throw RoomException if database creation fails', () async {
         // Arrange
         final mockUser = MockFirebaseUser();
         const roomCode = 'ABC123';
-        
+
         when(mockAuthService.currentUser).thenReturn(mockUser);
-        when(mockRoomCodeService.generateUniqueRoomCode())
-            .thenAnswer((_) async => roomCode);
-        when(mockDatabaseService.createRoom(any))
-            .thenThrow(const DatabaseException('Database error'));
+        when(
+          mockRoomCodeService.generateUniqueRoomCode(),
+        ).thenAnswer((_) async => roomCode);
+        when(
+          mockDatabaseService.createRoom(any),
+        ).thenThrow(const DatabaseException('Database error'));
 
         // Act & Assert
         await expectLater(
           roomService.createRoom(),
-          throwsA(isA<RoomException>().having(
-            (e) => e.message,
-            'message',
-            'Failed to create room: DatabaseException: Database error',
-          )),
+          throwsA(
+            isA<RoomException>().having(
+              (e) => e.message,
+              'message',
+              'Failed to create room: DatabaseException: Database error',
+            ),
+          ),
         );
 
         verify(mockAuthService.currentUser).called(1);
@@ -195,12 +217,14 @@ void main() {
         // Arrange
         final mockUser = MockFirebaseUserWithNullName();
         const roomCode = 'ABC123';
-        
+
         when(mockAuthService.currentUser).thenReturn(mockUser);
-        when(mockRoomCodeService.generateUniqueRoomCode())
-            .thenAnswer((_) async => roomCode);
-        when(mockDatabaseService.createRoom(any))
-            .thenAnswer((invocation) async => invocation.positionalArguments[0] as Room);
+        when(
+          mockRoomCodeService.generateUniqueRoomCode(),
+        ).thenAnswer((_) async => roomCode);
+        when(mockDatabaseService.createRoom(any)).thenAnswer(
+          (invocation) async => invocation.positionalArguments[0] as Room,
+        );
 
         // Act
         final result = await roomService.createRoom();
@@ -215,7 +239,7 @@ void main() {
 class MockFirebaseUserWithNullName extends Mock implements firebase_auth.User {
   @override
   String get uid => 'test-uid';
-  
+
   @override
   String? get displayName => null;
 }

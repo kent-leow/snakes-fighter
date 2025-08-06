@@ -49,8 +49,10 @@ void main() {
         expect(lifecycleManager.isInitialized, isTrue);
         // Should not restart the timer - duration should be close to first time
         final secondInitTime = lifecycleManager.sessionDuration;
-        expect(secondInitTime!.inMicroseconds - firstInitTime!.inMicroseconds, 
-               lessThan(1000)); // Within 1ms
+        expect(
+          secondInitTime!.inMicroseconds - firstInitTime!.inMicroseconds,
+          lessThan(1000),
+        ); // Within 1ms
       });
 
       test('should initialize session stats', () async {
@@ -79,7 +81,9 @@ void main() {
       });
 
       test('should not start if not initialized', () async {
-        final uninitializedManager = LifecycleManager(stateManager: GameStateManager());
+        final uninitializedManager = LifecycleManager(
+          stateManager: GameStateManager(),
+        );
 
         expect(
           () => uninitializedManager.startGame(),
@@ -347,7 +351,7 @@ void main() {
 
       test('should handle multiple dispose calls', () {
         lifecycleManager.dispose();
-        
+
         expect(() => lifecycleManager.dispose(), returnsNormally);
       });
     });

@@ -12,7 +12,8 @@ part of 'room.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Room _$RoomFromJson(Map<String, dynamic> json) {
   return _Room.fromJson(json);
@@ -45,17 +46,18 @@ abstract class $RoomCopyWith<$Res> {
   factory $RoomCopyWith(Room value, $Res Function(Room) then) =
       _$RoomCopyWithImpl<$Res, Room>;
   @useResult
-  $Res call(
-      {String id,
-      String roomCode,
-      String hostId,
-      RoomStatus status,
-      DateTime createdAt,
-      int maxPlayers,
-      @JsonKey(fromJson: _playersFromJson, toJson: _playersToJson)
-      Map<String, Player> players,
-      @JsonKey(fromJson: _gameStateFromJson, toJson: _gameStateToJson)
-      GameState? gameState});
+  $Res call({
+    String id,
+    String roomCode,
+    String hostId,
+    RoomStatus status,
+    DateTime createdAt,
+    int maxPlayers,
+    @JsonKey(fromJson: _playersFromJson, toJson: _playersToJson)
+    Map<String, Player> players,
+    @JsonKey(fromJson: _gameStateFromJson, toJson: _gameStateToJson)
+    GameState? gameState,
+  });
 
   $GameStateCopyWith<$Res>? get gameState;
 }
@@ -84,40 +86,43 @@ class _$RoomCopyWithImpl<$Res, $Val extends Room>
     Object? players = null,
     Object? gameState = freezed,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      roomCode: null == roomCode
-          ? _value.roomCode
-          : roomCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      hostId: null == hostId
-          ? _value.hostId
-          : hostId // ignore: cast_nullable_to_non_nullable
-              as String,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as RoomStatus,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      maxPlayers: null == maxPlayers
-          ? _value.maxPlayers
-          : maxPlayers // ignore: cast_nullable_to_non_nullable
-              as int,
-      players: null == players
-          ? _value.players
-          : players // ignore: cast_nullable_to_non_nullable
-              as Map<String, Player>,
-      gameState: freezed == gameState
-          ? _value.gameState
-          : gameState // ignore: cast_nullable_to_non_nullable
-              as GameState?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            roomCode: null == roomCode
+                ? _value.roomCode
+                : roomCode // ignore: cast_nullable_to_non_nullable
+                      as String,
+            hostId: null == hostId
+                ? _value.hostId
+                : hostId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            status: null == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                      as RoomStatus,
+            createdAt: null == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            maxPlayers: null == maxPlayers
+                ? _value.maxPlayers
+                : maxPlayers // ignore: cast_nullable_to_non_nullable
+                      as int,
+            players: null == players
+                ? _value.players
+                : players // ignore: cast_nullable_to_non_nullable
+                      as Map<String, Player>,
+            gameState: freezed == gameState
+                ? _value.gameState
+                : gameState // ignore: cast_nullable_to_non_nullable
+                      as GameState?,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of Room
@@ -138,21 +143,23 @@ class _$RoomCopyWithImpl<$Res, $Val extends Room>
 /// @nodoc
 abstract class _$$RoomImplCopyWith<$Res> implements $RoomCopyWith<$Res> {
   factory _$$RoomImplCopyWith(
-          _$RoomImpl value, $Res Function(_$RoomImpl) then) =
-      __$$RoomImplCopyWithImpl<$Res>;
+    _$RoomImpl value,
+    $Res Function(_$RoomImpl) then,
+  ) = __$$RoomImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String roomCode,
-      String hostId,
-      RoomStatus status,
-      DateTime createdAt,
-      int maxPlayers,
-      @JsonKey(fromJson: _playersFromJson, toJson: _playersToJson)
-      Map<String, Player> players,
-      @JsonKey(fromJson: _gameStateFromJson, toJson: _gameStateToJson)
-      GameState? gameState});
+  $Res call({
+    String id,
+    String roomCode,
+    String hostId,
+    RoomStatus status,
+    DateTime createdAt,
+    int maxPlayers,
+    @JsonKey(fromJson: _playersFromJson, toJson: _playersToJson)
+    Map<String, Player> players,
+    @JsonKey(fromJson: _gameStateFromJson, toJson: _gameStateToJson)
+    GameState? gameState,
+  });
 
   @override
   $GameStateCopyWith<$Res>? get gameState;
@@ -163,7 +170,7 @@ class __$$RoomImplCopyWithImpl<$Res>
     extends _$RoomCopyWithImpl<$Res, _$RoomImpl>
     implements _$$RoomImplCopyWith<$Res> {
   __$$RoomImplCopyWithImpl(_$RoomImpl _value, $Res Function(_$RoomImpl) _then)
-      : super(_value, _then);
+    : super(_value, _then);
 
   /// Create a copy of Room
   /// with the given fields replaced by the non-null parameter values.
@@ -179,58 +186,60 @@ class __$$RoomImplCopyWithImpl<$Res>
     Object? players = null,
     Object? gameState = freezed,
   }) {
-    return _then(_$RoomImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      roomCode: null == roomCode
-          ? _value.roomCode
-          : roomCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      hostId: null == hostId
-          ? _value.hostId
-          : hostId // ignore: cast_nullable_to_non_nullable
-              as String,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as RoomStatus,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      maxPlayers: null == maxPlayers
-          ? _value.maxPlayers
-          : maxPlayers // ignore: cast_nullable_to_non_nullable
-              as int,
-      players: null == players
-          ? _value._players
-          : players // ignore: cast_nullable_to_non_nullable
-              as Map<String, Player>,
-      gameState: freezed == gameState
-          ? _value.gameState
-          : gameState // ignore: cast_nullable_to_non_nullable
-              as GameState?,
-    ));
+    return _then(
+      _$RoomImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        roomCode: null == roomCode
+            ? _value.roomCode
+            : roomCode // ignore: cast_nullable_to_non_nullable
+                  as String,
+        hostId: null == hostId
+            ? _value.hostId
+            : hostId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as RoomStatus,
+        createdAt: null == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        maxPlayers: null == maxPlayers
+            ? _value.maxPlayers
+            : maxPlayers // ignore: cast_nullable_to_non_nullable
+                  as int,
+        players: null == players
+            ? _value._players
+            : players // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Player>,
+        gameState: freezed == gameState
+            ? _value.gameState
+            : gameState // ignore: cast_nullable_to_non_nullable
+                  as GameState?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$RoomImpl implements _Room {
-  const _$RoomImpl(
-      {required this.id,
-      required this.roomCode,
-      required this.hostId,
-      required this.status,
-      required this.createdAt,
-      this.maxPlayers = 4,
-      @JsonKey(fromJson: _playersFromJson, toJson: _playersToJson)
-      final Map<String, Player> players = const {},
-      @JsonKey(fromJson: _gameStateFromJson, toJson: _gameStateToJson)
-      this.gameState})
-      : _players = players;
+  const _$RoomImpl({
+    required this.id,
+    required this.roomCode,
+    required this.hostId,
+    required this.status,
+    required this.createdAt,
+    this.maxPlayers = 4,
+    @JsonKey(fromJson: _playersFromJson, toJson: _playersToJson)
+    final Map<String, Player> players = const {},
+    @JsonKey(fromJson: _gameStateFromJson, toJson: _gameStateToJson)
+    this.gameState,
+  }) : _players = players;
 
   factory _$RoomImpl.fromJson(Map<String, dynamic> json) =>
       _$$RoomImplFromJson(json);
@@ -288,15 +297,16 @@ class _$RoomImpl implements _Room {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      roomCode,
-      hostId,
-      status,
-      createdAt,
-      maxPlayers,
-      const DeepCollectionEquality().hash(_players),
-      gameState);
+    runtimeType,
+    id,
+    roomCode,
+    hostId,
+    status,
+    createdAt,
+    maxPlayers,
+    const DeepCollectionEquality().hash(_players),
+    gameState,
+  );
 
   /// Create a copy of Room
   /// with the given fields replaced by the non-null parameter values.
@@ -308,24 +318,23 @@ class _$RoomImpl implements _Room {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RoomImplToJson(
-      this,
-    );
+    return _$$RoomImplToJson(this);
   }
 }
 
 abstract class _Room implements Room {
-  const factory _Room(
-      {required final String id,
-      required final String roomCode,
-      required final String hostId,
-      required final RoomStatus status,
-      required final DateTime createdAt,
-      final int maxPlayers,
-      @JsonKey(fromJson: _playersFromJson, toJson: _playersToJson)
-      final Map<String, Player> players,
-      @JsonKey(fromJson: _gameStateFromJson, toJson: _gameStateToJson)
-      final GameState? gameState}) = _$RoomImpl;
+  const factory _Room({
+    required final String id,
+    required final String roomCode,
+    required final String hostId,
+    required final RoomStatus status,
+    required final DateTime createdAt,
+    final int maxPlayers,
+    @JsonKey(fromJson: _playersFromJson, toJson: _playersToJson)
+    final Map<String, Player> players,
+    @JsonKey(fromJson: _gameStateFromJson, toJson: _gameStateToJson)
+    final GameState? gameState,
+  }) = _$RoomImpl;
 
   factory _Room.fromJson(Map<String, dynamic> json) = _$RoomImpl.fromJson;
 

@@ -2,10 +2,10 @@
 enum GameDifficulty {
   /// Easy difficulty - slower speed, more forgiving.
   easy,
-  
+
   /// Normal difficulty - balanced gameplay.
   normal,
-  
+
   /// Hard difficulty - faster speed, more challenging.
   hard;
 

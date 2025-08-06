@@ -15,13 +15,13 @@ import '../rendering/snake_renderer.dart';
 class GameCanvas extends StatefulWidget {
   /// The game controller that provides game state.
   final GameController gameController;
-  
+
   /// The size of the game area.
   final Size gameSize;
-  
+
   /// Whether to show the grid background.
   final bool showGrid;
-  
+
   /// The background color of the canvas.
   final Color backgroundColor;
 
@@ -40,31 +40,31 @@ class GameCanvas extends StatefulWidget {
 class _GameCanvasState extends State<GameCanvas>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  
+
   @override
   void initState() {
     super.initState();
-    
+
     // Set up animation controller for smooth 60fps rendering
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 16), // ~60fps
     );
-    
+
     // Listen to game controller changes
     widget.gameController.addListener(_onGameStateChanged);
-    
+
     // Start animation loop
     _animationController.repeat();
   }
-  
+
   @override
   void dispose() {
     widget.gameController.removeListener(_onGameStateChanged);
     _animationController.dispose();
     super.dispose();
   }
-  
+
   void _onGameStateChanged() {
     // Trigger repaint when game state changes
     if (mounted) {
@@ -108,19 +108,19 @@ class _GameCanvasState extends State<GameCanvas>
 class GameCanvasPainter extends CustomPainter {
   /// The snake to render.
   final Snake snake;
-  
+
   /// The current food item to render (if any).
   final Food? food;
-  
+
   /// The current game state.
   final GameState gameState;
-  
+
   /// Whether to show the grid background.
   final bool showGrid;
-  
+
   /// The size of the grid (width x height in cells).
   final Size gridSize;
-  
+
   /// The size of each grid cell in pixels.
   final double cellSize;
 
@@ -140,46 +140,32 @@ class GameCanvasPainter extends CustomPainter {
       size.width / gridSize.width,
       size.height / gridSize.height,
     );
-    
+
     // Render grid background (if enabled)
     if (showGrid) {
-      GridRenderer.renderGrid(
-        canvas,
-        size,
-        gridSize,
-        actualCellSize,
-      );
+      GridRenderer.renderGrid(canvas, size, gridSize, actualCellSize);
     }
-    
+
     // Render food
     if (food != null && food!.isActive) {
-      FoodRenderer.renderFood(
-        canvas,
-        food!,
-        actualCellSize,
-      );
+      FoodRenderer.renderFood(canvas, food!, actualCellSize);
     }
-    
+
     // Render snake
-    SnakeRenderer.renderSnake(
-      canvas,
-      snake,
-      actualCellSize,
-      gameState,
-    );
+    SnakeRenderer.renderSnake(canvas, snake, actualCellSize, gameState);
   }
 
   @override
   bool shouldRepaint(GameCanvasPainter oldDelegate) {
     // Repaint if any game element has changed
     return oldDelegate.snake != snake ||
-           oldDelegate.food != food ||
-           oldDelegate.gameState != gameState ||
-           oldDelegate.showGrid != showGrid ||
-           oldDelegate.gridSize != gridSize ||
-           oldDelegate.cellSize != cellSize;
+        oldDelegate.food != food ||
+        oldDelegate.gameState != gameState ||
+        oldDelegate.showGrid != showGrid ||
+        oldDelegate.gridSize != gridSize ||
+        oldDelegate.cellSize != cellSize;
   }
-  
+
   @override
   bool hitTest(Offset position) {
     // Allow hit testing for touch input

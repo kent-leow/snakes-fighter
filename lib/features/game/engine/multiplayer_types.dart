@@ -5,19 +5,19 @@ import '../../../core/models/enums.dart';
 class SnakeMoveResult {
   /// The new head position after the move.
   final Position newHeadPosition;
-  
+
   /// Whether the snake consumed food during this move.
   final bool ateFood;
-  
+
   /// The updated positions of the snake after the move.
   final List<Position> updatedPositions;
-  
+
   /// Whether the move was successful.
   final bool success;
-  
+
   /// Any error message if the move failed.
   final String? error;
-  
+
   const SnakeMoveResult({
     required this.newHeadPosition,
     required this.ateFood,
@@ -25,7 +25,7 @@ class SnakeMoveResult {
     required this.success,
     this.error,
   });
-  
+
   /// Creates a successful move result.
   factory SnakeMoveResult.success({
     required Position newHeadPosition,
@@ -39,7 +39,7 @@ class SnakeMoveResult {
       success: true,
     );
   }
-  
+
   /// Creates a failed move result.
   factory SnakeMoveResult.failure({
     required Position newHeadPosition,
@@ -59,22 +59,22 @@ class SnakeMoveResult {
 class MultiplayerCollisionResult {
   /// The ID of the player involved in the collision.
   final String playerId;
-  
+
   /// The type of collision that occurred.
   final MultiplayerCollisionType collisionType;
-  
+
   /// The position where the collision occurred.
   final Position collisionPoint;
-  
+
   /// Whether this collision results in the player's death.
   final bool isDead;
-  
+
   /// The ID of the other player involved (for inter-player collisions).
   final String? otherPlayerId;
-  
+
   /// Additional metadata about the collision.
   final Map<String, dynamic> metadata;
-  
+
   const MultiplayerCollisionResult({
     required this.playerId,
     required this.collisionType,
@@ -83,7 +83,7 @@ class MultiplayerCollisionResult {
     this.otherPlayerId,
     this.metadata = const {},
   });
-  
+
   @override
   String toString() {
     return 'MultiplayerCollisionResult('
@@ -100,19 +100,19 @@ class MultiplayerCollisionResult {
 enum MultiplayerCollisionType {
   /// No collision.
   none,
-  
+
   /// Collision with game boundary.
   wall,
-  
+
   /// Collision with own body.
   self,
-  
+
   /// Collision with another snake's body.
   otherSnake,
-  
+
   /// Head-to-head collision with another snake.
   headToHead,
-  
+
   /// Collision with food.
   food,
 }
@@ -121,22 +121,22 @@ enum MultiplayerCollisionType {
 class GameUpdateResult {
   /// Whether the game has ended.
   final bool gameEnded;
-  
+
   /// The ID of the winning player (if game ended).
   final String? winner;
-  
+
   /// Current state of all snakes.
   final Map<String, MultiplayerSnake> snakes;
-  
+
   /// List of collisions that occurred this update.
   final List<MultiplayerCollisionResult> collisions;
-  
+
   /// The current food position.
   final Position? foodPosition;
-  
+
   /// Additional game state information.
   final Map<String, dynamic> metadata;
-  
+
   const GameUpdateResult({
     required this.gameEnded,
     this.winner,
@@ -151,19 +151,19 @@ class GameUpdateResult {
 class MultiplayerSnake {
   /// Current positions of the snake (head first).
   final List<Position> positions;
-  
+
   /// Current direction of movement.
   final Direction direction;
-  
+
   /// Whether the snake is alive.
   final bool alive;
-  
+
   /// Current score of the snake.
   final int score;
-  
+
   /// The color/identifier for visual representation.
   final String playerId;
-  
+
   const MultiplayerSnake({
     required this.positions,
     required this.direction,
@@ -171,16 +171,18 @@ class MultiplayerSnake {
     required this.score,
     required this.playerId,
   });
-  
+
   /// Gets the head position.
-  Position get head => positions.isNotEmpty ? positions.first : const Position(0, 0);
-  
+  Position get head =>
+      positions.isNotEmpty ? positions.first : const Position(0, 0);
+
   /// Gets the tail position.
-  Position get tail => positions.isNotEmpty ? positions.last : const Position(0, 0);
-  
+  Position get tail =>
+      positions.isNotEmpty ? positions.last : const Position(0, 0);
+
   /// Gets the length of the snake.
   int get length => positions.length;
-  
+
   /// Creates a copy with updated values.
   MultiplayerSnake copyWith({
     List<Position>? positions,
@@ -197,7 +199,7 @@ class MultiplayerSnake {
       playerId: playerId ?? this.playerId,
     );
   }
-  
+
   @override
   String toString() {
     return 'MultiplayerSnake('
