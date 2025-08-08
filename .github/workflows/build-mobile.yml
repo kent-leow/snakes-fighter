@@ -51,6 +51,7 @@ jobs:
       - name: Create Firebase options file
         run: |
           cp lib/firebase_options.dart.example lib/firebase_options.dart
+          dart format --page-width=80 lib/firebase_options.dart
 
       - name: Get dependencies
         run: flutter pub get
@@ -117,6 +118,7 @@ jobs:
       - name: Create Firebase options file
         run: |
           cp lib/firebase_options.dart.example lib/firebase_options.dart
+          dart format --page-width=80 lib/firebase_options.dart
 
       - name: Get dependencies
         run: flutter pub get

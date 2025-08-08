@@ -5,6 +5,10 @@
 -keep class io.flutter.** { *; }
 -keep class io.flutter.plugins.** { *; }
 
+# Flutter specific rules for R8
+-keep class io.flutter.embedding.** { *; }
+-dontwarn io.flutter.embedding.**
+
 # Keep Firebase classes
 -keep class com.google.firebase.** { *; }
 -dontwarn com.google.firebase.**
@@ -12,6 +16,15 @@
 # Keep Google Play Services
 -keep class com.google.android.gms.** { *; }
 -dontwarn com.google.android.gms.**
+
+# Keep Google Play Core (for app bundles and dynamic features)
+-keep class com.google.android.play.core.** { *; }
+-dontwarn com.google.android.play.core.**
+
+# If Play Core is not used, keep references but allow missing classes
+-dontwarn com.google.android.play.core.splitcompat.**
+-dontwarn com.google.android.play.core.splitinstall.**
+-dontwarn com.google.android.play.core.tasks.**
 
 # Keep Dart-related classes
 -keep class **.dart.** { *; }
